@@ -1,0 +1,34 @@
+# Local data — regenerable via scripts/phase0_sample.py
+data/
+*.parquet
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# HuggingFace cache (large, regenerable)
+.cache/
+huggingface/
+
+# Misc
+*.log
+peek.py

@@ -1,0 +1,286 @@
+{
+  "meta": {
+    "phase": 2,
+    "method": "1:1 mapping from Phase-1 templates to single-responsibility agentic primitives. Each primitive cites the tablet IDs that motivated it. evidence_strength flags whether the agent design is grounded in observed corpus patterns ('validated') or extends the metaphor beyond what our 2,069-tablet sample shows ('speculative').",
+    "rubric_extension_rationale": "The 6 rubric agents are kept verbatim. Three additional primitives are added because Phase 1 surfaced patterns that don't cleanly fit any rubric agent: year-name registry, commodity ledger lines, and letter address envelopes."
+  },
+  "primitives": [
+    {
+      "name": "TempleLedgerAgent",
+      "derived_from_template": [
+        "structural_separators (Administrative)",
+        "seal_of_PN", "received_by", "via_witness",
+        "total_audit", "deficit_la2ia3", "excess_diri",
+        "debit_zi_ga", "credit_mu_DU"
+      ],
+      "evidence_strength": "validated",
+      "evidence_tablets": ["P514944", "P101440", "P136537", "P114111", "P363072"],
+      "responsibility": "Manage append-only transaction ledger for a single household/temple. Each transaction line is a tuple (qty, unit, commodity, counterparty, instrument). Periodically emits audit reconciliations.",
+      "inputs": {
+        "transaction": "{qty: number, unit: enum, commodity: string, counterparty_id: string, instrument: enum<sealed|received|delivered|debited>}",
+        "period_close_request": "{period_start: date, period_end: date}"
+      },
+      "outputs": {
+        "ledger_entry": "{id, ts, txn, witnessed_by[], seal_id?, parent_audit_id?}",
+        "audit_total": "{period, sum_by_commodity, deficit, excess, signed_by}"
+      },
+      "state": {
+        "entries[]": "ordered, immutable",
+        "open_audits[]": "by period",
+        "running_balance": "by commodity",
+        "outstanding_deficits": "{counterparty_id: amount}"
+      },
+      "tools": ["sealed_write", "verify_seal", "append_only_log", "reduce_by_commodity", "diff_against_prior_audit"],
+      "guardrails": [
+        "Every transaction MUST include a counterparty_id and an instrument; reject otherwise.",
+        "Audit totals MUST be recomputed from raw entries on every close — never trust a cached total.",
+        "Deficits (la₂-ia₃) carry forward as liabilities of the named counterparty; cannot be silently zeroed.",
+        "Reject mu_DU credits that lack a delivering counterparty (analog: every input must have a provenance chain)."
+      ],
+      "sumerian_pattern": "Ur III administrative tablet: header (commodity+qty), body (per-line transactions with witnesses/seals), closing (šu-nigin total + iti+mu date stamp + kišib seal). Tablets P514944 and P101440 show the canonical layout."
+    },
+    {
+      "name": "SealAuthorityAgent",
+      "derived_from_template": ["seal_of_PN", "via_witness", "witness_eye", "son_of_PN"],
+      "evidence_strength": "validated",
+      "evidence_tablets": ["P101440", "P132611", "P117793", "P145759"],
+      "responsibility": "Issue, verify, and revoke cryptographic identities tied to named principals (humans, departments, divine offices). Records the chain (principal → role → seal_id) and proves which principal authored a transaction.",
+      "inputs": {
+        "register": "{principal_id, public_key, role, parent_principal_id?}",
+        "verify": "{seal_id, payload, signature}",
+        "revoke": "{seal_id, reason, revoked_by_principal_id}"
+      },
+      "outputs": {
+        "seal": "{seal_id, principal_id, role, valid_from, valid_to?}",
+        "verification": "{valid: bool, principal_id?, role?, expired?: bool}"
+      },
+      "state": {
+        "principals[]": "graph (parent edges = dumu-of / lu₂-of)",
+        "active_seals[]": "indexed by principal_id and seal_id",
+        "revoked_seals[]": "ordered, immutable"
+      },
+      "tools": ["mint_seal", "verify_signature", "walk_principal_graph", "revoke"],
+      "guardrails": [
+        "A seal may only sign transactions for its principal's role(s); cross-role usage is rejected.",
+        "Revocation is irreversible and propagates to dependent seals (subordinates inherit revocation).",
+        "Witness chains (igi PN-šè) require live, non-revoked seals at the moment of witnessing.",
+        "Filiation edges (dumu PN) are append-only — you cannot rewrite ancestry."
+      ],
+      "sumerian_pattern": "kišib₃ PN clauses (seen in 25.4% of Administrative tablets) plus dumu PN filiation clauses (37% of Admin, 43.4% of Royal Inscription) form a cryptographic-authority graph. Tablets P132611 (letter w/ named officials) and P117793 (filiation chain) show the structure."
+    },
+    {
+      "name": "LexicalOntologyAgent",
+      "derived_from_template": [
+        "structural_separators (Lexical: <COLUMN>=0.48/tab, <RULING>=0.29/tab)",
+        "long-form Lexical column repetition"
+      ],
+      "evidence_strength": "speculative-from-prior-art",
+      "evidence_tablets": ["P411777", "P480569"],
+      "evidence_caveat": "Only 69 Lexical tablets in the full corpus and 21 long-form. Our sample shows the column/ruling layout but is too small to extract the formal taxonomic structure (e.g., HAR-ra=hubullu thematic groupings). The agent design here leans on Assyriological consensus that lexical lists are deliberate taxonomies, not on quantitative findings from our 69-tablet slice.",
+      "responsibility": "Maintain a versioned, canonical taxonomy of types (commodities, professions, places, deities). Other agents resolve string identifiers against this taxonomy before writing transactions, so 'sheep' and 'udu' and 'lu' all canonicalize to the same entity.",
+      "inputs": {
+        "register_term": "{surface_form, canonical_id, parent_category_id, attestations[]}",
+        "resolve": "{surface_form, context?: genre}",
+        "list_children": "{category_id}"
+      },
+      "outputs": {
+        "canonical": "{canonical_id, category_path[], attestation_count}",
+        "ambiguity_report": "{surface_form, candidates[], confidence}"
+      },
+      "state": {
+        "category_tree": "DAG (parent → children, multiple parents allowed)",
+        "surface_form_index": "string → canonical_id[] (1:N because of homography)",
+        "version": "monotonically incremented on schema change"
+      },
+      "tools": ["canonicalize", "add_synonym", "promote_category", "diff_versions"],
+      "guardrails": [
+        "Never silently merge two canonical_ids — merging requires an explicit 'unify' transaction with a witness seal.",
+        "Schema changes increment version; downstream agents pin to a version, not 'latest'.",
+        "Reject ambiguous surface forms when called from a write path; require disambiguation."
+      ],
+      "sumerian_pattern": "Lexical lists (Lú=ša, HAR-ra=hubullu, etc.) are the world's first formal ontologies. Each <COLUMN> is a thematic group; each <RULING> separates entries. Tablet P480569 shows multi-column thematic listing."
+    },
+    {
+      "name": "ScribalSchoolAgent",
+      "derived_from_template": [
+        "Lexical sample short repetitive entries (P411777: same 2 lines duplicated)",
+        "Literary genre's prevalence of identical trigrams across many Q-IDs (suggesting copy-exercises)"
+      ],
+      "evidence_strength": "validated-but-narrow",
+      "evidence_tablets": ["P411777", "Q000372", "Q000463", "Q000751", "P346161"],
+      "responsibility": "Train new agent instances by replaying canonical exemplars. Tracks which exemplars an agent has seen, scores reproductions against gold, and graduates the agent only after threshold accuracy.",
+      "inputs": {
+        "enroll_trainee": "{trainee_agent_id, curriculum_id}",
+        "submit_reproduction": "{trainee_agent_id, exemplar_id, attempt}",
+        "graduate_check": "{trainee_agent_id}"
+      },
+      "outputs": {
+        "score": "{exemplar_id, similarity, errors[]}",
+        "graduation": "{trainee_agent_id, status: enum<not_ready|graduated>, weak_areas[]}"
+      },
+      "state": {
+        "curricula[]": "ordered exemplar lists",
+        "trainee_progress": "{trainee_id: {exemplar_id: best_score}}",
+        "gold_exemplars[]": "frozen reference reproductions"
+      },
+      "tools": ["fetch_exemplar", "score_reproduction", "promote_to_curriculum"],
+      "guardrails": [
+        "Exemplars are immutable — never patched after the fact, only superseded by a versioned new exemplar.",
+        "Trainees cannot grade their own work or any peer's work below their own graduation level.",
+        "Graduation requires N consecutive successful exemplars at the highest curriculum tier (analog: scribal apprentice → scribe progression)."
+      ],
+      "sumerian_pattern": "Tablet P411777 reproduces the same divine-name pair twice in 4 lines — a school exercise pattern. Edubba (tablet-house) curricula relied on copying Lú=ša and HAR-ra exemplars hundreds of times."
+    },
+    {
+      "name": "RoyalDecreeAgent",
+      "derived_from_template": [
+        "king_title", "ensi_title", "nita_kalag_ga", "god_dedication",
+        "year_formula (which IS a decree-named-event)", "structural_separators (Royal Insc <COLUMN>=0.59/tab)"
+      ],
+      "evidence_strength": "validated",
+      "evidence_tablets": ["Q004341", "Q001737", "P125651", "P134746", "Q001852"],
+      "responsibility": "Issue policy-level statements that bind all downstream agents. Decrees are versioned; downstream agents subscribe to a decree topic and apply the latest non-revoked decree on every relevant operation.",
+      "inputs": {
+        "issue_decree": "{author_principal_id, scope: enum<global|regional|departmental>, body, supersedes?: decree_id}",
+        "subscribe": "{agent_id, topic}",
+        "revoke_decree": "{decree_id, revoking_principal_id}"
+      },
+      "outputs": {
+        "decree": "{decree_id, scope, body, valid_from, supersedes?, signed_by_seal_id}",
+        "applied_event": "{decree_id, agent_id, applied_at}"
+      },
+      "state": {
+        "active_decrees": "topic → decree_id (single latest)",
+        "history[]": "ordered, signed, immutable",
+        "subscriptions": "agent_id → [topic]"
+      },
+      "tools": ["sign_with_royal_seal", "broadcast_to_subscribers", "compute_supersession_chain"],
+      "guardrails": [
+        "Only principals with role=king or role=ensi₂ may issue. SealAuthorityAgent enforces.",
+        "Supersession is explicit — decrees do not auto-expire; revocation is an explicit signed event.",
+        "Downstream agents must record which decree version they applied (analog: every Royal Inscription names the king who built/dedicated)."
+      ],
+      "sumerian_pattern": "Royal inscriptions follow: divine_name → king_title → epithet (nita kalag-ga) → place (lugal urim₅{ki}ma) → action (a mu-na-ru: 'he dedicated to'). Tablets Q004341 (Šulgi) and Q001737 (Aš-nun-na governor) show the canonical authority chain. Year-names (mu...) are decrees in disguise: each year IS named after a royal act."
+    },
+    {
+      "name": "RitualSequenceAgent",
+      "derived_from_template": [
+        "Literary trigrams: 'gu₃ mu-na-de₂-e' (he spoke to him), 'a-ba-a igi mu-ni-in-du₈'",
+        "structural_separators (Literary <RULING>=0.58/tab — highest)"
+      ],
+      "evidence_strength": "speculative-metaphor-partial",
+      "evidence_tablets": ["P346161", "Q000372", "Q000463", "Q000751", "P343047"],
+      "evidence_caveat": "Literary tablets in our sample are mostly hymns and narrative epics, not strict ritual orderings. The metaphor 'literary sequence = workflow state machine' is partial: speech-act framings (gu₃ mu-na-de₂-e) ARE step transitions, but most lines are descriptive, not procedural. Use this primitive for narrative-style audit logs and event-sourced state machines, not as a literal ritual executor.",
+      "responsibility": "Execute an ordered, named workflow whose every transition is an immutable event. Each transition can have prerequisites, an actor, and an utterance (the spoken/written act that triggers it).",
+      "inputs": {
+        "define_workflow": "{workflow_id, steps[]: {step_id, prereqs[], actor_role, utterance_template}}",
+        "advance": "{workflow_instance_id, step_id, actor_principal_id, utterance}"
+      },
+      "outputs": {
+        "transition_event": "{instance_id, from_step, to_step, actor, utterance, ts}",
+        "completion": "{instance_id, final_step, log[]}"
+      },
+      "state": {
+        "definitions": "workflow_id → step DAG",
+        "instances": "instance_id → current_step",
+        "log[]": "ordered, signed, immutable transition events"
+      },
+      "tools": ["validate_prereqs", "emit_transition", "replay_log_to_resume"],
+      "guardrails": [
+        "Prereqs are checked atomically with the transition write — no partial advances.",
+        "An instance cannot skip steps; a missed step requires a 'compensation' workflow.",
+        "Utterances are recorded verbatim — they are evidence the actor performed the step."
+      ],
+      "sumerian_pattern": "Hymns and narrative tablets (P346161 — Lugal-e fragment; Q000751 — likely Inana hymn) use ordered speech acts as plot transitions. Tablet P346161 (343 glyphs) is one of the longest in our long-form Literary sample."
+    },
+    {
+      "name": "YearNameRegistryAgent",
+      "derived_from_template": ["year_formula", "year_following"],
+      "evidence_strength": "validated",
+      "evidence_tablets": ["P514944", "P101440", "P129606", "P136537"],
+      "responsibility": "Maintain the canonical naming of time periods. Each period is named after a notable event; subsequent periods can reference 'the year after the year of X' (mu us₂-sa). All other agents date their writes against the registry.",
+      "inputs": {
+        "name_period": "{period_id, name, naming_event, naming_decree_id}",
+        "derive_relative": "{anchor_period_id, offset: 'us2-sa' | 'us2-sa-a-bi'}",
+        "lookup": "{period_name | period_id}"
+      },
+      "outputs": {
+        "period": "{period_id, name, anchor_decree_id, derived_from?: period_id}",
+        "ordering": "[period_id, ...]"
+      },
+      "state": {
+        "periods[]": "ordered, never reordered",
+        "name_index": "name → period_id"
+      },
+      "tools": ["resolve_relative_offset", "next_period", "search_by_event"],
+      "guardrails": [
+        "Period names are FROZEN once written — historical revision is an audit event, not an in-place edit.",
+        "Relative names (us₂-sa) MUST resolve to a concrete period_id at the time of write; the resolution is captured.",
+        "Two periods cannot share a name; collision triggers manual disambiguation."
+      ],
+      "sumerian_pattern": "74.2% of Administrative tablets carry a year-formula (mu...). 'mu us₂-sa <event>' constructs derived names — a deliberate relative-time index. Tablet P101440 dates itself 'mu us₂-sa ki-maš{ki} ba-...' (year after the destruction of Kimaš)."
+    },
+    {
+      "name": "CommodityLedgerLineAgent",
+      "derived_from_template": [
+        "commodity_qty (35.2% Administrative)",
+        "Top distinctive trigrams: '2(diš) gin₂ naga', 'sila₃ kaš 2(diš)', 'i₃ 2(diš) gin₂'"
+      ],
+      "evidence_strength": "validated",
+      "evidence_tablets": ["P114111", "P363072", "P514944"],
+      "responsibility": "Parse, validate, and emit a single typed transaction line. Stateless; called by TempleLedgerAgent for every line. Resolves commodity strings via LexicalOntologyAgent before emitting.",
+      "inputs": {
+        "raw_line": "string (e.g., '2(diš) gin₂ i₃')",
+        "context": "{period_id, ledger_id, prior_balance?: amount}"
+      },
+      "outputs": {
+        "line": "{qty: rational, unit_canonical_id, commodity_canonical_id, counterparty?: principal_id, instrument?: enum, raw_text, parse_warnings[]}"
+      },
+      "state": "stateless",
+      "tools": ["parse_qty_unit", "lookup_canonical", "validate_unit_compatibility"],
+      "guardrails": [
+        "qty MUST be parsed as rational (Sumerian uses sexagesimal compounds — 2(diš) gin₂ = 2 shekels; never coerce to float).",
+        "Unit and commodity must agree on a known measurement (sila₃ for liquids, gin₂ for weight, etc.). Reject mismatches.",
+        "Emit parse_warnings rather than dropping ambiguous lines — preserve the raw text."
+      ],
+      "sumerian_pattern": "Tablet P114111 alone contributes hundreds of '<n>(diš) gin₂ <commodity>' lines: shekels of oil, soda, beer rations. The transaction line is a stable, typed primitive — much like an ERP general-journal row."
+    },
+    {
+      "name": "AddressedMessageAgent",
+      "derived_from_template": ["speak_to_him (u₃-na-a-du₁₁: 58.8% of Letters)", "Letter distinctive bigrams: 'šu he₂-bar-re', 'šu ha-ba-ab-ti' (imperatives)"],
+      "evidence_strength": "validated",
+      "evidence_tablets": ["P136537", "P132611", "P108048", "P145677", "P111008"],
+      "responsibility": "Deliver a directive from one principal to another. Carries an envelope (sender, recipient, salutation), a body of one or more imperatives, and a callback expectation (reply or completion confirmation).",
+      "inputs": {
+        "send": "{from_principal_id, to_principal_id, body: imperative[], reply_expected: bool}",
+        "ack": "{message_id, by_principal_id, action_taken?}"
+      },
+      "outputs": {
+        "message": "{message_id, envelope, body, signed_by_seal_id, ts}",
+        "delivery_receipt": "{message_id, ack_principal_id, ack_ts}"
+      },
+      "state": {
+        "outbox": "by from_principal_id",
+        "inbox": "by to_principal_id",
+        "ack_log[]": "ordered, immutable"
+      },
+      "tools": ["address_envelope", "sign_message", "deliver", "wait_for_ack"],
+      "guardrails": [
+        "An imperative MUST name the actor (subject of the verb) — 'let him release' (šu he₂-bar-re) names a specific him.",
+        "Replies are messages; they cite the original message_id (analog: thread/quote).",
+        "Reject messages whose recipient is not a registered principal (no broadcast spam)."
+      ],
+      "sumerian_pattern": "Letters open with 'PN-ra u₃-na-a-du₁₁' (to PN, speak — i.e., 'tell PN'), continue with imperatives (let him X), and often close with the date/year. Tablet P136537 is a textbook example of the address-imperative structure. This is, structurally, an RPC over clay."
+    }
+  ],
+  "primitives_NOT_supported_by_corpus": [
+    {
+      "candidate_name": "OracleQueryAgent",
+      "rejected_reason": "Divination/extispicy texts are present in CDLI but not in our 5-genre slice. Cannot derive the primitive from this sample without conflating with literary speech-acts."
+    },
+    {
+      "candidate_name": "TreatyEnforcementAgent",
+      "rejected_reason": "Treaty texts (mostly Hittite/Akkadian) are out of scope for a Sumerian corpus. Royal Inscription gets us policy issuance but not bilateral binding contracts."
+    }
+  ]
+}
