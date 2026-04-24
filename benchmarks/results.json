@@ -1,0 +1,102 @@
+{
+  "writes": {
+    "1000": {
+      "n_writes": 1000,
+      "baseline_bytes_total": 243382,
+      "sealed_bytes_total": 389405,
+      "baseline_bytes_per_write": 243.382,
+      "sealed_bytes_per_write": 389.405,
+      "byte_overhead_pct": 59.997452564281666,
+      "baseline_tokens_per_write_est": 60.8455,
+      "sealed_tokens_per_write_est": 97.35125,
+      "extra_tokens_per_write_est": 36.50575,
+      "baseline_write_us_median": 0.600004568696022,
+      "sealed_write_us_median": 7.599999662488699,
+      "baseline_write_us_p95": 1.7999846022576094,
+      "sealed_write_us_p95": 14.269992243498564
+    },
+    "10000": {
+      "n_writes": 10000,
+      "baseline_bytes_total": 2463887,
+      "sealed_bytes_total": 3924009,
+      "baseline_bytes_per_write": 246.3887,
+      "sealed_bytes_per_write": 392.4009,
+      "byte_overhead_pct": 59.26091578063442,
+      "baseline_tokens_per_write_est": 61.597175,
+      "sealed_tokens_per_write_est": 98.100225,
+      "extra_tokens_per_write_est": 36.50305,
+      "baseline_write_us_median": 0.600004568696022,
+      "sealed_write_us_median": 7.800001185387373,
+      "baseline_write_us_p95": 1.100008375942707,
+      "sealed_write_us_p95": 13.600016245618463
+    },
+    "100000": {
+      "n_writes": 100000,
+      "baseline_bytes_total": 24940299,
+      "sealed_bytes_total": 39540081,
+      "baseline_bytes_per_write": 249.40299,
+      "sealed_bytes_per_write": 395.40081,
+      "byte_overhead_pct": 58.53892128558683,
+      "baseline_tokens_per_write_est": 62.3507475,
+      "sealed_tokens_per_write_est": 98.8502025,
+      "extra_tokens_per_write_est": 36.499455,
+      "baseline_write_us_median": 0.600004568696022,
+      "sealed_write_us_median": 8.800008799880743,
+      "baseline_write_us_p95": 1.200009137392044,
+      "sealed_write_us_p95": 14.899997040629387
+    }
+  },
+  "reads": {
+    "n_writes": 10000,
+    "sealed_who_wrote_us_per_lookup": 6.592799996724352,
+    "sealed_verify_all_ms_total": 74.72309999866411,
+    "sealed_verify_us_per_entry": 7.472309999866411,
+    "sealed_filter_by_seal_us_total": 672.5999992340803,
+    "sealed_n_valid_signatures": 10000,
+    "sealed_n_total": 10000
+  },
+  "capabilities": {
+    "Q1_who_wrote_event_25": {
+      "baseline": null,
+      "sealed": "4cc84271a2b580c4",
+      "baseline_can_answer": false,
+      "sealed_can_answer": true
+    },
+    "Q2_all_writes_by_principal": {
+      "baseline_n_results": 0,
+      "sealed_n_results": 5,
+      "baseline_can_answer": false,
+      "sealed_can_answer": true
+    },
+    "Q3_all_writes_in_period": {
+      "baseline_n_results": 0,
+      "sealed_n_results": 17,
+      "baseline_can_answer": false,
+      "sealed_can_answer": true
+    },
+    "Q4_verify_integrity": {
+      "baseline_n_valid_of_total": [
+        0,
+        50
+      ],
+      "sealed_n_valid_of_total": [
+        50,
+        50
+      ],
+      "baseline_can_answer": false,
+      "sealed_can_answer": true
+    },
+    "Q5_replay_after_cascade_revoke": {
+      "baseline_n_writes_returned": 50,
+      "sealed_n_writes_returned": 0,
+      "note": "Baseline can't honor cascade revocation \u2014 it returns ALL pre-cutoff writes regardless of author validity. Sealed log returns only writes whose seals remain valid as of the replay timestamp.",
+      "baseline_correctly_excludes_revoked": false,
+      "sealed_correctly_excludes_revoked": true
+    }
+  },
+  "notes": {
+    "signing": "HMAC-SHA256 (Python stdlib). Production would use Ed25519.",
+    "storage": "In-memory dict. Production would use SQLite/Postgres.",
+    "token_heuristic": "4 bytes/token (conservative tiktoken-like estimate). Replace with tiktoken for exact counts."
+  }
+}

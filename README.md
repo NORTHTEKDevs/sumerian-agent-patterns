@@ -22,6 +22,11 @@ Three concrete things you can build differently after reading this:
 
 **Action.** Make every state-changing call in your agent runtime carry `(payload, by_seal, witnesses, period)`. Audit becomes a property of the envelope, not a separate concern bolted on per agent. Replay across any time window becomes trivial.
 
+**Measured impact** ([benchmarks/RESULTS.md](benchmarks/RESULTS.md)). We built a minimal sealed-envelope library (`benchmarks/kishib3.py`, 250 LoC, stdlib only) and ran 100,000 writes through both it and an anonymous-log baseline:
+- **Cost**: +37 tokens / write (estimated), +7 µs latency / write, +59 % bytes at 250-byte payloads (drops to ~14 % at 1 KB payloads, ~1.4 % at 10 KB).
+- **Capability**: sealed log answers 5/5 audit queries (who wrote X, all writes by principal, all writes in period, integrity verification, replay-after-cascade-revoke). Anonymous log answers **0 of 5**. The capability gap is total, not partial.
+- **The killer query**: replay-as-of after revoking a parent principal. Baseline returns all 50 writes (silent drift). Sealed log returns 0 — every revoked descendant is correctly excluded.
+
 ### 2. Tier your agent memory as session → topic → row
 
 **Finding.** Sumerian tablets have three layers of structure: physical surface (obverse/reverse), logical column, atomic row marked by `<RULING>`. We statistically confirmed `<RULING>` is a real row separator: adjacent ruling-bounded chunks share trigrams 30–500× more than shuffled baselines (Royal Inscription p=0.002, Administrative p=0.005).
@@ -168,6 +173,12 @@ Full statistics with shuffled-baseline controls in `outputs/compression_findings
 │   ├── phase0_sample.py               loads SumTablets, builds stratified samples
 │   ├── phase1_templates.py            extracts genre templates and probe hits
 │   └── phase3_compression.py          Zipf, compression, ELS, RULING-parity analysis
+├── benchmarks/
+│   ├── kishib3.py                     reference sealed-envelope implementation (~250 LoC)
+│   ├── baseline_log.py                anonymous-log comparison point (~50 LoC)
+│   ├── benchmark.py                   harness — overhead + capability comparison
+│   ├── results.json                   raw measurement output
+│   └── RESULTS.md                     report with measured numbers and caveats
 └── outputs/
     ├── templates.json                 229 templates × {genre, pattern, role, frequency, tablet IDs}
     ├── primitives.json                9 named agent primitives (6 rubric + 3 data-justified)
