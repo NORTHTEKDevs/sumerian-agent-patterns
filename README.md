@@ -12,6 +12,26 @@
 
 ---
 
+## Start Here — The Evidence-Backed Artifacts
+
+Of the ~158 ideas in `outputs/FULL_IDEAS.md`, the following **9 first-class artifacts** carry real evidence (statistical results, cited tablet IDs, or measured benchmarks). The rest of the catalog is brainstorm-grade — useful for ideation, but not load-bearing. Start here:
+
+| # | Artifact | Where | What it gives you |
+|---|---|---|---|
+| 1 | **Empirical method** — statistical mining of an ancient corpus to derive software-design primitives, with shuffled-baseline controls and Bonferroni correction | `scripts/phase{0,1,3}_*.py` | A reproducible pipeline you can re-run on any corpus to extract templates + structure |
+| 2 | **9 named agent primitives** with cited tablet IDs and contracts | `outputs/primitives.json` | Single-responsibility agent designs grounded in real attestations (P/Q tablet IDs) |
+| 3 | **Zipf-as-DSL detector finding** (Admin s=1.746, Royal s=1.737, Lexical s=1.114) | `outputs/compression_findings.md` §1 | Empirical method for unsupervised "is-this-a-DSL?" classification of any corpus |
+| 4 | **RULING-parity finding** (Royal p=0.002, Admin p=0.005) | `outputs/compression_findings.md` §4 | Statistical proof that physical document boundaries map to logical row boundaries — informs vector-chunk strategy |
+| 5 | **ELS-null result** (0 / 495 tests Bonferroni-significant) | `outputs/compression_findings.md` §3 | Defensive prior art against future numerology / "hidden code" claims on cuneiform |
+| 6 | **Reference architecture** — composes the primitives into a multi-agent design with Python + Rust pseudocode | `outputs/reference_architecture.md` | Drop-in design doc you can adapt to any agent runtime |
+| 7 | **Quantitative benchmark** — sealed envelope vs anonymous baseline, measured | `benchmarks/RESULTS.md` | Hard numbers (+59% bytes, +37 tokens, +7µs per write) and a 5/5-vs-0/5 capability comparison |
+| 8 | **Reference implementation** of `kishib3` (sealed envelope) in 250 LoC stdlib Python | `benchmarks/kishib3.py` | Working code for one of the primitives — clone, adapt, ship |
+| 9 | **5 unmined research directions** from data we already have on disk | `outputs/FULL_IDEAS.md` §N (items N1, N4, N5, N9, N12) | Named-person social network (N1), region-scoped authority (N4), votive ledger pattern (N5), multi-tablet narratives (N9), kišib₃ undercount (N12) |
+
+**Honest framing:** the ~158-idea catalog in `FULL_IDEAS.md` is preserved for browsability, but most of it is restatements of these 9 artifacts in different framings, branding gimmicks (Sumerian-named libraries that are the primitives renamed), or ephemera. If you only have 30 minutes, read `outputs/summary.md` + `benchmarks/RESULTS.md`. If you have an hour, add `outputs/reference_architecture.md`.
+
+---
+
 ## Why You Should Care (Findings → Actions)
 
 Three concrete things you can build differently after reading this:
