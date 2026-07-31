@@ -28,7 +28,7 @@ Classic Zipf predicts exponent s ≈ 1.0 with high R². Deviations indicate eith
 | Literary | 0.2632 | 0.3291 | **0.0658** | 154,005 |
 | Lexical | 0.3432 | 0.3899 | **0.0467** | 2,508 |
 | Royal Inscription | 0.2111 | 0.3102 | **0.0991** | 33,015 |
-| Letter | 0.2485 | 0.3234 | **0.0749** | 18,664 |
+| Letter | 0.2485 | 0.3234 | **0.0748** | 18,664 |
 
 **Interpretation:** A positive Δ means the actual stream has structural regularities (templates, fixed formulas) beyond what random token order would predict. This is the corpus's 'error-correction overhead' in information-theoretic terms.
 
@@ -40,51 +40,89 @@ For each skip k, we decimate the genre stream (take every k-th token) and count 
 **Significance criterion:** Bonferroni-corrected p < 0.01/99 ≈ 0.000101 per (genre, skip). This is deliberately strict because with 99 skips × 5 genres = 495 tests, spurious hits are expected.
 
 ### Administrative
-- Total skips tested: 99; skips with p < 0.01: 0; Bonferroni-significant: **0** (of which prime-interval: 0).
+- Total skips tested: 99; skips with p < 0.01: 1; Bonferroni-significant: **0** (of which prime-interval: 0).
 
 *No Bonferroni-significant skips.*
+
 
 Top-5 by z-score (for reference — not necessarily significant after correction):
 
 | Skip | Prime? | Observed | Null mean | z | p |
 |---:|:---:|---:|---:|---:|---:|
-| 2 |  | 154 | 142.81 | 2.739 | 0.005 |
-| 3 | Y | 110 | 99.55 | 2.388 | 0.013 |
-| 7 | Y | 71 | 64.08 | 1.91 | 0.029 |
-| 6 |  | 79 | 71.69 | 1.788 | 0.04 |
-| 5 | Y | 90 | 81.66 | 1.768 | 0.043 |
+| 21 |  | 147 | 133.824 | 2.739 | 0.005 |
+| 31 | Y | 114 | 105.379 | 1.915 | 0.034 |
+| 14 |  | 174 | 164.566 | 1.895 | 0.039 |
+| 44 |  | 89 | 82.577 | 1.478 | 0.086 |
+| 28 |  | 119 | 112.712 | 1.421 | 0.092 |
 
 ### Literary
-- Total skips tested: 99; skips with p < 0.01: 0; Bonferroni-significant: **0** (of which prime-interval: 0).
+- Total skips tested: 99; skips with p < 0.01: 1; Bonferroni-significant: **0** (of which prime-interval: 0).
 
 *No Bonferroni-significant skips.*
 
-Top-5 by z-score:
+
+Top-5 by z-score (for reference — not necessarily significant after correction):
 
 | Skip | Prime? | Observed | Null mean | z | p |
 |---:|:---:|---:|---:|---:|---:|
-| 100 |  | 86 | 75.14 | 2.515 | 0.007 |
-| 86 |  | 99 | 87.27 | 2.477 | 0.008 |
-| 71 | Y | 119 | 105.51 | 2.473 | 0.008 |
-| 76 |  | 110 | 97.81 | 2.405 | 0.011 |
-| 99 |  | 89 | 78.08 | 2.401 | 0.011 |
+| 98 |  | 134 | 122.075 | 2.515 | 0.007 |
+| 69 |  | 159 | 149.389 | 1.842 | 0.043 |
+| 57 |  | 176 | 166.159 | 1.785 | 0.053 |
+| 19 | Y | 314 | 301.366 | 1.774 | 0.046 |
+| 65 |  | 164 | 154.563 | 1.771 | 0.057 |
 
 ### Lexical
 - Total skips tested: 99; skips with p < 0.01: 0; Bonferroni-significant: **0** (of which prime-interval: 0).
 
 *No Bonferroni-significant skips.*
 
+
+Top-5 by z-score (for reference — not necessarily significant after correction):
+
+| Skip | Prime? | Observed | Null mean | z | p |
+|---:|:---:|---:|---:|---:|---:|
+| 79 | Y | 2 | 0.419 | 2.5 | 0.062 |
+| 9 |  | 38 | 31.747 | 2.094 | 0.028 |
+| 71 | Y | 2 | 0.56 | 2.085 | 0.089 |
+| 44 |  | 4 | 1.826 | 1.976 | 0.066 |
+| 43 | Y | 4 | 1.927 | 1.765 | 0.095 |
+
 ### Royal Inscription
 - Total skips tested: 99; skips with p < 0.01: 0; Bonferroni-significant: **0** (of which prime-interval: 0).
 
+*No Bonferroni-significant skips.*
+
+
+Top-5 by z-score (for reference — not necessarily significant after correction):
+
+| Skip | Prime? | Observed | Null mean | z | p |
+|---:|:---:|---:|---:|---:|---:|
+| 76 |  | 56 | 48.412 | 2.217 | 0.023 |
+| 63 |  | 64 | 57.204 | 1.904 | 0.039 |
+| 48 |  | 78 | 71.515 | 1.697 | 0.047 |
+| 36 |  | 95 | 88.093 | 1.687 | 0.052 |
+| 20 |  | 136 | 128.233 | 1.682 | 0.06 |
+
 ### Letter
-- Total skips tested: 99; skips with p < 0.01: 0; Bonferroni-significant: **0**.
-- Highest z observed: 3.146 (corresponds to p ≈ 0.0008, NOT Bonferroni-significant after correction for 99 tests).
+- Total skips tested: 99; skips with p < 0.01: 1; Bonferroni-significant: **0** (of which prime-interval: 0).
+
+*No Bonferroni-significant skips.*
+
+
+Top-5 by z-score (for reference — not necessarily significant after correction):
+
+| Skip | Prime? | Observed | Null mean | z | p |
+|---:|:---:|---:|---:|---:|---:|
+| 33 |  | 66 | 55.067 | 3.146 | 0.001 |
+| 44 |  | 51 | 43.761 | 2.296 | 0.016 |
+| 77 |  | 31 | 25.672 | 2.006 | 0.037 |
+| 22 |  | 83 | 75.469 | 1.889 | 0.043 |
+| 21 |  | 84 | 77.856 | 1.476 | 0.079 |
 
 **Honest interpretation of ELS findings:**
 After Bonferroni correction, no skip in [2, 100] shows a non-random ELS signal for any genre. This is the correct null result to expect absent true encoding.
 
-We reject mystical readings — the corpus's periodicities are adequately explained by (a) recurring template formulas and (b) average tablet length when multiple tablets are concatenated in the stream.
+In either case we reject mystical readings — the corpus's periodicities are adequately explained by (a) recurring template formulas and (b) average tablet length when multiple tablets are concatenated in the stream.
 
 ---
 
@@ -93,18 +131,19 @@ For tablets with ≥2 RULING-delimited chunks, we measure trigram overlap betwee
 
 | Genre | Adjacent-chunk pairs | Obs. shared trigrams | Null mean | Δ | p (approx) |
 |---|---:|---:|---:|---:|---:|
-| Administrative | 17 | 0.176 | 0.005 | **+0.171** | 0.005 |
-| Literary | 108 | 0.731 | 0.016 | **+0.715** | 0.014 |
-| Lexical | 13 | 0.538 | 0.032 | **+0.507** | 0.031 |
-| Royal Inscription | 10 | 0.500 | 0.003 | **+0.497** | 0.002 |
-| Letter | 1 | 0 | 0.025 | -0.025 | n/a (insufficient) |
+| Administrative | 17 | 0.176 | 0.005 | **0.171** | 0.00529 |
+| Literary | 108 | 0.731 | 0.016 | **0.715** | 0.01431 |
+| Lexical | 13 | 0.538 | 0.032 | **0.507** | 0.03115 |
+| Royal Inscription | 10 | 0.5 | 0.003 | **0.497** | 0.002 |
+| Letter | 1 | 0.0 | 0.025 | **-0.025** | n/a (n=1, insufficient) |
 
-**Interpretation:** Positive Δ in Royal Inscription (p=0.002) and Administrative (p=0.005) confirms that `<RULING>` is a *logical* separator between parallel items (like list entries with repeated framing words), not arbitrary spacing. This is the clearest evidence that `<RULING>` maps to 'row boundary' in a typed schema.
+p-values are reported only where at least 5 adjacent-chunk pairs were observed. Administrative (n=17) and Royal Inscription (n=10) rest on small samples — treat them as indicative, not conclusive.
+
+**Interpretation:** Positive Δ in Literary or Lexical would confirm that `<RULING>` is a *logical* separator between parallel items (like list entries with repeated framing words), not arbitrary spacing. This is the clearest evidence that `<RULING>` maps to 'row boundary' in a typed schema.
 
 ---
 
 ## 5. Summary — Implications for Agent Runtimes
-
 - **Genre DSLs are real.** Zipf exponents > 1 in Administrative and Royal Inscription indicate keyword-reuse typical of a domain-specific language, not prose. Memory segments in agent runtimes should preserve genre/schema tags so downstream agents can exploit this.
 - **Structural redundancy is measurable.** The positive raw-vs-shuffled Δ gives an empirical 'template coverage' score per genre. Memory compression strategies should target high-template genres with template-aware encoders.
 - **ELS is a dead end for cuneiform.** As expected. Useful null-result to cite when future ideas try to decode 'hidden patterns'.

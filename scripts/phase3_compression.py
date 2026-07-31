@@ -34,6 +34,9 @@ N_SHUFFLES = 1000
 SKIPS = list(range(2, 101))
 RNG = np.random.default_rng(42)
 
+# Minimum adjacent-chunk pairs before a RULING-parity p-value is reportable.
+MIN_PARITY_PAIRS = 5
+
 
 def primes_upto(n: int) -> set[int]:
     sieve = [True] * (n + 1)
@@ -309,7 +312,12 @@ def main() -> None:
         if r is None:
             md_lines.append(f"| {g} | 0 | — | — | — | n/a (too few RULINGs in sample) |\n")
         else:
-            md_lines.append(f"| {g} | {r['n_pairs_observed']} | {r['obs_mean_shared_trigrams']} | {r['null_mean_shared_trigrams']} | **{r['delta']}** | {r['p_value_approx']} |\n")
+            # A p-value from a handful of adjacent-chunk pairs is not interpretable.
+            # Report it only where the sample can support it.
+            n = r["n_pairs_observed"]
+            p = f"{r['p_value_approx']}" if n >= MIN_PARITY_PAIRS else f"n/a (n={n}, insufficient)"
+            md_lines.append(f"| {g} | {n} | {r['obs_mean_shared_trigrams']} | {r['null_mean_shared_trigrams']} | **{r['delta']}** | {p} |\n")
+    md_lines.append(f"\np-values are reported only where at least {MIN_PARITY_PAIRS} adjacent-chunk pairs were observed. Administrative (n=17) and Royal Inscription (n=10) rest on small samples — treat them as indicative, not conclusive.\n")
     md_lines.append("\n**Interpretation:** Positive Δ in Literary or Lexical would confirm that `<RULING>` is a *logical* separator between parallel items (like list entries with repeated framing words), not arbitrary spacing. This is the clearest evidence that `<RULING>` maps to 'row boundary' in a typed schema.\n")
     md_lines.append("\n---\n\n")
 

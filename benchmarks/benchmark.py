@@ -8,8 +8,15 @@ Measures:
   4. Capability comparison on 5 audit queries
 
 Outputs:
-  - benchmarks/results.json   raw numbers
-  - benchmarks/RESULTS.md     human-readable report
+  - benchmarks/results.json   raw numbers (the only file this script writes)
+
+RESULTS.md is a hand-authored report that interprets results.json; it is not
+regenerated here. Re-running this script will not overwrite it.
+
+Note: absolute latencies are hardware-dependent and will differ from the
+committed results.json. Byte/token overheads and the 5/5-vs-0/5 capability
+result are deterministic. Seal IDs are random (secrets.token_hex), so
+results.json is not byte-reproducible by design.
 
 Token estimate uses 4 bytes/token (conservative tiktoken-like heuristic).
 Replace with `tiktoken` for exact counts in your stack.
@@ -287,16 +294,15 @@ def main() -> None:
     print(f"  Sealed   write latency p50   : {w10k['sealed_write_us_median']:>8.1f} us")
     print(f"  Sealed verify all (10k)      : {read_results['sealed_verify_all_ms_total']:>8.1f} ms")
 
+    # ASCII only — a cp1252 console (default on Windows) cannot encode check/cross glyphs.
+    mark = lambda ok: "YES" if ok else " NO"
     print(f"\nCapability comparison:")
     for q, r in cap_results.items():
         if "baseline_can_answer" in r:
-            ok_b = "✔" if r["baseline_can_answer"] else "✘"
-            ok_s = "✔" if r["sealed_can_answer"] else "✘"
-            print(f"  {q:42s}  baseline={ok_b}  sealed={ok_s}")
+            ok_b, ok_s = r["baseline_can_answer"], r["sealed_can_answer"]
         else:
-            ok_b = "✔" if r["baseline_correctly_excludes_revoked"] else "✘"
-            ok_s = "✔" if r["sealed_correctly_excludes_revoked"] else "✘"
-            print(f"  {q:42s}  baseline={ok_b}  sealed={ok_s}")
+            ok_b, ok_s = r["baseline_correctly_excludes_revoked"], r["sealed_correctly_excludes_revoked"]
+        print(f"  {q:42s}  baseline={mark(ok_b)}  sealed={mark(ok_s)}")
 
 
 if __name__ == "__main__":
