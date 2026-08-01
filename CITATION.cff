@@ -12,8 +12,8 @@ authors:
     affiliation: Northtek
     email: info@northtek.io
 repository-code: 'https://github.com/NORTHTEKDevs/sumerian-agent-patterns'
-version: 0.2.0
-date-released: '2026-07-31'
+version: 0.3.0
+date-released: '2026-08-01'
 abstract: >-
   A reproducible pipeline that mines the SumTablets corpus
   (91,606 transliterated Sumerian tablets) for recurring
@@ -27,9 +27,15 @@ abstract: >-
   baseline. Version 0.2.0 documents the retraction of two statistical
   findings (RULING-parity, withdrawn for an incorrect null hypothesis;
   Zipf-as-DSL, withdrawn as a stream-length artifact) and a precision
-  audit finding five of ten regex probes unreliable. Anyone citing
-  this work should read CORRECTIONS.md, which records what was
-  withdrawn and the control that established it.
+  audit finding five of ten regex probes unreliable. Version 0.3.0
+  replaces both withdrawn analyses with properly powered ones: a
+  full-corpus permutation test of ruling-boundary placement (2,095
+  adjacent chunk pairs, 10,000 permutations, two independent nulls)
+  which finds a significant effect in the opposite direction to the
+  original claim, and power-law fits by the Clauset-Shalizi-Newman
+  method which find the distributions heavy-tailed but
+  indistinguishable from lognormal. Anyone citing this work should
+  read FINDINGS.md and CORRECTIONS.md.
 keywords:
   - multi-agent systems
   - agent memory
