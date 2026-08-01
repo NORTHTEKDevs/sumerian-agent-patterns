@@ -1,4 +1,83 @@
 {
+  "zipf_length_control": [
+    {
+      "genre": "Administrative",
+      "stream_length": 32493,
+      "s_at_native_length": 1.746,
+      "s_at_common_length": 1.187,
+      "s_at_common_length_sd": 0.019,
+      "common_length_tokens": 2508,
+      "mle_alpha": 1.445
+    },
+    {
+      "genre": "Literary",
+      "stream_length": 154005,
+      "s_at_native_length": 1.68,
+      "s_at_common_length": 1.187,
+      "s_at_common_length_sd": 0.045,
+      "common_length_tokens": 2508,
+      "mle_alpha": 1.573
+    },
+    {
+      "genre": "Lexical",
+      "stream_length": 2508,
+      "s_at_native_length": 1.114,
+      "s_at_common_length": 1.114,
+      "s_at_common_length_sd": 0.0,
+      "common_length_tokens": 2508,
+      "mle_alpha": 1.59
+    },
+    {
+      "genre": "Royal Inscription",
+      "stream_length": 33015,
+      "s_at_native_length": 1.737,
+      "s_at_common_length": 1.2,
+      "s_at_common_length_sd": 0.022,
+      "common_length_tokens": 2508,
+      "mle_alpha": 1.433
+    },
+    {
+      "genre": "Letter",
+      "stream_length": 18664,
+      "s_at_native_length": 1.607,
+      "s_at_common_length": 1.21,
+      "s_at_common_length_sd": 0.015,
+      "common_length_tokens": 2508,
+      "mle_alpha": 1.483
+    }
+  ],
+  "compression_length_control": [
+    {
+      "genre": "Administrative",
+      "delta_at_common_length": 0.0699,
+      "delta_at_common_length_sd": 0.0086,
+      "common_length_tokens": 2508
+    },
+    {
+      "genre": "Literary",
+      "delta_at_common_length": 0.0643,
+      "delta_at_common_length_sd": 0.0183,
+      "common_length_tokens": 2508
+    },
+    {
+      "genre": "Lexical",
+      "delta_at_common_length": 0.0463,
+      "delta_at_common_length_sd": 0.0005,
+      "common_length_tokens": 2508
+    },
+    {
+      "genre": "Royal Inscription",
+      "delta_at_common_length": 0.0826,
+      "delta_at_common_length_sd": 0.0111,
+      "common_length_tokens": 2508
+    },
+    {
+      "genre": "Letter",
+      "delta_at_common_length": 0.0595,
+      "delta_at_common_length_sd": 0.0035,
+      "common_length_tokens": 2508
+    }
+  ],
   "zipf": [
     {
       "genre": "Administrative",

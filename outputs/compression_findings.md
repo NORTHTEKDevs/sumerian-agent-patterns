@@ -15,7 +15,25 @@ Classic Zipf predicts exponent s ≈ 1.0 with high R². Deviations indicate eith
 | Royal Inscription | 33,015 | 900 | 1.737 | 0.9433 |
 | Letter | 18,664 | 780 | 1.607 | 0.9506 |
 
-**Interpretation:** Genres with s substantially > 1 have a *small, high-reuse core vocabulary* — they behave like a DSL with reserved keywords, not a natural language. Administrative and Royal Inscription are the strongest candidates; Literary should be closer to natural-language s ≈ 1.0.
+### Length control — the cross-genre comparison does not survive it
+Zipf exponents fitted this way are strongly sample-size dependent, and these streams differ by ~60× in length. Re-fitting every genre on equal-length contiguous blocks separates genre from corpus size:
+
+| Genre | Stream length | s at native length | s at common length (2,508 tokens) | sd | MLE α |
+|---|---:|---:|---:|---:|---:|
+| Administrative | 32,493 | 1.746 | **1.187** | 0.019 | 1.445 |
+| Literary | 154,005 | 1.68 | **1.187** | 0.045 | 1.573 |
+| Lexical | 2,508 | 1.114 | **1.114** | 0.0 | 1.59 |
+| Royal Inscription | 33,015 | 1.737 | **1.2** | 0.022 | 1.433 |
+| Letter | 18,664 | 1.607 | **1.21** | 0.015 | 1.483 |
+
+At a common length every genre lands in a band of width 0.096, against a native-length spread of 0.632. The apparent genre difference was overwhelmingly a corpus-size effect: the genre with the shortest stream (Lexical) merely had the least opportunity to accumulate a long low-frequency tail.
+
+**Correction — the 'Zipf-as-DSL detector' claim is withdrawn.** Earlier versions read the native-length spread (Administrative s=1.746 and Royal s=1.737 versus Lexical s=1.114) as evidence that administrative and royal genres behave like domain-specific languages while lexical lists resemble natural language. Under the length control that difference disappears. Two further problems compound it:
+
+1. **The estimator is unreliable.** `zipf_fit` is OLS on log-log rank-frequency data — a biased power-law estimator, and its R² is not a goodness-of-fit test (Clauset, Shalizi & Newman 2009). The MLE column disagrees with the OLS column in both magnitude and *rank order*, which is exactly the symptom that diagnoses the OLS number as untrustworthy.
+2. **The result is sensitive to arbitrary preprocessing.** Dropping hapax legomena (34–59% of types, depending on genre) moves the exponents by up to 0.17 and reverses the direction of some genre comparisons.
+
+The R² values of 0.92–0.95 across every genre should not be read as support: comparably high R² is routine for lognormal and exponential data under this fitting procedure. Doing this properly would need MLE fitting with a fitted x_min, a Kolmogorov–Smirnov goodness-of-fit statistic, and likelihood-ratio tests against lognormal alternatives — none of which is done here.
 
 ---
 
@@ -30,7 +48,24 @@ Classic Zipf predicts exponent s ≈ 1.0 with high R². Deviations indicate eith
 | Royal Inscription | 0.2111 | 0.3102 | **0.0991** | 33,015 |
 | Letter | 0.2485 | 0.3234 | **0.0748** | 18,664 |
 
-**Interpretation:** A positive Δ means the actual stream has structural regularities (templates, fixed formulas) beyond what random token order would predict. This is the corpus's 'error-correction overhead' in information-theoretic terms.
+**Interpretation:** A positive Δ means the actual stream has structural regularities (templates, fixed formulas) beyond what random token order would predict.
+
+### Length control — this comparison DOES survive it
+The same length confound that invalidates the cross-genre Zipf comparison (§1) was tested here rather than assumed. Blocks are contiguous, since sampling scattered positions would itself destroy the token adjacency zlib exploits and would manufacture a collapse rather than detect one:
+
+| Genre | Δ at native length | Δ at common length (2,508 tokens) | sd |
+|---|---:|---:|---:|
+| Administrative | 0.0875 | **0.0699** | 0.0086 |
+| Literary | 0.0658 | **0.0643** | 0.0183 |
+| Lexical | 0.0467 | **0.0463** | 0.0005 |
+| Royal Inscription | 0.0991 | **0.0826** | 0.0111 |
+| Letter | 0.0748 | **0.0595** | 0.0035 |
+
+Ranking at native length: Royal Inscription > Administrative > Letter > Literary > Lexical.
+
+Ranking at common length: Royal Inscription > Administrative > Literary > Letter > Lexical.
+
+The ordering is preserved and magnitudes stay the same order of size, so unlike the Zipf comparison this one is not an artifact of differing stream lengths; genres that swap rank do so within overlapping standard deviations. **This is the strongest surviving positive statistical result in this repository** — though it remains a descriptive contrast against random token order, not a test of any specific structural hypothesis.
 
 ---
 

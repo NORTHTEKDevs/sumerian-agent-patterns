@@ -2,7 +2,7 @@
 
 **Empirical mining of the SumTablets cuneiform corpus (91,606 tablets, 6.97M glyphs) for software-design primitives applicable to modern multi-agent AI systems.**
 
-> **Read [CORRECTIONS.md](CORRECTIONS.md) first.** One headline finding in the original release (RULING-parity, §4) was withdrawn on 2026-07-31 after a self-audit found it was an artifact of the wrong null hypothesis. The corpus statistics, the ELS null result, and the engineering benchmark are unaffected. Every claim below is now tagged with its evidence strength.
+> **Read [CORRECTIONS.md](CORRECTIONS.md) first.** A self-audit on 2026-07-31 withdrew **two** of the original headline findings — RULING-parity (§4, wrong null hypothesis) and Zipf-as-DSL (§1, stream-length artifact). What survives: the compression-redundancy contrast (now verified against a length control), the ELS null result, the descriptive probe frequencies, and the engineering benchmark. Every claim below is tagged with its evidence strength, and the pipeline now reports the controls that killed the two withdrawn claims.
 
 > Sumerian scribes ran a multi-agent bureaucracy 4,000 years ago. Their clay tablets carry sealed envelopes, named time periods, periodic audits, RPC headers, and witness sets — the same primitives modern agent systems are reinventing. This repo mines that corpus for those primitives, reports each one with its evidence strength and cited tablet IDs, and translates them into agent-framework code shapes. Descriptive corpus statistics and an engineering benchmark carry the weight; one inferential claim was tested, failed, and is documented as withdrawn.
 
@@ -22,7 +22,7 @@ Of the ~158 ideas in `outputs/FULL_IDEAS.md`, the following **9 first-class arti
 |---|---|---|---|
 | 1 | **Empirical method** — a reproducible corpus-mining pipeline with permutation nulls and Bonferroni correction, including the null-choice failure it caught in its own output | `scripts/phase{0,1,3}_*.py` | A pipeline you can re-run on any corpus to extract templates + structure, and a worked lesson in picking the null |
 | 2 | **9 named agent primitives** with cited tablet IDs and contracts | `outputs/primitives.json` | Single-responsibility agent designs grounded in real attestations (P/Q tablet IDs) |
-| 3 | **Zipf-as-DSL detector finding** (Admin s=1.746, Royal s=1.737, Lexical s=1.114) | `outputs/compression_findings.md` §1 | Empirical method for unsupervised "is-this-a-DSL?" classification of any corpus |
+| 3 | **Zipf-as-DSL detector — WITHDRAWN** (2026-07-31, see [CORRECTIONS.md](CORRECTIONS.md)) | `outputs/compression_findings.md` §1 | The genre difference was a stream-length artifact; §1 now documents the length control that killed it |
 | 4 | **RULING-parity — NULL result** (claim withdrawn 2026-07-31, see [CORRECTIONS.md](CORRECTIONS.md)) | `outputs/compression_findings.md` §4 | A worked example of how the choice of null hypothesis manufactures a finding — and how it was caught |
 | 5 | **ELS-null result** — 3 nominal hits at p<0.01 across 495 tests, against ~5 expected by chance | `outputs/compression_findings.md` §3 | Defensive prior art against future numerology / "hidden code" claims on cuneiform |
 | 6 | **Reference architecture** — composes the primitives into a multi-agent design with Python + Rust pseudocode | `outputs/reference_architecture.md` | Drop-in design doc you can adapt to any agent runtime |
@@ -41,8 +41,8 @@ Every substantive claim in this repo, and exactly how much weight it can bear. R
 | Claim | Evidence type | Strength | Notes |
 |---|---|---|---|
 | `kišib₃` (seal) appears in 25.4% of Administrative tablets; year-formulae in 74.2%; `u₃-na-a-du₁₁` in 58.8% of Letters | Regex counts over a 2,069-tablet sample | **Solid** — descriptive | No inference. Reproducible exactly. Sensitive to regex design; probes are in `phase1_templates.py` and worth reading before trusting a number. |
-| Administrative and Royal Inscription are more formulaic than natural language (Zipf s ≈ 1.75 / 1.74 vs Lexical 1.11) | Zipfian fit, R² 0.92–0.95 | **Solid** — descriptive | "DSL" is an analogy, not a formal claim. A high Zipf exponent means a small high-reuse vocabulary; it does not establish a grammar. |
-| Genres carry structural redundancy beyond token frequency (compression Δ +0.05 to +0.10) | zlib ratio, real vs token-shuffled | **Moderate** — descriptive | The token-shuffle baseline is legitimate *here*, because the claim is only "more structured than random token order". Δ magnitudes are not comparable across genres of different lengths. |
+| ~~Administrative and Royal are more formulaic than Lexical (Zipf s 1.75 / 1.74 vs 1.11)~~ | OLS fit on log-log rank-frequency | **WITHDRAWN** | A stream-length artifact: at equal length every genre falls in 1.11–1.21. The estimator is also biased, and its R² is not a goodness-of-fit test. See [CORRECTIONS.md](CORRECTIONS.md). |
+| Genres differ in structural redundancy; Royal Inscription and Administrative rank highest, Lexical lowest (Δ +0.05 to +0.10) | zlib ratio, real vs token-shuffled, **verified against an equal-length control** | **Moderate–solid** — descriptive | The strongest surviving positive statistic here. The token-shuffle baseline is legitimate for this particular claim, which is only "more structured than random token order". Unlike Zipf, the genre ranking survives equal-length contiguous blocks. Still not a test of any specific structural hypothesis. |
 | No hidden periodic encoding in the corpus | ELS scan, 99 skips × 5 genres × 1,000 permutations | **Moderate** — null result | 3 nominal hits (p<0.01) vs ~5 expected by chance. **Underpowered for the Bonferroni threshold it originally claimed** — see §3 resolution caveat. Reads as "no signal above chance", not as a proof of absence. |
 | Sealed envelopes answer 5/5 audit queries; anonymous logs 0/5, at +59% bytes / +37 tokens / +7µs per write | Executed benchmark, 100k writes | **Solid** — engineering measurement | Not a statistical claim. The 0/5 is definitional (an anonymous log lacks the fields), so it demonstrates a design consequence, not a discovery. Latencies are hardware-dependent. |
 | ~~`<RULING>` marks logical row boundaries~~ | Permutation test | **WITHDRAWN** | Artifact of the wrong null. See [CORRECTIONS.md](CORRECTIONS.md). |
@@ -60,7 +60,7 @@ Three concrete things you can build differently after reading this:
 
 ### 1. Wrap every agent write in a sealed envelope
 
-**Finding.** 25.4% of administrative tablets carry `kišib₃` (seal of so-and-so), 74.2% are dated by year, and witness clauses (`igi PN-šè`) are common. No important write is anonymous, undated, or unattributed. Tablets P101440, P132611, P117793, P145759.
+**Finding.** 25.4% of administrative tablets carry `kišib₃` (seal of so-and-so) and ~71% are dated by year (the `mu` probe reports 74.2%; a stricter probe requiring a following year-name gives 70.6%). Attribution is the norm, not the exception. Sealed administrative example: **P101440**. Letters carry attribution differently — via the address formula `u₃-na-a-du₁₁` and a closing scribe-and-filiation signature (`dub-sar`, `dumu` PN) rather than a seal: **P132611, P117793, P145759**. *(Earlier versions cited all four tablets together under the seal claim; the three Letters contain no `kišib₃`.)*
 
 **Action.** Make every state-changing call in your agent runtime carry `(payload, by_seal, witnesses, period)`. Audit becomes a property of the envelope, not a separate concern bolted on per agent. Replay across any time window becomes trivial.
 
@@ -193,9 +193,9 @@ The numbers behind the implications above. All claims here are reproducible from
 
 | Finding | Statistic | Genre / Coverage |
 |---|---|---|
-| Admin tablets are a domain-specific language | Zipf exponent s = 1.746 (R²=0.93) | Administrative |
+| ~~Admin tablets are a domain-specific language~~ **WITHDRAWN** | Length artifact; at equal stream length every genre sits at s = 1.11–1.21 ([CORRECTIONS.md](CORRECTIONS.md)) | Administrative |
 | Royal Inscription is the most-templated genre | Compression-Δ = +0.099 vs shuffled baseline | Royal Inscription |
-| Lexical lists are closest to natural language | Zipf s = 1.114 (R²=0.92) | Lexical |
+| ~~Lexical lists are closest to natural language~~ **WITHDRAWN** | Same length artifact — Lexical merely has the shortest stream (2,508 tokens) | Lexical |
 | Letters are short single-purpose RPCs | Lowest marker density (0.02 RULING/tab) | Letter |
 | ~~`<RULING>` is a logical row separator~~ **WITHDRAWN** | Null under the correct control; the original p-values came from a null that destroys all local structure ([CORRECTIONS.md](CORRECTIONS.md)) | Royal, Admin |
 | No hidden encodings in the corpus | 3 of 495 ELS tests nominally p<0.01, vs ~5 expected by chance | All genres |
@@ -278,7 +278,8 @@ What you should see in the console along the way — these are the load-bearing 
 | Corpus rows loaded | 91,606 | phase 0 |
 | Stratified sample | 2,069 tablets + 197 long-form | phase 0 |
 | `seal_of_PN` in Administrative | 25.4% (n=127) | phase 1 |
-| Zipf s — Admin / Royal / Lexical | 1.746 / 1.737 / 1.114 | phase 3 |
+| Zipf s at native length (confounded, see §1) | 1.746 / 1.737 / 1.114 | phase 3 |
+| Zipf s at equal length (the real comparison) | all genres 1.11–1.21 | phase 3 |
 | RULING parity (primary null) | not significant in any genre | phase 3 |
 | ELS nominal hits (p<0.01) | **3** of 495, vs ~5 expected by chance | phase 3 |
 | Sealed-vs-anonymous audit queries | 5/5 vs 0/5 | benchmark |
@@ -299,11 +300,15 @@ What you should see in the console along the way — these are the load-bearing 
 
 1. **Sample.** Stratified-sample 500 tablets per genre (Administrative, Literary, Lexical, Royal Inscription, Letter) plus up to 50 long-form tablets per genre. Total sample: 2,069 tablets + 197 long-form.
 2. **Templates.** For each genre: structural-marker statistics (`<SURFACE>`, `<COLUMN>`, `<RULING>`, `<BLANK_SPACE>`); per-position opening/closing line templates; distinctive bigrams and trigrams via genre log-odds vs other genres; hand-coded regex probes for known bureaucratic primitives (seal-of, year-formula, total/audit, deficit, witness, etc.). Every template carries cited tablet IDs.
-3. **Compression and ELS.** Per-genre Zipfian fit; compression-ratio Δ between raw and shuffled token streams; equidistant-letter-sequence (ELS) decimation at skips 2–100 with 1,000 shuffled-baseline controls (Bonferroni-corrected for 495 tests); cross-RULING trigram parity against two nulls — a token-shuffle null (retained only to show it is the wrong control) and a boundary-permutation null that holds token order and chunk lengths fixed and varies only where the cuts fall (the primary test).
+3. **Compression and ELS.** Per-genre Zipfian fit (OLS on log-log, reported alongside an MLE exponent and an equal-length control that shows the cross-genre comparison does not survive); compression-ratio Δ between raw and shuffled token streams (with the same equal-length control, which it does survive); equidistant-letter-sequence (ELS) decimation at skips 2–100 against 1,000 permutations, `(r+1)/(n+1)` corrected, Bonferroni threshold reported together with the resolution caveat that the permutation count cannot reach it; cross-RULING trigram parity against two nulls — a token-shuffle null retained only to demonstrate it is the wrong control, and a boundary-permutation null holding token order and chunk lengths fixed and varying only where cuts fall (the primary test).
 4. **Mapping.** For each empirical template, propose a named single-responsibility agent primitive with inputs, outputs, state, tools, and guardrails. Distinguish validated-by-data from speculative.
 
 ## Honest Limits
 
+- **Two of the three original statistical findings did not survive audit** (RULING-parity, Zipf-as-DSL — see [CORRECTIONS.md](CORRECTIONS.md)). Of what remains, the compression-redundancy ranking is the only positive inferential-flavoured result, and it is a descriptive contrast against random token order rather than a test of a specific structural hypothesis. Treat this repo's statistical contribution as modest.
+- **The regex probes have had no specialist review**, and they generate the most-cited numbers here. One (`king_title`) is known to be measuring personal names rather than titles. Others carry the same class of risk and have not been quantified.
+- **Multiple comparisons are corrected only within the ELS scan**, not across the ~40 hypotheses the repo entertains in total.
+- The Zipf fit uses OLS on log-log rank-frequency data, which is a biased power-law estimator whose R² is not a goodness-of-fit test. It is retained, with an MLE exponent beside it, so the discrepancy is visible — not because it is the right method.
 - We sampled 2.3% of the corpus. Findings are strong for Ur III administrative tablets and Old Babylonian literary tablets; weaker for everything else.
 - The corpus is 92%+ administrative — generalizing about "Sumerian thought" from this sample would be like generalizing about "civilization" from accounting receipts.
 - Lexical findings rely on only 69 tablets; the Lexical-list architectural slot is real but the actual taxonomic content needs to come from external sources (CDLI, ePSD2).

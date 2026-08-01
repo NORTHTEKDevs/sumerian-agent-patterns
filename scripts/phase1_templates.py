@@ -33,6 +33,30 @@ STRUCTURAL_TOKENS = ["<SURFACE>", "<COLUMN>", "<RULING>", "<BLANK_SPACE>", "<unk
 
 # Hand-coded regex probes for known Sumerian bureaucratic primitives.
 # Each tuple: (template_name, regex_on_transliteration, semantic_role)
+#
+# KNOWN LIMITATIONS -- these have had NO specialist (Assyriological) review, and
+# they produce the most-cited numbers in this repository. Audited 2026-07-31:
+#
+#   king_title   OVER-COUNTS BADLY. `\blugal\b` matches `lugal-...` as an element
+#                of a PERSONAL NAME. In the Administrative sample 54% of matches
+#                are personal names and only ~12% are plausibly the title "king",
+#                so the reported 48.6% is not a rate of royal titles. Left in place
+#                rather than silently patched: separating name from title needs
+#                disambiguation regex cannot do. Do not cite this figure.
+#
+#   year_formula OVER-COUNTS MILDLY. `-` is a regex word boundary, so `\bmu\b`
+#                matches inside `mu-DU` (delivery), `mu-ni` ("its name"), and
+#                verbal prefixes. ~62% of matches are plausibly year formulae.
+#                Tablet-level impact is small: a stricter probe gives 70.6% vs
+#                the 74.2% reported, because a tablet with a spurious `mu-`
+#                usually carries a real year formula too.
+#
+#   divine_name / temple_e2 / excess_diri carry the same class of risk and have
+#                not been quantified. `e₂` is "house/household" generally, not
+#                specifically "temple"; `diri` has senses beyond "excess".
+#
+# Spot-checked as exact: seal_of_PN (25.4% of Administrative),
+# speak_to_him (58.8% of Letters). See CORRECTIONS.md.
 PROBES: list[tuple[str, str, str]] = [
     ("seal_of_PN",         r"\bkišib(?:₃)?\b[^\n]{0,40}",               "identity / authentication"),
     ("month_marker",       r"\biti[\s\-][^\n]{0,30}",                    "temporal index (month)"),

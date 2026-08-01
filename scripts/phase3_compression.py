@@ -87,6 +87,54 @@ def zipf_fit(freqs: list[int]) -> tuple[float, float, int]:
     return float(-slope), float(r2), len(freqs)
 
 
+def hill_alpha(freqs: list[int], xmin: int = 1) -> float:
+    """Discrete-MLE (Hill) exponent for the frequency distribution.
+
+    Reported alongside the OLS fit because OLS on log-log rank-frequency data is a
+    biased estimator of a power-law exponent, and R^2 from that fit is not a
+    goodness-of-fit test (Clauset, Shalizi & Newman 2009, SIAM Review 51(4)).
+    Divergence between the two is the signal that the OLS number is not trustworthy.
+    """
+    x = np.array([f for f in freqs if f >= xmin], dtype=float)
+    if x.size < 10:
+        return float("nan")
+    return float(1 + x.size / np.sum(np.log(x / (xmin - 0.5))))
+
+
+def zipf_length_control(streams: dict[str, list[str]], n_draws: int = 25) -> list[dict]:
+    """Re-fit every genre at a COMMON stream length.
+
+    Zipf exponents estimated by OLS are strongly sample-size dependent, and the
+    per-genre streams here differ by ~60x (Lexical 2.5k tokens vs Literary 154k).
+    Any cross-genre comparison at native lengths therefore confounds genre with
+    corpus size. This re-fits all genres on equal-length contiguous blocks so the
+    comparison is actually about genre.
+
+    Uses its own generator so adding this control does not perturb the RNG stream
+    consumed by the compression / ELS / parity analyses.
+    """
+    rng = np.random.default_rng(4242)
+    n = min(len(v) for v in streams.values())
+    rows = []
+    for g, st in streams.items():
+        full_s, _, _ = zipf_fit(sorted(Counter(st).values(), reverse=True))
+        draws = []
+        for _ in range(n_draws):
+            start = 0 if len(st) <= n else int(rng.integers(0, len(st) - n))
+            block = st[start:start + n]
+            draws.append(zipf_fit(sorted(Counter(block).values(), reverse=True))[0])
+        rows.append({
+            "genre": g,
+            "stream_length": len(st),
+            "s_at_native_length": round(full_s, 3),
+            "s_at_common_length": round(float(np.mean(draws)), 3),
+            "s_at_common_length_sd": round(float(np.std(draws)), 3),
+            "common_length_tokens": n,
+            "mle_alpha": round(hill_alpha(sorted(Counter(st).values(), reverse=True)), 3),
+        })
+    return rows
+
+
 def compression_ratio(stream: list[str]) -> float:
     """zlib ratio on space-joined token stream. Lower = more redundant."""
     if not stream:
@@ -106,6 +154,38 @@ def shuffled_compression_ratio(stream: list[str], n_shuffles: int = 20) -> float
         idx = RNG.permutation(len(arr))
         ratios.append(compression_ratio(arr[idx].tolist()))
     return float(np.mean(ratios))
+
+
+def compression_length_control(streams: dict[str, list[str]], n_draws: int = 20) -> list[dict]:
+    """Re-measure the compression delta at a COMMON stream length.
+
+    Same confound that invalidates the cross-genre Zipf comparison applies in
+    principle here, so it is tested rather than assumed. Blocks are CONTIGUOUS:
+    sampling scattered positions would itself destroy the token adjacency that
+    zlib exploits, which would manufacture a collapse rather than detect one.
+
+    Uses its own generator so it does not perturb the main RNG stream.
+    """
+    rng = np.random.default_rng(2718)
+    n = min(len(v) for v in streams.values())
+    rows = []
+    for g, st in streams.items():
+        deltas = []
+        for _ in range(n_draws):
+            start = 0 if len(st) <= n else int(rng.integers(0, len(st) - n))
+            block = st[start:start + n]
+            raw = compression_ratio(block)
+            arr = np.array(block, dtype=object)
+            shuf = float(np.mean([compression_ratio(arr[rng.permutation(len(arr))].tolist())
+                                  for _ in range(10)]))
+            deltas.append(shuf - raw)
+        rows.append({
+            "genre": g,
+            "delta_at_common_length": round(float(np.mean(deltas)), 4),
+            "delta_at_common_length_sd": round(float(np.std(deltas)), 4),
+            "common_length_tokens": n,
+        })
+    return rows
 
 
 def els_metric(stream: list[str], skip: int, min_repeat: int = 3) -> int:
@@ -251,7 +331,8 @@ def main() -> None:
         s, r2, n = zipf_fit(counts)
         zipf_rows.append({"genre": g, "zipf_exponent_s": round(s, 3), "r_squared": round(r2, 4),
                           "n_distinct_tokens": n, "stream_length": len(st)})
-    print("[done] Zipf")
+    zipf_control = zipf_length_control(streams)
+    print("[done] Zipf (+ equal-length control)")
 
     # 2. Compression ratio
     comp_rows = []
@@ -265,7 +346,8 @@ def main() -> None:
             "structural_redundancy_delta": round(shuf - raw, 4),  # positive = real stream more compressible
             "stream_length_tokens": len(st),
         })
-    print("[done] compression")
+    comp_control = compression_length_control(streams)
+    print("[done] compression (+ equal-length control)")
 
     # 3. ELS
     els_rows_by_genre = {}
@@ -294,7 +376,20 @@ def main() -> None:
     md_lines.append("|---|---:|---:|---:|---:|\n")
     for r in zipf_rows:
         md_lines.append(f"| {r['genre']} | {r['stream_length']:,} | {r['n_distinct_tokens']:,} | {r['zipf_exponent_s']} | {r['r_squared']} |\n")
-    md_lines.append("\n**Interpretation:** Genres with s substantially > 1 have a *small, high-reuse core vocabulary* — they behave like a DSL with reserved keywords, not a natural language. Administrative and Royal Inscription are the strongest candidates; Literary should be closer to natural-language s ≈ 1.0.\n")
+    md_lines.append("\n### Length control — the cross-genre comparison does not survive it\n")
+    md_lines.append("Zipf exponents fitted this way are strongly sample-size dependent, and these streams differ by ~60× in length. Re-fitting every genre on equal-length contiguous blocks separates genre from corpus size:\n\n")
+    md_lines.append(f"| Genre | Stream length | s at native length | s at common length ({zipf_control[0]['common_length_tokens']:,} tokens) | sd | MLE α |\n")
+    md_lines.append("|---|---:|---:|---:|---:|---:|\n")
+    for r in zipf_control:
+        md_lines.append(f"| {r['genre']} | {r['stream_length']:,} | {r['s_at_native_length']} | **{r['s_at_common_length']}** | {r['s_at_common_length_sd']} | {r['mle_alpha']} |\n")
+    spread = max(r["s_at_common_length"] for r in zipf_control) - min(r["s_at_common_length"] for r in zipf_control)
+    md_lines.append(f"\nAt a common length every genre lands in a band of width {spread:.3f}, against a native-length spread of "
+                    f"{max(r['s_at_native_length'] for r in zipf_control) - min(r['s_at_native_length'] for r in zipf_control):.3f}. "
+                    "The apparent genre difference was overwhelmingly a corpus-size effect: the genre with the shortest stream (Lexical) merely had the least opportunity to accumulate a long low-frequency tail.\n")
+    md_lines.append("\n**Correction — the 'Zipf-as-DSL detector' claim is withdrawn.** Earlier versions read the native-length spread (Administrative s=1.746 and Royal s=1.737 versus Lexical s=1.114) as evidence that administrative and royal genres behave like domain-specific languages while lexical lists resemble natural language. Under the length control that difference disappears. Two further problems compound it:\n\n")
+    md_lines.append("1. **The estimator is unreliable.** `zipf_fit` is OLS on log-log rank-frequency data — a biased power-law estimator, and its R² is not a goodness-of-fit test (Clauset, Shalizi & Newman 2009). The MLE column disagrees with the OLS column in both magnitude and *rank order*, which is exactly the symptom that diagnoses the OLS number as untrustworthy.\n")
+    md_lines.append("2. **The result is sensitive to arbitrary preprocessing.** Dropping hapax legomena (34–59% of types, depending on genre) moves the exponents by up to 0.17 and reverses the direction of some genre comparisons.\n\n")
+    md_lines.append("The R² values of 0.92–0.95 across every genre should not be read as support: comparably high R² is routine for lognormal and exponential data under this fitting procedure. Doing this properly would need MLE fitting with a fitted x_min, a Kolmogorov–Smirnov goodness-of-fit statistic, and likelihood-ratio tests against lognormal alternatives — none of which is done here.\n")
     md_lines.append("\n---\n\n")
 
     # 2. Compression
@@ -304,7 +399,20 @@ def main() -> None:
     md_lines.append("|---|---:|---:|---:|---:|\n")
     for r in comp_rows:
         md_lines.append(f"| {r['genre']} | {r['raw_compression_ratio']} | {r['shuffled_baseline_ratio']} | **{r['structural_redundancy_delta']}** | {r['stream_length_tokens']:,} |\n")
-    md_lines.append("\n**Interpretation:** A positive Δ means the actual stream has structural regularities (templates, fixed formulas) beyond what random token order would predict. This is the corpus's 'error-correction overhead' in information-theoretic terms.\n")
+    md_lines.append("\n**Interpretation:** A positive Δ means the actual stream has structural regularities (templates, fixed formulas) beyond what random token order would predict.\n")
+    md_lines.append("\n### Length control — this comparison DOES survive it\n")
+    md_lines.append("The same length confound that invalidates the cross-genre Zipf comparison (§1) was tested here rather than assumed. Blocks are contiguous, since sampling scattered positions would itself destroy the token adjacency zlib exploits and would manufacture a collapse rather than detect one:\n\n")
+    md_lines.append(f"| Genre | Δ at native length | Δ at common length ({comp_control[0]['common_length_tokens']:,} tokens) | sd |\n")
+    md_lines.append("|---|---:|---:|---:|\n")
+    _cd = {r["genre"]: r for r in comp_control}
+    for r in comp_rows:
+        c = _cd[r["genre"]]
+        md_lines.append(f"| {r['genre']} | {r['structural_redundancy_delta']} | **{c['delta_at_common_length']}** | {c['delta_at_common_length_sd']} |\n")
+    _rn = [r["genre"] for r in sorted(comp_rows, key=lambda x: -x["structural_redundancy_delta"])]
+    _rc = [r["genre"] for r in sorted(comp_control, key=lambda x: -x["delta_at_common_length"])]
+    md_lines.append(f"\nRanking at native length: {' > '.join(_rn)}.\n")
+    md_lines.append(f"\nRanking at common length: {' > '.join(_rc)}.\n")
+    md_lines.append("\nThe ordering is preserved and magnitudes stay the same order of size, so unlike the Zipf comparison this one is not an artifact of differing stream lengths; genres that swap rank do so within overlapping standard deviations. **This is the strongest surviving positive statistical result in this repository** — though it remains a descriptive contrast against random token order, not a test of any specific structural hypothesis.\n")
     md_lines.append("\n---\n\n")
 
     # 3. ELS
@@ -390,6 +498,8 @@ def main() -> None:
     # Also dump raw metric rows as JSON for the architecture doc to reference.
     import json
     (OUT / "phase3_raw.json").write_text(json.dumps({
+        "zipf_length_control": zipf_control,
+        "compression_length_control": comp_control,
         "zipf": zipf_rows,
         "compression": comp_rows,
         "els": els_rows_by_genre,

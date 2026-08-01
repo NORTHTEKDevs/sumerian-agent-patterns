@@ -6,6 +6,60 @@ Nothing is removed from the record. Superseded claims stay visible with the reas
 
 ---
 
+## 2026-07-31 — WITHDRAWN: "Administrative and Royal genres are DSL-like (Zipf s ≈ 1.75 vs Lexical 1.11)"
+
+**Affected:** README artifact #3, the Findings table rows "Admin tablets are a domain-specific language" and "Lexical lists are closest to natural language", and `outputs/compression_findings.md` §1.
+
+**Original claim.** Per-genre Zipf exponents (Administrative s=1.746, Royal Inscription s=1.737, Letter s=1.607, Literary s=1.680, Lexical s=1.114, all R² 0.92–0.95) show that administrative and royal genres have a small high-reuse core vocabulary — behaving like a domain-specific language — while lexical lists sit near the natural-language value of s ≈ 1.0.
+
+**Status: withdrawn.** The cross-genre difference is an artifact of how many tokens each genre's stream contains.
+
+### What went wrong
+
+**1. A stream-length confound (fatal).** Zipf exponents estimated this way are strongly sample-size dependent, and these streams differ by ~60×: Literary 154,005 tokens, Royal 33,015, Administrative 32,493, Letter 18,664, Lexical **2,508**. Comparing raw exponents across them compares corpus sizes, not genres. Re-fitting every genre on equal-length blocks:
+
+| Genre | Stream length | s at native length | s at 2,508 tokens | sd |
+|---|---:|---:|---:|---:|
+| Administrative | 32,493 | 1.746 | **1.187** | 0.019 |
+| Literary | 154,005 | 1.680 | **1.187** | 0.045 |
+| Lexical | 2,508 | 1.114 | **1.114** | 0.000 |
+| Royal Inscription | 33,015 | 1.737 | **1.200** | 0.022 |
+| Letter | 18,664 | 1.607 | **1.210** | 0.015 |
+
+A native-length spread of 0.632 collapses to 0.096. Lexical looked like "natural language" only because its stream is the shortest and so had the least opportunity to accumulate a low-frequency tail. Verified under both contiguous-block and random-token subsampling, 25 draws each.
+
+**2. The estimator is unreliable.** `zipf_fit` is ordinary least squares on log-log rank-frequency data. That is a biased estimator of a power-law exponent, and the R² it produces is not a goodness-of-fit test — comparably high R² is routine for lognormal and exponential data (Clauset, Shalizi & Newman 2009, *SIAM Review* 51(4), 661–703). An MLE estimate on the same data disagrees with the OLS estimate in both magnitude and **rank order**, which is the diagnostic symptom.
+
+**3. Sensitivity to arbitrary preprocessing.** Hapax legomena are 34–59% of types depending on genre. Dropping them shifts exponents by up to 0.17 and reverses the direction of some genre comparisons — a result that flips on a preprocessing choice nobody documented is not a finding.
+
+### What is unaffected
+
+The §2 compression-redundancy comparison was tested for the *same* confound rather than assumed safe, and **survives**: at equal-length contiguous blocks the genre ranking is preserved (Royal > Administrative > Literary/Letter > Lexical) with magnitudes of the same order, and genres that swap rank do so within overlapping standard deviations. That control now runs as part of the pipeline. Note the control must use *contiguous* blocks — sampling scattered positions destroys the token adjacency zlib exploits and manufactures a collapse that is not there. An earlier version of this audit made exactly that mistake and had to be redone.
+
+### Doing this properly
+
+MLE fitting with a fitted `x_min`, a Kolmogorov–Smirnov goodness-of-fit statistic, and likelihood-ratio tests against lognormal alternatives — on length-matched samples. None of that is done here. The pipeline now reports the length control and an MLE exponent alongside the OLS fit so the discrepancy is visible rather than buried.
+
+---
+
+## 2026-07-31 — CORRECTED: tablet citations under the seal finding
+
+README implication #1 cited "Tablets P101440, P132611, P117793, P145759" in support of the sentence "25.4% of administrative tablets carry `kišib₃`". Only **P101440** is an administrative tablet containing `kišib₃`. The other three are **Letters** and contain no seal clause; they carry attribution by a different mechanism — the `u₃-na-a-du₁₁` address formula plus a closing scribe signature (`dub-sar`) and filiation (`dumu` PN). All four are genuine corpus tablets and all four are relevant to attribution, but they were cited under a claim three of them do not support. Now cited separately with the mechanism each one actually demonstrates.
+
+Verified: the "Concrete Example" decomposition of P101440 elsewhere in the README is accurate in every element — `la₂-ia₃`, `kišib₃ {d}šul-gi-i₃-li₂`, `iti ezem-me-ki-gal₂`, `mu us₂-sa ki-maš{ki} ba-hul`, `siki`, and `geme₂` are all present in the tablet as transcribed.
+
+---
+
+## 2026-07-31 — REVISED: probe frequencies restated with their over-catch
+
+`year_formula` uses the regex `\bmu\b`, which matches inside `mu-DU` (a delivery/credit term), `mu-ni` ("its name"), and verbal prefixes, because `-` is a regex word boundary. Of 551 matches in the Administrative sample, ~62% are plausibly year formulae and ~19% are clearly not. At the tablet level the effect is small — a stricter probe requiring `mu` followed by a year-name gives **70.6%** against the reported **74.2%** — because tablets carrying a spurious `mu-` usually carry a real year formula too. The README now states ~71% with both figures shown.
+
+A larger problem affects `king_title` (`\blugal\b`, reported at 48.6% of Administrative tablets), which is **not** measuring royal titles: 54% of its matches are `lugal-...` as an element of a *personal name*, and only ~12% are plausibly the title "king". That probe appears in `outputs/templates.json`; it is not among the README headline figures. It is flagged rather than silently repaired, because fixing it properly needs a name-vs-title disambiguation that regex cannot do.
+
+Spot-checked and confirmed exact: `seal_of_PN` 25.4% of Administrative, `speak_to_him` (`u₃-na-a-du₁₁`) 58.8% of Letters. Corpus totals confirmed exact: 91,606 tablets, 6,968,581 cuneiform glyphs, zero duplicate IDs, zero duplicate transliterations.
+
+---
+
 ## 2026-07-31 — WITHDRAWN: "`<RULING>` is a validated logical row separator"
 
 **Affected:** README artifact #4, README implication #2, `outputs/compression_findings.md` §4, and the Findings table row "`<RULING>` is a logical row separator (not visual)".
