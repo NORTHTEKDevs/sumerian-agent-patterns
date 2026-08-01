@@ -6,6 +6,17 @@
 
 **Code shapes:** pseudocode given in Python and Rust. Both are illustrative — adapt to your runtime's existing identity / storage / event primitives.
 
+> ⚠️ **CORRECTION NOTICE (2026-07-31).** This is a hand-authored design document written against
+> the repository's original findings. **Two of those findings were subsequently withdrawn** after a
+> self-audit — the RULING-parity result (wrong null hypothesis) and the Zipf-as-DSL result
+> (stream-length artifact) — and **5 of 10 regex probes were found to match a different lexeme than
+> their label claims.** Passages below that rest on the withdrawn results are marked inline. The
+> document is preserved rather than rewritten so the record of what was claimed stays visible.
+> **Read [`../CORRECTIONS.md`](../CORRECTIONS.md) and [`probe_validation.md`](probe_validation.md)
+> before relying on anything here.**
+
+
+
 ---
 
 ## 1. Reference Architecture
@@ -58,7 +69,16 @@ Three transverse subsystems span the agents:
 | Lexical | 1.38 | 0.48 | 0.29 | +0.507 | 0.031 |
 | Letter | 2.14 | 0.12 | 0.02 | n/a | n/a |
 
-The parity test shows that `<RULING>`-bounded chunks share trigrams with their neighbors at rates 30–500× the shuffled baseline. **`<RULING>` is provably a logical row separator, not a visual hint.**
+~~The parity test shows that `<RULING>`-bounded chunks share trigrams with their neighbors at rates 30–500× the shuffled baseline. **`<RULING>` is provably a logical row separator, not a visual hint.**~~
+
+> **WITHDRAWN (2026-07-31).** The 30–500× figure and the p-values in the table above came from a null
+> that shuffled all of a tablet's tokens, destroying the local coherence any natural-language text has.
+> Under a null that holds token order and chunk lengths fixed and permutes **only where the cuts fall**,
+> the effect disappears in every genre (p = 0.78 Admin, 0.91 Literary, 0.27 Lexical, 1.00 Royal), with
+> observed values *at or below* the null. **There is no statistical evidence that `<RULING>` marks content
+> boundaries.** The `<SURFACE>` / `<COLUMN>` / `<RULING>` marker-density columns in the table are simple
+> counts and remain valid; only the parity Δ and p columns are withdrawn. The three-tier memory design
+> below is therefore an **untested design proposal**, not a corpus finding. See `../CORRECTIONS.md`.
 
 ### Architecture: three-tier context window
 
@@ -277,7 +297,12 @@ Distinctive Administrative trigrams (Phase 1 log-odds):
 - `sila₃ kaš 2(diš)` (liter of beer, 2) — 63
 - `sila₃ ninda 5(diš)` (liter of bread, 5) — 63
 
-All have the structure `<qty>(<unit>) <commodity>` — the canonical typed transaction line. Phase 3 confirms this: Administrative has the second-highest structural-redundancy Δ (+0.088, second only to Royal Inscription at +0.099). It is a **DSL**, with reserved keywords.
+All have the structure `<qty>(<unit>) <commodity>` — the canonical typed transaction line. Administrative has the second-highest structural-redundancy Δ (+0.088, second only to Royal Inscription at +0.099), and that ranking does survive an equal-length control.
+
+> **Caveat (2026-07-31).** "It is a **DSL**, with reserved keywords" overstates what the statistic shows.
+> The compression Δ establishes only that the real token stream is more redundant than the same tokens in
+> random order. "DSL" is an analogy, not a result. The Zipf evidence originally cited for it has been
+> withdrawn as a stream-length artifact.
 
 ### Design
 
@@ -403,7 +428,13 @@ Filiation is append-only. Seals are revocable. Decrees supersede explicitly. Per
 
 ### 7.3 Templates as types
 
-Phase 3 shows administrative tablets have Zipf s = 1.75 — they are a typed DSL, not free text. Memory-layer encoders can compress template-heavy genres (admin, royal) at much higher ratios than narrative if they're given the schema. The Phase-1 templates are exactly that schema.
+~~Phase 3 shows administrative tablets have Zipf s = 1.75 — they are a typed DSL, not free text.~~ Memory-layer encoders can compress template-heavy genres (admin, royal) at higher ratios than narrative if they're given the schema. The Phase-1 templates are exactly that schema.
+
+> **WITHDRAWN (2026-07-31).** The s = 1.75 cross-genre comparison is a stream-length artifact: the genre
+> streams differ ~60× in length, and at equal length every genre falls in 1.11–1.21. The estimator (OLS on
+> log-log rank-frequency) is also biased, and its R² is not a goodness-of-fit test. The *compression*
+> ranking that motivates the encoder idea does survive a length control, so the design suggestion stands on
+> that basis — but not on Zipf. See `../CORRECTIONS.md`.
 
 ### 7.4 What does NOT translate
 

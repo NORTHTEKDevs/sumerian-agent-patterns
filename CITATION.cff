@@ -1,0 +1,58 @@
+cff-version: 1.2.0
+title: >-
+  Sumerian Agent Patterns: Empirical Mining of the SumTablets
+  Cuneiform Corpus for Multi-Agent Software Design Primitives
+message: >-
+  If you use this repository, please cite it along with the
+  underlying SumTablets corpus (see references below).
+type: software
+authors:
+  - given-names: Kristian
+    family-names: Baer
+    affiliation: Northtek
+    email: info@northtek.io
+repository-code: 'https://github.com/NORTHTEKDevs/sumerian-agent-patterns'
+version: 0.2.0
+date-released: '2026-07-31'
+abstract: >-
+  A reproducible pipeline that mines the SumTablets corpus
+  (91,606 transliterated Sumerian tablets) for recurring
+  bureaucratic patterns -- seal attribution, named time
+  periods, periodic reconciliation, witness clauses, addressed
+  message envelopes -- and maps them onto design primitives for
+  multi-agent AI systems. Reports per-genre Zipfian fits,
+  compression-based structural redundancy, an equidistant-letter-
+  sequence scan with permutation controls, and a measured
+  benchmark of a sealed-envelope write log against an anonymous
+  baseline. Version 0.2.0 documents the retraction of two statistical
+  findings (RULING-parity, withdrawn for an incorrect null hypothesis;
+  Zipf-as-DSL, withdrawn as a stream-length artifact) and a precision
+  audit finding five of ten regex probes unreliable. Anyone citing
+  this work should read CORRECTIONS.md, which records what was
+  withdrawn and the control that established it.
+keywords:
+  - multi-agent systems
+  - agent memory
+  - provenance
+  - audit logs
+  - cuneiform
+  - Sumerian
+  - digital humanities
+  - corpus linguistics
+license: CC-BY-4.0
+license-url: 'https://creativecommons.org/licenses/by/4.0/'
+references:
+  - type: conference-paper
+    title: 'SumTablets: A Transliteration Dataset of Sumerian Tablets'
+    authors:
+      - family-names: Simmons
+        given-names: Cole
+      - family-names: Diehl Martinez
+        given-names: Richard
+      - family-names: Jurafsky
+        given-names: Dan
+    year: 2024
+    collection-title: >-
+      Proceedings of the 1st Workshop on Machine Learning for
+      Ancient Languages (ML4AL), ACL 2024
+    url: 'https://aclanthology.org/2024.ml4al-1.20.pdf'

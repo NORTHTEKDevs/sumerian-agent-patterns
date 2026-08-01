@@ -1,4 +1,25 @@
 {
+  "_AUDIT": {
+    "notice": "PROBE PRECISION AUDIT (2026-07-31): several frequencies in this file are NOT citable.",
+    "read_first": "outputs/probe_validation.md",
+    "generated_by": "scripts/phase1b_probe_validation.py",
+    "do_not_cite": {
+      "god_dedication": "precision 6% - nam-lugal 'kingship' and nam-en 'lordship' are abstract nouns, not dedications",
+      "excess_diri": "precision 19% - diri before a month name marks an INTERCALARY MONTH, not a ledger surplus",
+      "year_formula": "precision 34% - '-' is a regex word boundary, so \\bmu\\b matches the verbal prefixes mu-na-/mu-un-/mu-ni-",
+      "witness_eye": "precision 41% - igi-ni/zu-se3 = 'before him/you' (pronominal); igi-nim = 'upper, north'",
+      "king_title": "precision 42% - mostly lugal- as a personal-name element; bare lugal in Ur III admin often means 'owner/master'"
+    },
+    "precision_validated": {
+      "received_by": "100% - fixed formula su ba-ti",
+      "speak_to_him": "100% - fixed formula u3-na-a-du11",
+      "total_audit": "100% precise, but only 2.2% of Administrative tablets - rare, not characteristic",
+      "seal_of_PN": "96% - kisib3-bi N ('its sealed tablets: N') is the only notable contaminant",
+      "son_of_PN": "95% - dumu-zi (Dumuzi) is the main contaminant"
+    },
+    "prevalence_warning": "Attested is not the same as characteristic. A probe can be 100% precise and still describe a rare practice: total_audit (šu-nigin₂) is precise but appears on only 2.2% of Administrative tablets. Check the prevalence table in probe_validation.md before calling any pattern typical.",
+    "withdrawn_claims": "See CORRECTIONS.md — the RULING-parity and Zipf-as-DSL findings were withdrawn."
+  },
   "meta": {
     "sample_size": 2069,
     "long_form_size": 197,
@@ -5874,7 +5895,9 @@
         "P109384",
         "P339293",
         "P121460"
-      ]
+      ],
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "96% - kisib3-bi N ('its sealed tablets: N') is the only notable contaminant"
     },
     {
       "genre": "Administrative",
@@ -5908,7 +5931,9 @@
         "P312651",
         "P010553",
         "P126804"
-      ]
+      ],
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 34% - '-' is a regex word boundary, so \\bmu\\b matches the verbal prefixes mu-na-/mu-un-/mu-ni-"
     },
     {
       "genre": "Administrative",
@@ -5942,7 +5967,9 @@
         "P121460",
         "P131461",
         "P320806"
-      ]
+      ],
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "100% - fixed formula su ba-ti"
     },
     {
       "genre": "Administrative",
@@ -5976,7 +6003,9 @@
         "P235570",
         "P291904",
         "P382284"
-      ]
+      ],
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 41% - igi-ni/zu-se3 = 'before him/you' (pronominal); igi-nim = 'upper, north'"
     },
     {
       "genre": "Administrative",
@@ -5993,7 +6022,9 @@
         "P213574",
         "P217207",
         "P324939"
-      ]
+      ],
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "100% precise, but only 2.2% of Administrative tablets - rare, not characteristic"
     },
     {
       "genre": "Administrative",
@@ -6027,7 +6058,9 @@
         "P133277",
         "P104729",
         "P209854"
-      ]
+      ],
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 19% - diri before a month name marks an INTERCALARY MONTH, not a ledger surplus"
     },
     {
       "genre": "Administrative",
@@ -6061,7 +6094,9 @@
         "P104323",
         "P109384",
         "P339293"
-      ]
+      ],
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "95% - dumu-zi (Dumuzi) is the main contaminant"
     },
     {
       "genre": "Administrative",
@@ -6146,7 +6181,9 @@
         "P298642",
         "P104323",
         "P125309"
-      ]
+      ],
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 42% - mostly lugal- as a personal-name element; bare lugal in Ur III admin often means 'owner/master'"
     },
     {
       "genre": "Administrative",
@@ -6177,7 +6214,9 @@
       "example_tablet_ids": [
         "P215195",
         "P215193"
-      ]
+      ],
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 6% - nam-lugal 'kingship' and nam-en 'lordship' are abstract nouns, not dedications"
     },
     {
       "genre": "Administrative",
@@ -6211,7 +6250,9 @@
         "P142198",
         "P145647",
         "P341912"
-      ]
+      ],
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "96% - kisib3-bi N ('its sealed tablets: N') is the only notable contaminant"
     },
     {
       "genre": "Letter",
@@ -6245,7 +6286,9 @@
         "P105398",
         "P129985",
         "P379695"
-      ]
+      ],
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 34% - '-' is a regex word boundary, so \\bmu\\b matches the verbal prefixes mu-na-/mu-un-/mu-ni-"
     },
     {
       "genre": "Letter",
@@ -6279,7 +6322,9 @@
         "P145585",
         "P129739",
         "P101755"
-      ]
+      ],
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "100% - fixed formula su ba-ti"
     },
     {
       "genre": "Letter",
@@ -6313,7 +6358,9 @@
         "P253760",
         "P145617",
         "P129983"
-      ]
+      ],
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 41% - igi-ni/zu-se3 = 'before him/you' (pronominal); igi-nim = 'upper, north'"
     },
     {
       "genre": "Letter",
@@ -6326,7 +6373,9 @@
       "matches_per_tablet": 0.0,
       "example_tablet_ids": [
         "P391107"
-      ]
+      ],
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "100% precise, but only 2.2% of Administrative tablets - rare, not characteristic"
     },
     {
       "genre": "Letter",
@@ -6357,7 +6406,9 @@
       "example_tablet_ids": [
         "P312684",
         "P111576"
-      ]
+      ],
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 19% - diri before a month name marks an INTERCALARY MONTH, not a ledger surplus"
     },
     {
       "genre": "Letter",
@@ -6391,7 +6442,9 @@
         "P145711",
         "P450152",
         "P145650"
-      ]
+      ],
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "95% - dumu-zi (Dumuzi) is the main contaminant"
     },
     {
       "genre": "Letter",
@@ -6476,7 +6529,9 @@
         "P450152",
         "P145754",
         "P209278"
-      ]
+      ],
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 42% - mostly lugal- as a personal-name element; bare lugal in Ur III admin often means 'owner/master'"
     },
     {
       "genre": "Letter",
@@ -6510,7 +6565,9 @@
         "P105398",
         "P145725",
         "P108048"
-      ]
+      ],
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "100% - fixed formula u3-na-a-du11"
     },
     {
       "genre": "Letter",
@@ -6523,7 +6580,9 @@
       "matches_per_tablet": 0.0,
       "example_tablet_ids": [
         "P517304"
-      ]
+      ],
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 6% - nam-lugal 'kingship' and nam-en 'lordship' are abstract nouns, not dedications"
     },
     {
       "genre": "Letter",
@@ -6553,7 +6612,9 @@
       "matches_per_tablet": 0.03,
       "example_tablet_ids": [
         "P010604"
-      ]
+      ],
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "96% - kisib3-bi N ('its sealed tablets: N') is the only notable contaminant"
     },
     {
       "genre": "Lexical",
@@ -6570,7 +6631,9 @@
         "P329601",
         "P410826",
         "P411793"
-      ]
+      ],
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 34% - '-' is a regex word boundary, so \\bmu\\b matches the verbal prefixes mu-na-/mu-un-/mu-ni-"
     },
     {
       "genre": "Lexical",
@@ -6615,7 +6678,9 @@
         "P010604",
         "P347132",
         "P010607"
-      ]
+      ],
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "95% - dumu-zi (Dumuzi) is the main contaminant"
     },
     {
       "genre": "Lexical",
@@ -6691,7 +6756,9 @@
         "P427606",
         "P346832",
         "P409894"
-      ]
+      ],
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 42% - mostly lugal- as a personal-name element; bare lugal in Ur III admin often means 'owner/master'"
     },
     {
       "genre": "Lexical",
@@ -6725,7 +6792,9 @@
         "Q000386",
         "Q000484",
         "Q000782"
-      ]
+      ],
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "96% - kisib3-bi N ('its sealed tablets: N') is the only notable contaminant"
     },
     {
       "genre": "Literary",
@@ -6759,7 +6828,9 @@
         "P306703",
         "P346507",
         "P346555"
-      ]
+      ],
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 34% - '-' is a regex word boundary, so \\bmu\\b matches the verbal prefixes mu-na-/mu-un-/mu-ni-"
     },
     {
       "genre": "Literary",
@@ -6791,7 +6862,9 @@
         "P235699",
         "P122404",
         "P102827"
-      ]
+      ],
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "100% - fixed formula su ba-ti"
     },
     {
       "genre": "Literary",
@@ -6825,7 +6898,9 @@
         "Q000684",
         "Q000375",
         "P346154"
-      ]
+      ],
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 41% - igi-ni/zu-se3 = 'before him/you' (pronominal); igi-nim = 'upper, north'"
     },
     {
       "genre": "Literary",
@@ -6842,7 +6917,9 @@
         "P275052",
         "P256177",
         "P339898"
-      ]
+      ],
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "100% precise, but only 2.2% of Administrative tablets - rare, not characteristic"
     },
     {
       "genre": "Literary",
@@ -6873,7 +6950,9 @@
         "P309438",
         "P346649",
         "P346246"
-      ]
+      ],
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 19% - diri before a month name marks an INTERCALARY MONTH, not a ledger surplus"
     },
     {
       "genre": "Literary",
@@ -6905,7 +6984,9 @@
         "P345805",
         "P343047",
         "P223427"
-      ]
+      ],
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "95% - dumu-zi (Dumuzi) is the main contaminant"
     },
     {
       "genre": "Literary",
@@ -6988,7 +7069,9 @@
         "P201186",
         "P343047",
         "P223427"
-      ]
+      ],
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 42% - mostly lugal- as a personal-name element; bare lugal in Ur III admin often means 'owner/master'"
     },
     {
       "genre": "Literary",
@@ -7036,7 +7119,9 @@
         "Q000721",
         "Q000751",
         "Q000400"
-      ]
+      ],
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 6% - nam-lugal 'kingship' and nam-en 'lordship' are abstract nouns, not dedications"
     },
     {
       "genre": "Literary",
@@ -7070,7 +7155,9 @@
         "P119663",
         "P129220",
         "P128582"
-      ]
+      ],
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "96% - kisib3-bi N ('its sealed tablets: N') is the only notable contaminant"
     },
     {
       "genre": "Royal Inscription",
@@ -7104,7 +7191,9 @@
         "P105240",
         "Q001618",
         "Q001986"
-      ]
+      ],
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 34% - '-' is a regex word boundary, so \\bmu\\b matches the verbal prefixes mu-na-/mu-un-/mu-ni-"
     },
     {
       "genre": "Royal Inscription",
@@ -7138,7 +7227,9 @@
         "P125814",
         "P320492",
         "P113744"
-      ]
+      ],
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "100% - fixed formula su ba-ti"
     },
     {
       "genre": "Royal Inscription",
@@ -7172,7 +7263,9 @@
         "Q000842",
         "Q001397",
         "Q001713"
-      ]
+      ],
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 41% - igi-ni/zu-se3 = 'before him/you' (pronominal); igi-nim = 'upper, north'"
     },
     {
       "genre": "Royal Inscription",
@@ -7185,7 +7278,9 @@
       "matches_per_tablet": 0.0,
       "example_tablet_ids": [
         "P112011"
-      ]
+      ],
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "100% precise, but only 2.2% of Administrative tablets - rare, not characteristic"
     },
     {
       "genre": "Royal Inscription",
@@ -7218,7 +7313,9 @@
         "Q002125",
         "P106063",
         "P201200"
-      ]
+      ],
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 19% - diri before a month name marks an INTERCALARY MONTH, not a ledger surplus"
     },
     {
       "genre": "Royal Inscription",
@@ -7252,7 +7349,9 @@
         "P512123",
         "P104417",
         "P121639"
-      ]
+      ],
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "95% - dumu-zi (Dumuzi) is the main contaminant"
     },
     {
       "genre": "Royal Inscription",
@@ -7337,7 +7436,9 @@
         "Q004439",
         "P105240",
         "Q004962"
-      ]
+      ],
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 42% - mostly lugal- as a personal-name element; bare lugal in Ur III admin often means 'owner/master'"
     },
     {
       "genre": "Royal Inscription",
@@ -7388,7 +7489,9 @@
         "Q002222",
         "Q002125",
         "Q006340"
-      ]
+      ],
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 6% - nam-lugal 'kingship' and nam-en 'lordship' are abstract nouns, not dedications"
     },
     {
       "genre": "Royal Inscription",
@@ -7424,7 +7527,9 @@
         "P339293",
         "P121460"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "96% - kisib3-bi N ('its sealed tablets: N') is the only notable contaminant"
     },
     {
       "genre": "Administrative",
@@ -7458,7 +7563,9 @@
         "P010553",
         "P126804"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 34% - '-' is a regex word boundary, so \\bmu\\b matches the verbal prefixes mu-na-/mu-un-/mu-ni-"
     },
     {
       "genre": "Administrative",
@@ -7492,7 +7599,9 @@
         "P131461",
         "P320806"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "100% - fixed formula su ba-ti"
     },
     {
       "genre": "Administrative",
@@ -7526,7 +7635,9 @@
         "P291904",
         "P382284"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 41% - igi-ni/zu-se3 = 'before him/you' (pronominal); igi-nim = 'upper, north'"
     },
     {
       "genre": "Administrative",
@@ -7543,7 +7654,9 @@
         "P217207",
         "P324939"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "100% precise, but only 2.2% of Administrative tablets - rare, not characteristic"
     },
     {
       "genre": "Administrative",
@@ -7577,7 +7690,9 @@
         "P104729",
         "P209854"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 19% - diri before a month name marks an INTERCALARY MONTH, not a ledger surplus"
     },
     {
       "genre": "Administrative",
@@ -7611,7 +7726,9 @@
         "P109384",
         "P339293"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "95% - dumu-zi (Dumuzi) is the main contaminant"
     },
     {
       "genre": "Administrative",
@@ -7696,7 +7813,9 @@
         "P104323",
         "P125309"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 42% - mostly lugal- as a personal-name element; bare lugal in Ur III admin often means 'owner/master'"
     },
     {
       "genre": "Administrative",
@@ -7727,7 +7846,9 @@
         "P215195",
         "P215193"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 6% - nam-lugal 'kingship' and nam-en 'lordship' are abstract nouns, not dedications"
     },
     {
       "genre": "Administrative",
@@ -7761,7 +7882,9 @@
         "P145647",
         "P341912"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "96% - kisib3-bi N ('its sealed tablets: N') is the only notable contaminant"
     },
     {
       "genre": "Letter",
@@ -7795,7 +7918,9 @@
         "P129985",
         "P379695"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 34% - '-' is a regex word boundary, so \\bmu\\b matches the verbal prefixes mu-na-/mu-un-/mu-ni-"
     },
     {
       "genre": "Letter",
@@ -7829,7 +7954,9 @@
         "P129739",
         "P101755"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "100% - fixed formula su ba-ti"
     },
     {
       "genre": "Letter",
@@ -7863,7 +7990,9 @@
         "P145617",
         "P129983"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 41% - igi-ni/zu-se3 = 'before him/you' (pronominal); igi-nim = 'upper, north'"
     },
     {
       "genre": "Letter",
@@ -7876,7 +8005,9 @@
       "example_tablet_ids": [
         "P391107"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "100% precise, but only 2.2% of Administrative tablets - rare, not characteristic"
     },
     {
       "genre": "Letter",
@@ -7907,7 +8038,9 @@
         "P312684",
         "P111576"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 19% - diri before a month name marks an INTERCALARY MONTH, not a ledger surplus"
     },
     {
       "genre": "Letter",
@@ -7941,7 +8074,9 @@
         "P450152",
         "P145650"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "95% - dumu-zi (Dumuzi) is the main contaminant"
     },
     {
       "genre": "Letter",
@@ -8026,7 +8161,9 @@
         "P145754",
         "P209278"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 42% - mostly lugal- as a personal-name element; bare lugal in Ur III admin often means 'owner/master'"
     },
     {
       "genre": "Letter",
@@ -8060,7 +8197,9 @@
         "P145725",
         "P108048"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "100% - fixed formula u3-na-a-du11"
     },
     {
       "genre": "Letter",
@@ -8073,7 +8212,9 @@
       "example_tablet_ids": [
         "P517304"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 6% - nam-lugal 'kingship' and nam-en 'lordship' are abstract nouns, not dedications"
     },
     {
       "genre": "Letter",
@@ -8103,7 +8244,9 @@
       "example_tablet_ids": [
         "P010604"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "96% - kisib3-bi N ('its sealed tablets: N') is the only notable contaminant"
     },
     {
       "genre": "Lexical",
@@ -8120,7 +8263,9 @@
         "P410826",
         "P411793"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 34% - '-' is a regex word boundary, so \\bmu\\b matches the verbal prefixes mu-na-/mu-un-/mu-ni-"
     },
     {
       "genre": "Lexical",
@@ -8165,7 +8310,9 @@
         "P347132",
         "P010607"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "95% - dumu-zi (Dumuzi) is the main contaminant"
     },
     {
       "genre": "Lexical",
@@ -8241,7 +8388,9 @@
         "P346832",
         "P409894"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 42% - mostly lugal- as a personal-name element; bare lugal in Ur III admin often means 'owner/master'"
     },
     {
       "genre": "Lexical",
@@ -8275,7 +8424,9 @@
         "Q000484",
         "Q000782"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "96% - kisib3-bi N ('its sealed tablets: N') is the only notable contaminant"
     },
     {
       "genre": "Literary",
@@ -8309,7 +8460,9 @@
         "P346507",
         "P346555"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 34% - '-' is a regex word boundary, so \\bmu\\b matches the verbal prefixes mu-na-/mu-un-/mu-ni-"
     },
     {
       "genre": "Literary",
@@ -8341,7 +8494,9 @@
         "P122404",
         "P102827"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "100% - fixed formula su ba-ti"
     },
     {
       "genre": "Literary",
@@ -8375,7 +8530,9 @@
         "Q000375",
         "P346154"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 41% - igi-ni/zu-se3 = 'before him/you' (pronominal); igi-nim = 'upper, north'"
     },
     {
       "genre": "Literary",
@@ -8392,7 +8549,9 @@
         "P256177",
         "P339898"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "100% precise, but only 2.2% of Administrative tablets - rare, not characteristic"
     },
     {
       "genre": "Literary",
@@ -8423,7 +8582,9 @@
         "P346649",
         "P346246"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 19% - diri before a month name marks an INTERCALARY MONTH, not a ledger surplus"
     },
     {
       "genre": "Literary",
@@ -8455,7 +8616,9 @@
         "P343047",
         "P223427"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "95% - dumu-zi (Dumuzi) is the main contaminant"
     },
     {
       "genre": "Literary",
@@ -8538,7 +8701,9 @@
         "P343047",
         "P223427"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 42% - mostly lugal- as a personal-name element; bare lugal in Ur III admin often means 'owner/master'"
     },
     {
       "genre": "Literary",
@@ -8586,7 +8751,9 @@
         "Q000751",
         "Q000400"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 6% - nam-lugal 'kingship' and nam-en 'lordship' are abstract nouns, not dedications"
     },
     {
       "genre": "Literary",
@@ -8620,7 +8787,9 @@
         "P129220",
         "P128582"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "96% - kisib3-bi N ('its sealed tablets: N') is the only notable contaminant"
     },
     {
       "genre": "Royal Inscription",
@@ -8654,7 +8823,9 @@
         "Q001618",
         "Q001986"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 34% - '-' is a regex word boundary, so \\bmu\\b matches the verbal prefixes mu-na-/mu-un-/mu-ni-"
     },
     {
       "genre": "Royal Inscription",
@@ -8688,7 +8859,9 @@
         "P320492",
         "P113744"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "100% - fixed formula su ba-ti"
     },
     {
       "genre": "Royal Inscription",
@@ -8722,7 +8895,9 @@
         "Q001397",
         "Q001713"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 41% - igi-ni/zu-se3 = 'before him/you' (pronominal); igi-nim = 'upper, north'"
     },
     {
       "genre": "Royal Inscription",
@@ -8735,7 +8910,9 @@
       "example_tablet_ids": [
         "P112011"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "100% precise, but only 2.2% of Administrative tablets - rare, not characteristic"
     },
     {
       "genre": "Royal Inscription",
@@ -8768,7 +8945,9 @@
         "P106063",
         "P201200"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 19% - diri before a month name marks an INTERCALARY MONTH, not a ledger surplus"
     },
     {
       "genre": "Royal Inscription",
@@ -8802,7 +8981,9 @@
         "P104417",
         "P121639"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "PRECISION_VALIDATED",
+      "_audit_note": "95% - dumu-zi (Dumuzi) is the main contaminant"
     },
     {
       "genre": "Royal Inscription",
@@ -8887,7 +9068,9 @@
         "P105240",
         "Q004962"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 42% - mostly lugal- as a personal-name element; bare lugal in Ur III admin often means 'owner/master'"
     },
     {
       "genre": "Royal Inscription",
@@ -8938,7 +9121,9 @@
         "Q002125",
         "Q006340"
       ],
-      "source": "regex_probe"
+      "source": "regex_probe",
+      "_audit_verdict": "DO_NOT_CITE",
+      "_audit_note": "precision 6% - nam-lugal 'kingship' and nam-en 'lordship' are abstract nouns, not dedications"
     },
     {
       "genre": "Royal Inscription",
