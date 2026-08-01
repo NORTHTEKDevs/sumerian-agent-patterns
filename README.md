@@ -2,7 +2,9 @@
 
 **Empirical mining of the SumTablets cuneiform corpus (91,606 tablets, 6.97M glyphs) for software-design primitives applicable to modern multi-agent AI systems.**
 
-> **Read [CORRECTIONS.md](CORRECTIONS.md) first.** A self-audit on 2026-07-31 withdrew two headline statistical findings — RULING-parity (wrong null hypothesis) and Zipf-as-DSL (stream-length artifact) — and a probe-precision audit found that **5 of 10 audited regex probes match a different lexeme than their label claims** and must not be cited. What survives: the compression-redundancy contrast (verified against a length control), the ELS null result, four precision-validated probe frequencies, and the engineering benchmark. Every claim is tagged with its evidence strength, and every correction is reproducible from the pipeline rather than asserted — see [`outputs/probe_validation.md`](outputs/probe_validation.md).
+> **Start with [FINDINGS.md](FINDINGS.md)** — every claim this repo makes, ranked by strength, with the evidence and the limits of each. Then [CORRECTIONS.md](CORRECTIONS.md) for what was withdrawn and why.
+
+> **Read [CORRECTIONS.md](CORRECTIONS.md) for the full retraction record.** A self-audit on 2026-07-31 withdrew two headline statistical findings — RULING-parity (wrong null hypothesis) and Zipf-as-DSL (stream-length artifact) — and a probe-precision audit found that **5 of 10 audited regex probes match a different lexeme than their label claims** and must not be cited. What survives: the compression-redundancy contrast (verified against a length control), the ELS null result, four precision-validated probe frequencies, and the engineering benchmark. Every claim is tagged with its evidence strength, and every correction is reproducible from the pipeline rather than asserted — see [`outputs/probe_validation.md`](outputs/probe_validation.md).
 
 > Sumerian scribes ran a large administrative bureaucracy 4,000 years ago. Their clay tablets carry seal attributions, named time periods, sum-totals, and letter address formulae — recognisable ancestors of primitives modern agent systems are reinventing. This repo mines that corpus for those patterns, reports each with a measured precision and prevalence, and translates them into agent-framework code shapes. **Two statistical findings and five regex probes did not survive audit and are documented as withdrawn.** What carries weight: four precision-validated frequencies, one genre contrast verified against a length control, one null result, and an engineering benchmark.
 
@@ -22,8 +24,8 @@ Of the ~158 ideas in `outputs/FULL_IDEAS.md`, the following **9 first-class arti
 |---|---|---|---|
 | 1 | **Empirical method** — a reproducible corpus-mining pipeline with permutation nulls and Bonferroni correction, including the null-choice failure it caught in its own output | `scripts/phase{0,1,3}_*.py` | A pipeline you can re-run on any corpus to extract templates + structure, and a worked lesson in picking the null |
 | 2 | **9 named agent primitives** with cited tablet IDs and contracts | `outputs/primitives.json` | Single-responsibility agent designs grounded in real attestations (P/Q tablet IDs) |
-| 3 | **Zipf-as-DSL detector — WITHDRAWN** (2026-07-31, see [CORRECTIONS.md](CORRECTIONS.md)) | `outputs/compression_findings.md` §1 | The genre difference was a stream-length artifact; §1 now documents the length control that killed it |
-| 4 | **RULING-parity — NULL result** (claim withdrawn 2026-07-31, see [CORRECTIONS.md](CORRECTIONS.md)) | `outputs/compression_findings.md` §4 | A worked example of how the choice of null hypothesis manufactures a finding — and how it was caught |
+| 3 | **Power-law analysis done properly** (Zipf-as-DSL withdrawn; replaced by a correct fit) | [`outputs/phase5_powerlaw.md`](outputs/phase5_powerlaw.md) | Clauset–Shalizi–Newman MLE + KS + Vuong: α ≈ 1.74–1.98 at equal length, power law ruled out for Lexical, indistinguishable from lognormal everywhere |
+| 4 | **RULING boundaries — full-corpus result** (original claim withdrawn; effect re-established in the *opposite* direction) | [`outputs/phase4_ruling_fullcorpus.md`](outputs/phase4_ruling_fullcorpus.md) | 2,095 adjacent pairs, 10,000 permutations, two nulls: adjacent ruling-delimited chunks share **fewer** trigrams than alternative cuts (Δ=−0.33, BH p=0.0006) |
 | 5 | **ELS-null result** — 3 nominal hits at p<0.01 across 495 tests, against ~5 expected by chance | `outputs/compression_findings.md` §3 | Defensive prior art against future numerology / "hidden code" claims on cuneiform |
 | 6 | **Reference architecture** — composes the primitives into a multi-agent design with Python + Rust pseudocode | `outputs/reference_architecture.md` | Drop-in design doc you can adapt to any agent runtime |
 | 7 | **Quantitative benchmark** — sealed envelope vs anonymous baseline, measured | `benchmarks/RESULTS.md` | Hard numbers (+59% bytes, +37 tokens, +7µs per write) and a 5/5-vs-0/5 capability comparison |
@@ -41,14 +43,16 @@ Every substantive claim in this repo, and exactly how much weight it can bear. R
 | Claim | Evidence type | Strength | Notes |
 |---|---|---|---|
 | `kišib₃` (seal) on 25.4% of Administrative tablets; year-names on 70.2%; `u₃-na-a-du₁₁` in 58.8% of Letters; `šu ba-ti` on 15.2% | Regex counts over a 2,069-tablet sample, **precision-audited** | **Solid** — descriptive | These four probes validate at 96–100% precision ([`probe_validation.md`](outputs/probe_validation.md)). Other probes in `templates.json` do **not** — see the row below. |
-| ~~Administrative and Royal are more formulaic than Lexical (Zipf s 1.75 / 1.74 vs 1.11)~~ | OLS fit on log-log rank-frequency | **WITHDRAWN** | A stream-length artifact: at equal length every genre falls in 1.11–1.21. The estimator is also biased, and its R² is not a goodness-of-fit test. See [CORRECTIONS.md](CORRECTIONS.md). |
+| Token-frequency distributions are heavy-tailed, α ≈ 1.74–1.98; power law ruled out for Lexical only; indistinguishable from lognormal everywhere | Clauset–Shalizi–Newman: KS-fitted x_min, discrete MLE, parametric-bootstrap GoF, Vuong test | **Moderate** — descriptive | The honest ceiling for this question. **No genre should be called power-law distributed.** [`phase5`](outputs/phase5_powerlaw.md) |
+| ~~Administrative and Royal are more formulaic than Lexical (Zipf s 1.75 / 1.74 vs 1.11)~~ | OLS fit on log-log rank-frequency | **WITHDRAWN** | Stream-length artifact; at equal length under a correct estimator the spread collapses from 0.632 to 0.247. See [CORRECTIONS.md](CORRECTIONS.md). |
 | Genres differ in structural redundancy; Royal Inscription and Administrative rank highest, Lexical lowest (Δ +0.05 to +0.10) | zlib ratio, real vs token-shuffled, **verified against an equal-length control** | **Moderate–solid** — descriptive | The strongest surviving positive statistic here. The token-shuffle baseline is legitimate for this particular claim, which is only "more structured than random token order". Unlike Zipf, the genre ranking survives equal-length contiguous blocks. Still not a test of any specific structural hypothesis. |
 | No hidden periodic encoding in the corpus | ELS scan, 99 skips × 5 genres × 1,000 permutations | **Moderate** — null result | 3 nominal hits (p<0.01) vs ~5 expected by chance. **Underpowered for the Bonferroni threshold it originally claimed** — see §3 resolution caveat. Reads as "no signal above chance", not as a proof of absence. |
 | Sealed envelopes answer 5/5 audit queries; anonymous logs 0/5, at +59% bytes / +37 tokens / +7µs per write | Executed benchmark, 100k writes | **Solid** — engineering measurement | Not a statistical claim. The 0/5 is definitional (an anonymous log lacks the fields), so it demonstrates a design consequence, not a discovery. Latencies are hardware-dependent. |
-| ~~`<RULING>` marks logical row boundaries~~ | Permutation test | **WITHDRAWN** | Artifact of the wrong null. See [CORRECTIONS.md](CORRECTIONS.md). |
+| `<RULING>` marks fall where cross-boundary trigram overlap is **lower** (Administrative, Δ=−0.33) | Full-corpus permutation test, 2,095 pairs, 10,000 perms, 2 independent nulls, BH-corrected | **Strong** — inferential | BH-adjusted two-sided p=0.0006; both nulls agree on direction; degeneracy affects 1.2% of tablets and biases against detection. Mechanism NOT established. [`phase4`](outputs/phase4_ruling_fullcorpus.md) |
+| ~~`<RULING>` chunks share MORE trigrams than baseline (the original claim)~~ | Permutation test vs token-shuffle null | **WITHDRAWN** | Wrong null, and the corrected test finds the opposite sign. See [CORRECTIONS.md](CORRECTIONS.md). |
 | Frequencies for `king_title`, `year_formula` (loose), `witness_eye`, `god_dedication`, `excess_diri` in `templates.json` | Regex counts | **DO NOT CITE** | Precision 6–42%. These probes match a different lexeme than their label claims (`nam-lugal` = "kingship" not a dedication; `igi-zu-še₃` = "before you" not a witness; `lugal-` mostly a personal-name element). Quantified in [`probe_validation.md`](outputs/probe_validation.md). |
 | The 9 named agent primitives | Hand-authored mapping from templates | **Design proposal** | Grounded in cited tablet IDs, but the mapping from a Sumerian formula to an agent contract is an argument, not a measurement. `primitives.json` tags each as `validated` or `speculative` — that flag refers to whether the *pattern* was observed, never to whether the agent design works. |
-| Three-tier SURFACE → COLUMN → RULING memory | — | **Untested proposal** | Its empirical support was the withdrawn claim above. |
+| Three-tier SURFACE → COLUMN → RULING memory | — | **Untested proposal, now with indirect support** | The withdrawn claim is not its basis. The full-corpus result (row 1) is consistent with ruling-aligned chunking being meaningful, but no agent system was built or evaluated here. |
 | The reference architecture, `FULL_IDEAS.md`, `summary.md` | Hand-authored | **Ideation** | No evidence claimed. Not generated by any script. |
 
 **The honest summary:** this repo's defensible contributions are (a) a reproducible corpus-mining pipeline, (b) descriptive statistics on genre formulaicity, (c) a null result on hidden encodings, (d) an engineering benchmark for provenance-carrying write logs, and (e) a documented worked example of a null-hypothesis error and its correction. The mapping from cuneiform to agent design is an argument offered for its generative value, not a validated result — and the one place that mapping was given inferential backing, the backing did not survive audit.
@@ -225,6 +229,8 @@ Full statistics with shuffled-baseline controls in `outputs/compression_findings
 │   ├── phase0_sample.py               loads SumTablets, builds stratified samples
 │   ├── phase1_templates.py            extracts genre templates and probe hits
 │   ├── phase1b_probe_validation.py    precision-audits those probes (which ones are citable)
+│   ├── phase4_ruling_fullcorpus.py    the RULING question, full corpus, 2 nulls, 10k permutations
+│   ├── phase5_powerlaw.py             power-law fits by the Clauset-Shalizi-Newman method
 │   ├── check_integrity.py             pre-publish gate: links, correction notices, audit stamps
 │   └── phase3_compression.py          Zipf, compression, ELS, RULING-parity analysis
 ├── benchmarks/
@@ -234,6 +240,8 @@ Full statistics with shuffled-baseline controls in `outputs/compression_findings
 │   ├── results.json                   raw measurement output
 │   └── RESULTS.md                     report with measured numbers and caveats
 └── outputs/
+    ├── phase4_ruling_fullcorpus.md    full-corpus RULING result (the strongest finding here)
+    ├── phase5_powerlaw.md             power-law analysis, done by the standard method
     ├── probe_validation.md            per-probe precision + prevalence -- READ BEFORE CITING
     ├── probe_validation.json          machine-readable probe audit
     ├── templates.json                 229 templates × {genre, pattern, role, frequency, tablet IDs}
@@ -261,6 +269,8 @@ python scripts/phase0_sample.py            # ~2 min  downloads SumTablets, cache
 python scripts/phase1_templates.py         # ~10 s   writes outputs/templates.json
 python scripts/phase1b_probe_validation.py # ~5 s    writes outputs/probe_validation.md  <- READ THIS
 python scripts/phase3_compression.py       # ~5 min  writes outputs/compression_findings.md + phase3_raw.json
+python scripts/phase4_ruling_fullcorpus.py # ~20 min full-corpus RULING test (10,000 permutations)
+python scripts/phase5_powerlaw.py          # ~2 min  Clauset-Shalizi-Newman power-law fits
 python scripts/check_integrity.py          # ~1 s    links resolve, corrections present, audit stamps intact
 ```
 
@@ -321,9 +331,10 @@ What you should see in the console along the way — these are the load-bearing 
 
 If you are evaluating this repo rather than using it, read in this order:
 
-1. **[CORRECTIONS.md](CORRECTIONS.md)** — everything that has been retracted, with the control that killed it. Two statistical findings and five regex probes.
-2. **[outputs/probe_validation.md](outputs/probe_validation.md)** — which frequencies are citable (precision + per-genre prevalence).
-3. **[REVIEWERS.md](REVIEWERS.md)** — where I think this is still weakest, and the specific questions I cannot answer myself.
+1. **[FINDINGS.md](FINDINGS.md)** — every claim, ranked by strength, with what each does and does not establish.
+2. **[CORRECTIONS.md](CORRECTIONS.md)** — everything retracted, with the control that killed it. Two statistical findings and five regex probes.
+3. **[outputs/probe_validation.md](outputs/probe_validation.md)** — which frequencies are citable (precision + per-genre prevalence).
+4. **[REVIEWERS.md](REVIEWERS.md)** — where I think this is still weakest, and the specific questions I cannot answer myself.
 
 The hand-authored design documents (`outputs/reference_architecture.md`, `outputs/summary.md`, `outputs/FULL_IDEAS.md`) were written against the original findings. They are **preserved rather than rewritten**, with inline correction notices at each retracted passage, so the record of what was claimed stays visible. `scripts/check_integrity.py` enforces that coupling — a retracted claim cannot sit in this repo without its correction beside it.
 

@@ -6,6 +6,46 @@ Nothing is removed from the record. Superseded claims stay visible with the reas
 
 ---
 
+## 2026-08-01 — RESOLVED: the RULING question, answered at full corpus scale
+
+The RULING claim was withdrawn on 2026-07-31 (below) for using an invalid null, and the corrected test returned a null result — but on only 10–17 adjacent chunk pairs per genre, which cannot settle the question in either direction. **A withdrawal on an underpowered test is not an answer, so the question was reopened and tested properly.**
+
+`scripts/phase4_ruling_fullcorpus.py` runs it on the full corpus rather than a 500-per-genre sample: 2,095 adjacent pairs for Administrative instead of 17 (a 123× increase), 10,000 permutations, two independent nulls, bootstrap CIs, and Benjamini–Hochberg correction across genres.
+
+**Result: there is a significant effect, and it runs in the opposite direction to the original claim.**
+
+| Genre | Pairs | Observed | Null A (length permute) | Δ | BH p (2-sided) |
+|---|---:|---:|---:|---:|---:|
+| Administrative | 2,095 | 1.1881 | 1.5165 | **−0.328** | **0.0006** |
+| Literary | 248 | 1.1694 | 1.4251 | −0.256 | 0.278 |
+| Royal Inscription | 64 | 1.2812 | 1.5235 | −0.242 | 0.565 |
+
+Adjacent ruling-delimited chunks share **fewer** trigrams than the same text cut elsewhere with an identical chunk-length profile. All three genres show the same direction and comparable effect sizes; only Administrative has the power to establish it. The independent uniform-cuts null agrees on direction in every case.
+
+**Why this is not a reinstatement of the original claim.** The original asserted that ruling-bounded chunks share *more* material, and inferred a logical row boundary from that. The sign is wrong, the mechanism is different, and the original analysis remains withdrawn. The new result is consistent with `<RULING>` being a genuine content boundary by the *reverse* mechanism — an arbitrary cut tends to fall within a record, leaving related material on both sides, whereas a real ruling falls between records. Arriving at a defensible conclusion the original analysis was reaching for does not retroactively make that analysis correct.
+
+**What it does not establish.** The mechanism. This shows *that* aligned cuts lower cross-boundary overlap, not *why*; the record-boundary reading is a hypothesis consistent with the data, and testing it directly would need record-level annotation the corpus does not carry. The effect is modest (~22% reduction against a mean of 1.19). Full threats-to-validity list in [`outputs/phase4_ruling_fullcorpus.md`](outputs/phase4_ruling_fullcorpus.md), including that `<RULING>` reflects modern editorial judgement as much as scribal practice.
+
+---
+
+## 2026-08-01 — REPLACED: the Zipf claim, refitted by the standard method
+
+The Zipf-as-DSL claim was withdrawn (below) as a stream-length artifact produced by a biased estimator. `scripts/phase5_powerlaw.py` now answers the underlying question the way Clauset, Shalizi & Newman (2009) prescribe: x_min chosen by KS minimisation, α by discrete MLE, goodness of fit by parametric bootstrap, and a Vuong likelihood-ratio test against a lognormal alternative — all at a common stream length.
+
+| Genre | α (MLE) | x_min | GoF p | Power law ruled out? | Vuong p |
+|---|---:|---:|---:|:---:|---:|
+| Administrative | 1.983 | 3 | 0.136 | no | 0.505 |
+| Literary | 1.923 | 2 | 0.149 | no | 0.456 |
+| Lexical | 1.736 | 2 | 0.003 | **YES** | 0.964 |
+| Royal Inscription | 1.867 | 3 | 0.104 | no | 0.524 |
+| Letter | 1.851 | 3 | 0.245 | no | 0.178 |
+
+Three conclusions. **(1)** The original spread was an artifact: 1.114–1.746 by OLS at native lengths becomes 1.736–1.983 by MLE at equal length — a band 0.247 wide instead of 0.632. **(2)** A power law is ruled out for Lexical and not ruled out elsewhere. **(3)** Vuong's test cannot distinguish a power law from a lognormal for *any* genre, so **no genre here should be described as power-law distributed.** The defensible statement is that these distributions are heavy-tailed with α ≈ 1.7–2.0 and this method cannot identify the family.
+
+Note that in the goodness-of-fit column a *large* p means the power law is not ruled out — the opposite of the usual convention, and a common source of error when citing power-law fits.
+
+---
+
 ## 2026-07-31 — PROBE AUDIT: 5 of 10 audited probes must not be cited; two implications restated
 
 A precision audit of the Phase 1 regex probes now runs as part of the pipeline (`scripts/phase1b_probe_validation.py` → [`outputs/probe_validation.md`](outputs/probe_validation.md)). Phase 1 only ever measured how often a probe *matched*; it never asked whether the matches meant what the probe's label claimed. They frequently do not.

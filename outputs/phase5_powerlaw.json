@@ -1,0 +1,76 @@
+{
+  "config": {
+    "gof_bootstrap": 500,
+    "length_draws": 10,
+    "common_length_tokens": 2508,
+    "seed": 20260801,
+    "method": "Clauset, Shalizi & Newman 2009"
+  },
+  "results": [
+    {
+      "genre": "Administrative",
+      "stream_length_native": 32493,
+      "fitted_at_common_length": 2508,
+      "alpha_mle_mean": 1.983,
+      "alpha_mle_sd": 0.316,
+      "xmin_median": 3,
+      "ks_distance_mean": 0.08,
+      "gof_p_mean": 0.136,
+      "powerlaw_ruled_out": false,
+      "vuong_R_mean": 3.33,
+      "vuong_p_mean": 0.5054
+    },
+    {
+      "genre": "Literary",
+      "stream_length_native": 154005,
+      "fitted_at_common_length": 2508,
+      "alpha_mle_mean": 1.923,
+      "alpha_mle_sd": 0.276,
+      "xmin_median": 2,
+      "ks_distance_mean": 0.076,
+      "gof_p_mean": 0.149,
+      "powerlaw_ruled_out": false,
+      "vuong_R_mean": 6.24,
+      "vuong_p_mean": 0.4564
+    },
+    {
+      "genre": "Lexical",
+      "stream_length_native": 2508,
+      "fitted_at_common_length": 2508,
+      "alpha_mle_mean": 1.736,
+      "alpha_mle_sd": 0.0,
+      "xmin_median": 2,
+      "ks_distance_mean": 0.0793,
+      "gof_p_mean": 0.003,
+      "powerlaw_ruled_out": true,
+      "vuong_R_mean": -0.44,
+      "vuong_p_mean": 0.964
+    },
+    {
+      "genre": "Royal Inscription",
+      "stream_length_native": 33015,
+      "fitted_at_common_length": 2508,
+      "alpha_mle_mean": 1.867,
+      "alpha_mle_sd": 0.239,
+      "xmin_median": 3,
+      "ks_distance_mean": 0.0778,
+      "gof_p_mean": 0.104,
+      "powerlaw_ruled_out": false,
+      "vuong_R_mean": 5.42,
+      "vuong_p_mean": 0.5238
+    },
+    {
+      "genre": "Letter",
+      "stream_length_native": 18664,
+      "fitted_at_common_length": 2508,
+      "alpha_mle_mean": 1.851,
+      "alpha_mle_sd": 0.112,
+      "xmin_median": 3,
+      "ks_distance_mean": 0.0633,
+      "gof_p_mean": 0.245,
+      "powerlaw_ruled_out": false,
+      "vuong_R_mean": 10.94,
+      "vuong_p_mean": 0.1776
+    }
+  ]
+}

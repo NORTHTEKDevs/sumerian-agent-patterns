@@ -1,0 +1,117 @@
+{
+  "config": {
+    "permutations": 10000,
+    "bootstrap": 10000,
+    "min_chunk_tokens": 4,
+    "min_pairs_for_inference": 30,
+    "seed": 20260801,
+    "corpus": "full (91,606 tablets)"
+  },
+  "results": [
+    {
+      "genre": "Administrative",
+      "n_tablets": 1716,
+      "n_adjacent_pairs": 2095,
+      "degenerate_tablets_null_A": 20,
+      "degenerate_share_null_A": 0.012,
+      "observed_mean_shared_trigrams": 1.1881,
+      "observed_ci95": [
+        0.9747,
+        1.4258
+      ],
+      "null_A_length_permute": {
+        "mean": 1.5165,
+        "sd": 0.0511,
+        "delta": -0.3284,
+        "p_upper": 1.0,
+        "p_lower": 0.0001
+      },
+      "null_B_uniform_cuts": {
+        "mean": 2.8492,
+        "sd": 0.0191,
+        "delta": -1.6611,
+        "p_upper": 1.0,
+        "p_lower": 0.0001
+      },
+      "null_C_token_shuffle_DISCREDITED": {
+        "mean": 0.0345,
+        "delta": 1.1535,
+        "p_upper": 0.001,
+        "note": "This is the null that produced the withdrawn claim. Shown only for contrast."
+      },
+      "inferential": true,
+      "p_two_sided_null_A": 0.0002,
+      "p_two_sided_null_A_BH": 0.0006
+    },
+    {
+      "genre": "Literary",
+      "n_tablets": 93,
+      "n_adjacent_pairs": 248,
+      "degenerate_tablets_null_A": 2,
+      "degenerate_share_null_A": 0.022,
+      "observed_mean_shared_trigrams": 1.1694,
+      "observed_ci95": [
+        0.6089,
+        1.9839
+      ],
+      "null_A_length_permute": {
+        "mean": 1.4251,
+        "sd": 0.2004,
+        "delta": -0.2558,
+        "p_upper": 0.91211,
+        "p_lower": 0.09259
+      },
+      "null_B_uniform_cuts": {
+        "mean": 2.3863,
+        "sd": 0.0901,
+        "delta": -1.2169,
+        "p_upper": 1.0,
+        "p_lower": 0.0001
+      },
+      "null_C_token_shuffle_DISCREDITED": {
+        "mean": 0.0501,
+        "delta": 1.1193,
+        "p_upper": 0.001,
+        "note": "This is the null that produced the withdrawn claim. Shown only for contrast."
+      },
+      "inferential": true,
+      "p_two_sided_null_A": 0.18518,
+      "p_two_sided_null_A_BH": 0.27777
+    },
+    {
+      "genre": "Royal Inscription",
+      "n_tablets": 16,
+      "n_adjacent_pairs": 64,
+      "degenerate_tablets_null_A": 0,
+      "degenerate_share_null_A": 0.0,
+      "observed_mean_shared_trigrams": 1.2812,
+      "observed_ci95": [
+        0.3125,
+        2.5625
+      ],
+      "null_A_length_permute": {
+        "mean": 1.5235,
+        "sd": 0.3729,
+        "delta": -0.2423,
+        "p_upper": 0.72943,
+        "p_lower": 0.28267
+      },
+      "null_B_uniform_cuts": {
+        "mean": 2.8555,
+        "sd": 0.1648,
+        "delta": -1.5742,
+        "p_upper": 1.0,
+        "p_lower": 0.0001
+      },
+      "null_C_token_shuffle_DISCREDITED": {
+        "mean": 0.0197,
+        "delta": 1.2616,
+        "p_upper": 0.001,
+        "note": "This is the null that produced the withdrawn claim. Shown only for contrast."
+      },
+      "inferential": true,
+      "p_two_sided_null_A": 0.56534,
+      "p_two_sided_null_A_BH": 0.56534
+    }
+  ]
+}

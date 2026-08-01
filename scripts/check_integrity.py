@@ -80,6 +80,35 @@ if tpath.exists():
 else:
     ok(False, "outputs/templates.json missing — run scripts/phase1_templates.py")
 
+# ---- 3b. headline numbers in the prose match the generated JSON -------------
+# Catches the failure mode that started this whole audit: a hand-edited report drifting
+# away from the machine output it was generated from.
+p4 = ROOT / "outputs" / "phase4_ruling_fullcorpus.json"
+if p4.exists():
+    d = json.loads(p4.read_text(encoding="utf-8"))
+    adm = next((r for r in d["results"] if r["genre"] == "Administrative"), None)
+    ok(adm is not None, "phase4 JSON missing the Administrative result")
+    if adm:
+        for doc in ("FINDINGS.md", "CORRECTIONS.md", "README.md"):
+            text = (ROOT / doc).read_text(encoding="utf-8")
+            if "phase4" in text or "2,095" in text or "0.0006" in text:
+                ok(f"{adm['n_adjacent_pairs']:,}" in text,
+                   f"{doc}: cites a pair count differing from phase4 JSON ({adm['n_adjacent_pairs']:,})")
+                ok(str(adm["p_two_sided_null_A_BH"]) in text,
+                   f"{doc}: cites a p-value differing from phase4 JSON ({adm['p_two_sided_null_A_BH']})")
+        ok(adm["null_A_length_permute"]["delta"] < 0,
+           "phase4: Administrative delta is no longer negative — every doc describing the direction is now wrong")
+
+p5 = ROOT / "outputs" / "phase5_powerlaw.json"
+if p5.exists():
+    d5 = json.loads(p5.read_text(encoding="utf-8"))
+    lex = next((r for r in d5["results"] if r["genre"] == "Lexical"), None)
+    if lex:
+        ok(lex["powerlaw_ruled_out"] is True,
+           "phase5: Lexical no longer rules out a power law — FINDINGS.md and CORRECTIONS.md say it does")
+        ok(all((r["vuong_p_mean"] or 0) > 0.05 for r in d5["results"]),
+           "phase5: a Vuong test is now significant — the 'indistinguishable from lognormal' claim needs revising")
+
 # ---- 4. corpus totals match what the docs claim -----------------------------
 parquet = ROOT / "data" / "sumtablets.parquet"
 if parquet.exists():
