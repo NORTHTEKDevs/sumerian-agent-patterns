@@ -2,9 +2,9 @@
 
 **Empirical mining of the SumTablets cuneiform corpus (91,606 tablets, 6.97M glyphs) for software-design primitives applicable to modern multi-agent AI systems.**
 
-> **Read [CORRECTIONS.md](CORRECTIONS.md) first.** A self-audit on 2026-07-31 withdrew **two** of the original headline findings — RULING-parity (§4, wrong null hypothesis) and Zipf-as-DSL (§1, stream-length artifact). What survives: the compression-redundancy contrast (now verified against a length control), the ELS null result, the descriptive probe frequencies, and the engineering benchmark. Every claim below is tagged with its evidence strength, and the pipeline now reports the controls that killed the two withdrawn claims.
+> **Read [CORRECTIONS.md](CORRECTIONS.md) first.** A self-audit on 2026-07-31 withdrew two headline statistical findings — RULING-parity (wrong null hypothesis) and Zipf-as-DSL (stream-length artifact) — and a probe-precision audit found that **5 of 10 audited regex probes match a different lexeme than their label claims** and must not be cited. What survives: the compression-redundancy contrast (verified against a length control), the ELS null result, four precision-validated probe frequencies, and the engineering benchmark. Every claim is tagged with its evidence strength, and every correction is reproducible from the pipeline rather than asserted — see [`outputs/probe_validation.md`](outputs/probe_validation.md).
 
-> Sumerian scribes ran a multi-agent bureaucracy 4,000 years ago. Their clay tablets carry sealed envelopes, named time periods, periodic audits, RPC headers, and witness sets — the same primitives modern agent systems are reinventing. This repo mines that corpus for those primitives, reports each one with its evidence strength and cited tablet IDs, and translates them into agent-framework code shapes. Descriptive corpus statistics and an engineering benchmark carry the weight; one inferential claim was tested, failed, and is documented as withdrawn.
+> Sumerian scribes ran a large administrative bureaucracy 4,000 years ago. Their clay tablets carry seal attributions, named time periods, sum-totals, and letter address formulae — recognisable ancestors of primitives modern agent systems are reinventing. This repo mines that corpus for those patterns, reports each with a measured precision and prevalence, and translates them into agent-framework code shapes. **Two statistical findings and five regex probes did not survive audit and are documented as withdrawn.** What carries weight: four precision-validated frequencies, one genre contrast verified against a length control, one null result, and an engineering benchmark.
 
 **Who this is for:**
 - Multi-agent / LLM agent framework developers (LangGraph, AutoGen, CrewAI, custom runtimes)
@@ -40,12 +40,13 @@ Every substantive claim in this repo, and exactly how much weight it can bear. R
 
 | Claim | Evidence type | Strength | Notes |
 |---|---|---|---|
-| `kišib₃` (seal) appears in 25.4% of Administrative tablets; year-formulae in 74.2%; `u₃-na-a-du₁₁` in 58.8% of Letters | Regex counts over a 2,069-tablet sample | **Solid** — descriptive | No inference. Reproducible exactly. Sensitive to regex design; probes are in `phase1_templates.py` and worth reading before trusting a number. |
+| `kišib₃` (seal) on 25.4% of Administrative tablets; year-names on 70.2%; `u₃-na-a-du₁₁` in 58.8% of Letters; `šu ba-ti` on 15.2% | Regex counts over a 2,069-tablet sample, **precision-audited** | **Solid** — descriptive | These four probes validate at 96–100% precision ([`probe_validation.md`](outputs/probe_validation.md)). Other probes in `templates.json` do **not** — see the row below. |
 | ~~Administrative and Royal are more formulaic than Lexical (Zipf s 1.75 / 1.74 vs 1.11)~~ | OLS fit on log-log rank-frequency | **WITHDRAWN** | A stream-length artifact: at equal length every genre falls in 1.11–1.21. The estimator is also biased, and its R² is not a goodness-of-fit test. See [CORRECTIONS.md](CORRECTIONS.md). |
 | Genres differ in structural redundancy; Royal Inscription and Administrative rank highest, Lexical lowest (Δ +0.05 to +0.10) | zlib ratio, real vs token-shuffled, **verified against an equal-length control** | **Moderate–solid** — descriptive | The strongest surviving positive statistic here. The token-shuffle baseline is legitimate for this particular claim, which is only "more structured than random token order". Unlike Zipf, the genre ranking survives equal-length contiguous blocks. Still not a test of any specific structural hypothesis. |
 | No hidden periodic encoding in the corpus | ELS scan, 99 skips × 5 genres × 1,000 permutations | **Moderate** — null result | 3 nominal hits (p<0.01) vs ~5 expected by chance. **Underpowered for the Bonferroni threshold it originally claimed** — see §3 resolution caveat. Reads as "no signal above chance", not as a proof of absence. |
 | Sealed envelopes answer 5/5 audit queries; anonymous logs 0/5, at +59% bytes / +37 tokens / +7µs per write | Executed benchmark, 100k writes | **Solid** — engineering measurement | Not a statistical claim. The 0/5 is definitional (an anonymous log lacks the fields), so it demonstrates a design consequence, not a discovery. Latencies are hardware-dependent. |
 | ~~`<RULING>` marks logical row boundaries~~ | Permutation test | **WITHDRAWN** | Artifact of the wrong null. See [CORRECTIONS.md](CORRECTIONS.md). |
+| Frequencies for `king_title`, `year_formula` (loose), `witness_eye`, `god_dedication`, `excess_diri` in `templates.json` | Regex counts | **DO NOT CITE** | Precision 6–42%. These probes match a different lexeme than their label claims (`nam-lugal` = "kingship" not a dedication; `igi-zu-še₃` = "before you" not a witness; `lugal-` mostly a personal-name element). Quantified in [`probe_validation.md`](outputs/probe_validation.md). |
 | The 9 named agent primitives | Hand-authored mapping from templates | **Design proposal** | Grounded in cited tablet IDs, but the mapping from a Sumerian formula to an agent contract is an argument, not a measurement. `primitives.json` tags each as `validated` or `speculative` — that flag refers to whether the *pattern* was observed, never to whether the agent design works. |
 | Three-tier SURFACE → COLUMN → RULING memory | — | **Untested proposal** | Its empirical support was the withdrawn claim above. |
 | The reference architecture, `FULL_IDEAS.md`, `summary.md` | Hand-authored | **Ideation** | No evidence claimed. Not generated by any script. |
@@ -60,7 +61,9 @@ Three concrete things you can build differently after reading this:
 
 ### 1. Wrap every agent write in a sealed envelope
 
-**Finding.** 25.4% of administrative tablets carry `kišib₃` (seal of so-and-so) and ~71% are dated by year (the `mu` probe reports 74.2%; a stricter probe requiring a following year-name gives 70.6%). Attribution is the norm, not the exception. Sealed administrative example: **P101440**. Letters carry attribution differently — via the address formula `u₃-na-a-du₁₁` and a closing scribe-and-filiation signature (`dub-sar`, `dumu` PN) rather than a seal: **P132611, P117793, P145759**. *(Earlier versions cited all four tablets together under the seal claim; the three Letters contain no `kišib₃`.)*
+**Finding, restated after audit.** 25.4% of administrative tablets carry `kišib₃` (seal of so-and-so) and 70.2% are dated by year-name. Both probes validate cleanly (`seal_of_PN` 96% precision, and the 70.2% is the *strict* year probe — see [`outputs/probe_validation.md`](outputs/probe_validation.md)). Sealed administrative example: **P101440**. Letters attribute differently — via `u₃-na-a-du₁₁` plus a closing scribe-and-filiation signature (`dub-sar`, `dumu` PN) rather than a seal: **P132611, P117793, P145759**.
+
+**Two claims previously made here are withdrawn.** (a) *"Witness clauses (`igi PN-šè`) are common"* — they are not: genuine non-pronominal witness clauses appear on **0.4%** of administrative tablets, and 52% of that probe's raw matches are pronominal forms like `igi-zu-še₃` ("before you") that are not witness clauses at all. (b) *"No important write is anonymous, undated, or unattributed"* — **23.2%** of administrative tablets in this sample carry neither seal, year-name, nor witness, and ~75% carry no seal clause. Sealing is a strong minority practice, not a universal rule.
 
 **Action.** Make every state-changing call in your agent runtime carry `(payload, by_seal, witnesses, period)`. Audit becomes a property of the envelope, not a separate concern bolted on per agent. Replay across any time window becomes trivial.
 
@@ -79,7 +82,7 @@ Three concrete things you can build differently after reading this:
 
 ### 3. Replace silent token/cost rollups with periodic signed audits
 
-**Finding.** Administrative tablets close with `šu-nigin₂` (sum-total) — a periodic reconciliation. Shortfalls and excesses are named explicitly: `la₂-ia₃` (deficit owed by named person), `diri` (excess). Nothing drifts silently.
+**Finding, corrected after audit — this pattern is real but RARE.** Some administrative tablets close with `šu-nigin₂` (sum-total), and shortfalls are named explicitly with `la₂-ia₃` (deficit owed by a named person). The `šu-nigin₂` and `la₂-ia₃` probes are precise, but the prevalence is far lower than earlier wording implied: **`šu-nigin₂` appears on 2.2% of administrative tablets, `la₂-ia₃` on 3.4%.** The earlier claim that administrative tablets "close with `šu-nigin₂`" and that "nothing drifts silently" described a practice attested on a small minority of tablets as though it were the norm. It is a genuine Sumerian bookkeeping device; it is not characteristic of the corpus. `diri` is **not** usable as an "excess" marker at all — 19% precision, because it frequently marks an *intercalary month*, not a ledger surplus.
 
 **Action.** For any ledger-shaped agent state (token usage, tool-call counts, cost tracking, evidence accumulation), close periods at fixed intervals with a signed audit. Deficits and excesses must be named and attributed to a counterparty.
 
@@ -170,10 +173,10 @@ This is what every line in `outputs/templates.json` is doing — taking a real t
 | `mu` X | year of X | Named time period (event-named, not numeric) |
 | `mu us₂-sa` X | year after the year of X | Relative time reference resolved at write-time |
 | `iti` X | month of X | Calendar month sub-period |
-| `šu-nigin₂` | sum-total | Periodic audit / signed reconciliation |
+| `šu-nigin₂` | sum-total | Periodic audit / signed reconciliation *(precise probe, but only 2.2% of Admin tablets)* |
 | `la₂-ia₃` | deficit | Named outstanding obligation (never silent) |
-| `diri` | excess | Named surplus requiring disposition |
-| `igi` PN-šè | before [person] | Witness clause — live attestation at write-time |
+| `diri` | excess *(also: intercalary month — the probe for this is 19% precise, do not cite it)* | Named surplus requiring disposition |
+| `igi` PN-šè | before [person] | Witness clause *(genuine ones are rare: 0.4% of Admin tablets; the bare `igi-...-še₃` probe mostly catches "before him/you")* |
 | `dumu` PN | son of [person] | Filiation edge in principal/identity graph |
 | `u₃-na-a-du₁₁` | speak to him | Letter address formula — RPC envelope opener |
 | `dub-ba-ni` | his tablet | Reference to a prior message (thread-id) |
@@ -199,8 +202,8 @@ The numbers behind the implications above. All claims here are reproducible from
 | Letters are short single-purpose RPCs | Lowest marker density (0.02 RULING/tab) | Letter |
 | ~~`<RULING>` is a logical row separator~~ **WITHDRAWN** | Null under the correct control; the original p-values came from a null that destroys all local structure ([CORRECTIONS.md](CORRECTIONS.md)) | Royal, Admin |
 | No hidden encodings in the corpus | 3 of 495 ELS tests nominally p<0.01, vs ~5 expected by chance | All genres |
-| Seal-of-PN clauses are pervasive | 25.4% of Admin tablets | Administrative |
-| Year-formulas are universal envelopes | 74.2% Admin, 65% Letter, 62.4% Royal | Across genres |
+| Seal-of-PN clauses are a strong minority practice | 25.4% of Admin tablets (probe precision 96%); ~75% carry no seal | Administrative |
+| Year-formulae are common in Administrative, less so elsewhere | Strict probe: 70.2% Admin, 45.4% Letter, 41.8% Royal (loose `\bmu\b` probe over-reports these as 74.2 / 73.8 / 62.6 — 53% of its matches are verbal prefixes) | Across genres |
 | Letters are addressed RPCs | `u₃-na-a-du₁₁` in 58.8% of Letters | Letter |
 
 Full statistics with shuffled-baseline controls in `outputs/compression_findings.md`. Per-tablet pattern citations in `outputs/templates.json`.
@@ -221,6 +224,7 @@ Full statistics with shuffled-baseline controls in `outputs/compression_findings
 ├── scripts/
 │   ├── phase0_sample.py               loads SumTablets, builds stratified samples
 │   ├── phase1_templates.py            extracts genre templates and probe hits
+│   ├── phase1b_probe_validation.py    precision-audits those probes (which ones are citable)
 │   └── phase3_compression.py          Zipf, compression, ELS, RULING-parity analysis
 ├── benchmarks/
 │   ├── kishib3.py                     reference sealed-envelope implementation (~250 LoC)
@@ -229,6 +233,8 @@ Full statistics with shuffled-baseline controls in `outputs/compression_findings
 │   ├── results.json                   raw measurement output
 │   └── RESULTS.md                     report with measured numbers and caveats
 └── outputs/
+    ├── probe_validation.md            per-probe precision + prevalence -- READ BEFORE CITING
+    ├── probe_validation.json          machine-readable probe audit
     ├── templates.json                 229 templates × {genre, pattern, role, frequency, tablet IDs}
     ├── primitives.json                9 named agent primitives (6 rubric + 3 data-justified)
     ├── compression_findings.md        Phase 3 statistics with p-values
@@ -250,9 +256,10 @@ python -m venv .venv
 source .venv/bin/activate          # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 
-python scripts/phase0_sample.py       # ~2 min  downloads SumTablets, caches parquet, builds samples
-python scripts/phase1_templates.py    # ~10 s   writes outputs/templates.json
-python scripts/phase3_compression.py  # ~5 min  writes outputs/compression_findings.md + phase3_raw.json
+python scripts/phase0_sample.py            # ~2 min  downloads SumTablets, caches parquet, builds samples
+python scripts/phase1_templates.py         # ~10 s   writes outputs/templates.json
+python scripts/phase1b_probe_validation.py # ~5 s    writes outputs/probe_validation.md  <- READ THIS
+python scripts/phase3_compression.py       # ~5 min  writes outputs/compression_findings.md + phase3_raw.json
 ```
 
 The corpus benchmark is independent of the above — pure stdlib, no dependencies, no corpus:
@@ -278,6 +285,8 @@ What you should see in the console along the way — these are the load-bearing 
 | Corpus rows loaded | 91,606 | phase 0 |
 | Stratified sample | 2,069 tablets + 197 long-form | phase 0 |
 | `seal_of_PN` in Administrative | 25.4% (n=127) | phase 1 |
+| Probes rated DO-NOT-CITE | 5 of 10 audited | phase 1b |
+| Probes that never fire | 1 (`credit_mu_DU`) | phase 1b |
 | Zipf s at native length (confounded, see §1) | 1.746 / 1.737 / 1.114 | phase 3 |
 | Zipf s at equal length (the real comparison) | all genres 1.11–1.21 | phase 3 |
 | RULING parity (primary null) | not significant in any genre | phase 3 |
@@ -300,6 +309,7 @@ What you should see in the console along the way — these are the load-bearing 
 
 1. **Sample.** Stratified-sample 500 tablets per genre (Administrative, Literary, Lexical, Royal Inscription, Letter) plus up to 50 long-form tablets per genre. Total sample: 2,069 tablets + 197 long-form.
 2. **Templates.** For each genre: structural-marker statistics (`<SURFACE>`, `<COLUMN>`, `<RULING>`, `<BLANK_SPACE>`); per-position opening/closing line templates; distinctive bigrams and trigrams via genre log-odds vs other genres; hand-coded regex probes for known bureaucratic primitives (seal-of, year-formula, total/audit, deficit, witness, etc.). Every template carries cited tablet IDs.
+2b. **Probe validation.** Each probe's matches are partitioned by hand-written discriminators into TRUE / FALSE / UNCLEAR against its claimed semantic role, yielding a precision figure and a per-genre prevalence table. Probes below ~50% precision are marked DO-NOT-CITE rather than silently repaired. This step exists because the original release cited probe frequencies that were measuring the wrong lexeme.
 3. **Compression and ELS.** Per-genre Zipfian fit (OLS on log-log, reported alongside an MLE exponent and an equal-length control that shows the cross-genre comparison does not survive); compression-ratio Δ between raw and shuffled token streams (with the same equal-length control, which it does survive); equidistant-letter-sequence (ELS) decimation at skips 2–100 against 1,000 permutations, `(r+1)/(n+1)` corrected, Bonferroni threshold reported together with the resolution caveat that the permutation count cannot reach it; cross-RULING trigram parity against two nulls — a token-shuffle null retained only to demonstrate it is the wrong control, and a boundary-permutation null holding token order and chunk lengths fixed and varying only where cuts fall (the primary test).
 4. **Mapping.** For each empirical template, propose a named single-responsibility agent primitive with inputs, outputs, state, tools, and guardrails. Distinguish validated-by-data from speculative.
 

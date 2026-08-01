@@ -6,6 +6,42 @@ Nothing is removed from the record. Superseded claims stay visible with the reas
 
 ---
 
+## 2026-07-31 — PROBE AUDIT: 5 of 10 audited probes must not be cited; two implications restated
+
+A precision audit of the Phase 1 regex probes now runs as part of the pipeline (`scripts/phase1b_probe_validation.py` → [`outputs/probe_validation.md`](outputs/probe_validation.md)). Phase 1 only ever measured how often a probe *matched*; it never asked whether the matches meant what the probe's label claimed. They frequently do not.
+
+### Probes that must not be cited
+
+| Probe | Claimed role | Precision | What it is actually matching |
+|---|---|---:|---|
+| `god_dedication` | dedicatory formula | **6%** | `nam-lugal` = "kingship" and `nam-en` = "lordship" — abstract nouns, not dedications. Only `nam-ti` ("life", 10 of 182 matches) is dedicatory. |
+| `excess_diri` | excess / surplus | **19%** | `diri` before a month name marks an **intercalary month**, not a ledger surplus. |
+| `year_formula` | year-name | **34%** | `-` is a regex word boundary, so `\bmu\b` matches the verbal prefixes `mu-na-`, `mu-un-`, `mu-ni-` (48.6% of matches) plus `mu-kuₓ(DU)` "delivery". |
+| `witness_eye` | witness clause | **41%** | `igi-ni-še₃` / `igi-zu-še₃` = "before him / before you" (pronominal), and `igi-nim` = "upper, northern" — a different lexeme entirely. |
+| `king_title` | title: king | **42%** | Mostly `lugal-` as an element of a **personal name**. Even genuine hits are ambiguous: in Ur III administrative context `lugal` commonly means "owner, master", not "the king". |
+
+### Probes that validate
+
+`received_by` (`šu ba-ti`) 100%, `speak_to_him` (`u₃-na-a-du₁₁`) 100%, `total_audit` (`šu-nigin₂`) 100%, `seal_of_PN` (`kišib₃`) 96%, `son_of_PN` (`dumu`) 95%. The README headline figures rest on this group.
+
+### A probe that never fires
+
+`credit_mu_DU` searches for `mu-DU`, but the corpus writes this sign sequence as `mu-kuₓ(DU)` — **60 occurrences that the probe never sees.** `phase1_templates.py` does `if tablet_hits == 0: continue`, so a probe matching nothing vanishes from `templates.json` with no warning. The "delivery / credit" primitive was therefore never actually measured, despite appearing in the probe list.
+
+### Two README implications restated
+
+**Implication #1 previously asserted "witness clauses (`igi PN-šè`) are common" and "no important write is anonymous, undated, or unattributed."** Both are false in this sample. Genuine non-pronominal witness clauses appear on **0.4%** of administrative tablets. And **23.2%** of administrative tablets carry neither seal, year-name, nor witness, while ~75% carry no seal clause at all. Sealing is a strong minority practice, not a universal rule. The surviving claim — 25.4% sealed, 70.2% year-dated, both precision-validated — is still interesting and is what the section now says.
+
+**Implication #3 previously asserted that administrative tablets "close with `šu-nigin₂`" and that "nothing drifts silently."** `šu-nigin₂` is a precise probe (100%) but appears on only **2.2%** of administrative tablets; `la₂-ia₃` on 3.4%. The pattern is real and genuinely a Sumerian bookkeeping device, but it was described as characteristic of the corpus when it is a small minority practice. Prevalence tables per genre are now in `probe_validation.md`.
+
+**The general lesson, which is now stated in the report itself: attested is not the same as characteristic.** Several claims in this repo moved from "we found this pattern" to "this is how Sumerian bureaucracy worked" without the prevalence check that distinguishes them.
+
+### Epistemic status of this audit
+
+The discriminators encode standard dictionary values applied by a **non-specialist**. They are deliberately conservative — a match is marked FALSE only where the surface form makes an alternative reading unambiguous — so the reported error rates are **lower bounds**. This is not a substitute for review by an Assyriologist, and `REVIEWERS.md` still lists probe validation as the highest-value target for specialist time.
+
+---
+
 ## 2026-07-31 — WITHDRAWN: "Administrative and Royal genres are DSL-like (Zipf s ≈ 1.75 vs Lexical 1.11)"
 
 **Affected:** README artifact #3, the Findings table rows "Admin tablets are a domain-specific language" and "Lexical lists are closest to natural language", and `outputs/compression_findings.md` §1.

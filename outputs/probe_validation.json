@@ -1,0 +1,357 @@
+{
+  "probes": {
+    "year_formula": {
+      "total_matches": 5088,
+      "true": 1485,
+      "false": 2888,
+      "unclear": 715,
+      "precision_excl_unclear": 0.34,
+      "buckets": [
+        {
+          "verdict": "FALSE",
+          "label": "verbal prefix (mu-na-, mu-un-, mu-ni-, ...)",
+          "n": 2498
+        },
+        {
+          "verdict": "TRUE",
+          "label": "mu + royal/event name (year-name)",
+          "n": 1360
+        },
+        {
+          "verdict": "UNCLEAR",
+          "label": "unclassified by the discriminators",
+          "n": 715
+        },
+        {
+          "verdict": "FALSE",
+          "label": "line-break / structural-token artifact",
+          "n": 189
+        },
+        {
+          "verdict": "FALSE",
+          "label": "mu-bi / mu-ni = 'its/his name'",
+          "n": 141
+        },
+        {
+          "verdict": "TRUE",
+          "label": "mu us₂-sa + event (derived year-name)",
+          "n": 125
+        },
+        {
+          "verdict": "FALSE",
+          "label": "mu-kuₓ(DU) = delivery, a different lexeme",
+          "n": 60
+        }
+      ],
+      "claimed_role": "temporal index (year-name)",
+      "regex": "\\bmu\\b(?:[\\s\\-][^\\n]{0,80})"
+    },
+    "king_title": {
+      "total_matches": 2666,
+      "true": 750,
+      "false": 1046,
+      "unclear": 870,
+      "precision_excl_unclear": 0.418,
+      "buckets": [
+        {
+          "verdict": "FALSE",
+          "label": "lugal- as element of a PERSONAL NAME",
+          "n": 1046
+        },
+        {
+          "verdict": "TRUE",
+          "label": "lugal + GN/epithet (king of X, mighty king)",
+          "n": 750
+        },
+        {
+          "verdict": "UNCLEAR",
+          "label": "bare 'lugal' (king, or 'owner/master' in admin context)",
+          "n": 447
+        },
+        {
+          "verdict": "UNCLEAR",
+          "label": "unclassified by the discriminators",
+          "n": 423
+        }
+      ],
+      "claimed_role": "title: king",
+      "regex": "\\blugal\\b[^\\n]{0,40}"
+    },
+    "god_dedication": {
+      "total_matches": 182,
+      "true": 10,
+      "false": 172,
+      "unclear": 0,
+      "precision_excl_unclear": 0.055,
+      "buckets": [
+        {
+          "verdict": "FALSE",
+          "label": "nam-lugal = 'KINGSHIP', an abstract noun",
+          "n": 132
+        },
+        {
+          "verdict": "FALSE",
+          "label": "nam-en = 'en-ship/lordship', an abstract noun",
+          "n": 40
+        },
+        {
+          "verdict": "TRUE",
+          "label": "nam-ti = 'life' (used in 'for the life of' dedications)",
+          "n": 10
+        }
+      ],
+      "claimed_role": "dedicatory formula",
+      "regex": "\\bnam-(ti|ki|en|lugal)\\b"
+    },
+    "witness_eye": {
+      "total_matches": 92,
+      "true": 36,
+      "false": 51,
+      "unclear": 5,
+      "precision_excl_unclear": 0.414,
+      "buckets": [
+        {
+          "verdict": "FALSE",
+          "label": "igi-ni/zu/bi/mu-še₃ = 'before him/you/it' (pronominal)",
+          "n": 38
+        },
+        {
+          "verdict": "TRUE",
+          "label": "igi + PN/DN + -še₃ (genuine witness clause)",
+          "n": 36
+        },
+        {
+          "verdict": "FALSE",
+          "label": "igi-nim = 'upper/northern', a different lexeme",
+          "n": 10
+        },
+        {
+          "verdict": "UNCLEAR",
+          "label": "unclassified by the discriminators",
+          "n": 5
+        },
+        {
+          "verdict": "FALSE",
+          "label": "igi + numeral = accounting expression, not a witness",
+          "n": 3
+        }
+      ],
+      "claimed_role": "witness presence (before X)",
+      "regex": "\\bigi[\\s\\-][^\\n]{0,40}-š[èe]₃\\b"
+    },
+    "son_of_PN": {
+      "total_matches": 1302,
+      "true": 1008,
+      "false": 58,
+      "unclear": 236,
+      "precision_excl_unclear": 0.946,
+      "buckets": [
+        {
+          "verdict": "TRUE",
+          "label": "dumu + PN (filiation)",
+          "n": 1008
+        },
+        {
+          "verdict": "UNCLEAR",
+          "label": "unclassified by the discriminators",
+          "n": 163
+        },
+        {
+          "verdict": "UNCLEAR",
+          "label": "dumu-ni / dumu-munus etc. (possessed / compound)",
+          "n": 73
+        },
+        {
+          "verdict": "FALSE",
+          "label": "dumu-zi = Dumuzi (divine/personal name)",
+          "n": 58
+        }
+      ],
+      "claimed_role": "filiation / lineage",
+      "regex": "\\bdumu\\b[\\s\\-][^\\n]{0,40}"
+    },
+    "excess_diri": {
+      "total_matches": 62,
+      "true": 3,
+      "false": 13,
+      "unclear": 46,
+      "precision_excl_unclear": 0.188,
+      "buckets": [
+        {
+          "verdict": "UNCLEAR",
+          "label": "unclassified by the discriminators",
+          "n": 24
+        },
+        {
+          "verdict": "UNCLEAR",
+          "label": "diri-ga / bare diri (verbal 'to exceed', or surplus)",
+          "n": 22
+        },
+        {
+          "verdict": "FALSE",
+          "label": "diri + month name = INTERCALARY MONTH, not a ledger surplus",
+          "n": 13
+        },
+        {
+          "verdict": "TRUE",
+          "label": "diri + quantity (surplus amount)",
+          "n": 3
+        }
+      ],
+      "claimed_role": "excess / surplus",
+      "regex": "\\bdiri\\b[^\\n]{0,40}"
+    },
+    "seal_of_PN": {
+      "total_matches": 301,
+      "true": 253,
+      "false": 11,
+      "unclear": 37,
+      "precision_excl_unclear": 0.958,
+      "buckets": [
+        {
+          "verdict": "TRUE",
+          "label": "kišib₃ + PN/title (seal of so-and-so)",
+          "n": 253
+        },
+        {
+          "verdict": "UNCLEAR",
+          "label": "unclassified by the discriminators",
+          "n": 37
+        },
+        {
+          "verdict": "FALSE",
+          "label": "kišib₃-bi N = 'its sealed tablets: N' (a count, not an attribution)",
+          "n": 11
+        }
+      ],
+      "claimed_role": "identity / authentication",
+      "regex": "\\bkišib(?:₃)?\\b[^\\n]{0,40}"
+    },
+    "received_by": {
+      "total_matches": 120,
+      "true": 120,
+      "false": 0,
+      "unclear": 0,
+      "precision_excl_unclear": 1.0,
+      "buckets": [
+        {
+          "verdict": "TRUE",
+          "label": "šu ba-ti = 'received' (fixed formula)",
+          "n": 120
+        }
+      ],
+      "claimed_role": "transaction confirmation",
+      "regex": "\\bšu\\s+ba-ti\\b"
+    },
+    "speak_to_him": {
+      "total_matches": 297,
+      "true": 297,
+      "false": 0,
+      "unclear": 0,
+      "precision_excl_unclear": 1.0,
+      "buckets": [
+        {
+          "verdict": "TRUE",
+          "label": "u₃-na-a-du₁₁ = 'speak to him' (fixed formula)",
+          "n": 297
+        }
+      ],
+      "claimed_role": "letter address formula",
+      "regex": "\\bu₃-na-a-du₁₁\\b"
+    },
+    "total_audit": {
+      "total_matches": 22,
+      "true": 22,
+      "false": 0,
+      "unclear": 0,
+      "precision_excl_unclear": 1.0,
+      "buckets": [
+        {
+          "verdict": "TRUE",
+          "label": "šu-nigin₂ = 'sum total'",
+          "n": 22
+        }
+      ],
+      "claimed_role": "ledger total / audit line",
+      "regex": "\\bšu-nigin₂?\\b[^\\n]{0,40}"
+    }
+  },
+  "prevalence": {
+    "seal_of_PN": {
+      "description": "seal attribution",
+      "by_genre": {
+        "Administrative": 25.4,
+        "Letter": 8.4,
+        "Lexical": 1.4,
+        "Literary": 3.6,
+        "Royal Inscription": 11.0
+      }
+    },
+    "year_formula (strict)": {
+      "description": "year-name dating",
+      "by_genre": {
+        "Administrative": 70.2,
+        "Letter": 45.4,
+        "Lexical": 2.9,
+        "Literary": 29.8,
+        "Royal Inscription": 41.8
+      }
+    },
+    "total_audit": {
+      "description": "periodic sum-total",
+      "by_genre": {
+        "Administrative": 2.2,
+        "Letter": 0.2,
+        "Lexical": 0.0,
+        "Literary": 1.2,
+        "Royal Inscription": 0.2
+      }
+    },
+    "deficit_la2ia3": {
+      "description": "named deficit",
+      "by_genre": {
+        "Administrative": 3.4,
+        "Letter": 1.8,
+        "Lexical": 1.4,
+        "Literary": 0.4,
+        "Royal Inscription": 0.8
+      }
+    },
+    "excess_diri": {
+      "description": "named excess",
+      "by_genre": {
+        "Administrative": 4.2,
+        "Letter": 0.4,
+        "Lexical": 0.0,
+        "Literary": 2.2,
+        "Royal Inscription": 3.4
+      }
+    },
+    "witness_eye (non-pronominal)": {
+      "description": "witness clause",
+      "by_genre": {
+        "Administrative": 0.4,
+        "Letter": 0.6,
+        "Lexical": 0.0,
+        "Literary": 3.0,
+        "Royal Inscription": 1.0
+      }
+    },
+    "received_by": {
+      "description": "receipt confirmation",
+      "by_genre": {
+        "Administrative": 15.2,
+        "Letter": 2.2,
+        "Lexical": 0.0,
+        "Literary": 0.8,
+        "Royal Inscription": 5.0
+      }
+    }
+  },
+  "never_fire": [
+    {
+      "probe": "credit_mu_DU",
+      "regex": "\\bmu-DU\\b[^\\n]{0,40}"
+    }
+  ]
+}

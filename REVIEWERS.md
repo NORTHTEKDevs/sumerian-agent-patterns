@@ -17,7 +17,19 @@ What survives: the compression-redundancy ranking (tested against the same lengt
 
 ## Where I would attack it first
 
-1. **The regex probes — highest value for your time.** Every Phase 1 frequency comes from hand-written regexes over transliterated text (`PROBES` in `scripts/phase1_templates.py`), and **no Assyriologist has checked them.** I found one bad probe myself: `king_title` (`\blugal\b`, reported 48.6% of Administrative) is 54% personal-name elements and only ~12% actual titles. I fixed the framing rather than the probe, because name-vs-title disambiguation is beyond regex. `year_formula` (`\bmu\b`) over-catches too, though the tablet-level effect is small (74.2% → 70.6% strict). **If one probe was this wrong, others likely are.** If you have Assyriological background, start here.
+1. **The regex probes — still the highest value for your time.** Every Phase 1 frequency comes from hand-written regexes over transliterated text (`PROBES` in `scripts/phase1_templates.py`). I have now precision-audited 10 of them (`scripts/phase1b_probe_validation.py` → [`outputs/probe_validation.md`](outputs/probe_validation.md)) and **5 failed badly enough to be marked DO-NOT-CITE**:
+
+   | Probe | Claimed role | Precision | Actually matching |
+   |---|---|---:|---|
+   | `god_dedication` | dedicatory formula | 6% | `nam-lugal` "kingship", `nam-en` "lordship" — abstract nouns |
+   | `excess_diri` | excess / surplus | 19% | `diri` + month = **intercalary month** |
+   | `year_formula` | year-name | 34% | verbal prefixes `mu-na-`, `mu-un-`, `mu-ni-` |
+   | `witness_eye` | witness clause | 41% | `igi-zu-še₃` "before you"; `igi-nim` "upper/north" |
+   | `king_title` | title: king | 42% | `lugal-` as a personal-name element |
+
+   Validating cleanly: `received_by` 100%, `speak_to_him` 100%, `total_audit` 100%, `seal_of_PN` 96%, `son_of_PN` 95%. A sixth probe, `credit_mu_DU`, **never fires at all** — it searches `mu-DU` while the corpus writes `mu-kuₓ(DU)` (60 occurrences), and Phase 1 silently drops zero-hit probes.
+
+   **What I need from you:** my discriminators encode standard dictionary values applied by a non-specialist, and are deliberately conservative, so the reported error rates are *lower bounds*. Are any of my TRUE buckets actually wrong? In particular: (a) is bare `lugal` in Ur III administrative context ever safely "the king" rather than "owner/master"? (b) is my `igi PN-še₃` TRUE bucket really a witness clause, or does it include other uses? (c) does `diri` + quantity reliably mean surplus? Correcting a *false TRUE* matters more than adding a false FALSE, because the TRUE buckets are what the README still cites.
 
 2. **Is the replacement RULING null itself correct?** It holds real token order and the exact multiset of chunk lengths and permutes only where cuts fall (`ruling_parity`). If that control is also flawed, I want to know before this goes anywhere.
 
@@ -40,9 +52,12 @@ python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\act
 pip install -r requirements.txt
 python scripts/phase0_sample.py
 python scripts/phase1_templates.py
+python scripts/phase1b_probe_validation.py   # the probe precision audit
 python scripts/phase3_compression.py
 git diff --stat outputs/     # expected: empty
 ```
+
+Fastest path to judging this repo: read `outputs/probe_validation.md` (which probe frequencies are citable) and `CORRECTIONS.md` (what was withdrawn and why). Together they are about 10 minutes and cover every claim that has been challenged so far.
 
 Verified end to end from a clean clone on Python 3.14.2 / numpy 2.5.1 / pandas 3.0.5. `outputs/templates.json` and `outputs/phase3_raw.json` regenerate byte-identical. A non-empty `git diff` is a genuine reproducibility failure and I want the issue.
 
