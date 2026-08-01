@@ -47,7 +47,7 @@ Multi-resolution context segmentation, derived from physical document structure.
 |---|---|:---:|:---:|
 | B1 | Three-tier memory: L1=SURFACE / L2=COLUMN / L3=RULING | V | M |
 | B2 | Read at smallest enclosing tier (return one row, not the whole frame) | V | S |
-| B3 | RULING-bounded chunks as vector-embedding units (parity p=0.002 Royal, p=0.005 Admin) | V | S |
+| B3 | RULING-bounded chunks as vector-embedding units ~~(parity p=0.002 Royal, p=0.005 Admin)~~ **evidence WITHDRAWN — see `../CORRECTIONS.md`; idea is now untested** | ~~V~~ S | S |
 | B4 | Frame nesting (obverse/reverse pairs) → call-stack-style nested contexts | V | S |
 | B5 | BLANK_SPACE marker as intentional gap (preserve, don't trim — it carries semantic weight in admin) | V | XS |
 | B6 | <unk> rate as data-quality signal per genre (Literary 6.9/tab → most damaged) | V | XS |

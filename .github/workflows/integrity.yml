@@ -1,0 +1,41 @@
+name: integrity
+
+# Reproducibility + honesty gate. Runs on every push and PR.
+# Corpus-dependent phases are skipped here (the HuggingFace download is ~50 MB);
+# what this proves is that the docs are internally consistent, no link is dead,
+# every retracted claim still carries its correction notice, and the benchmark runs.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Repo integrity (links, correction notices, probe-audit stamps)
+        run: python scripts/check_integrity.py
+
+      - name: Benchmark runs and reports the capability comparison
+        run: |
+          cd benchmarks
+          python benchmark.py
+
+      - name: Benchmark result is the documented 5/5 vs 0/5
+        run: |
+          python - <<'PY'
+          import json
+          caps = json.load(open("benchmarks/results.json", encoding="utf-8"))["capabilities"]
+          sealed = sum(1 for r in caps.values()
+                       if r.get("sealed_can_answer") or r.get("sealed_correctly_excludes_revoked"))
+          base = sum(1 for r in caps.values()
+                     if r.get("baseline_can_answer") or r.get("baseline_correctly_excludes_revoked"))
+          print(f"sealed={sealed}/5  baseline={base}/5")
+          assert (sealed, base) == (5, 0), f"expected 5/5 vs 0/5, got {sealed}/5 vs {base}/5"
+          PY

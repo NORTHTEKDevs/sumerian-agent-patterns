@@ -57,6 +57,23 @@ STRUCTURAL_TOKENS = ["<SURFACE>", "<COLUMN>", "<RULING>", "<BLANK_SPACE>", "<unk
 #
 # Spot-checked as exact: seal_of_PN (25.4% of Administrative),
 # speak_to_him (58.8% of Letters). See CORRECTIONS.md.
+
+# Verdicts from scripts/phase1b_probe_validation.py, stamped onto the emitted rows so a
+# consumer reading templates.json programmatically cannot pick up a discredited frequency
+# without also seeing why it is discredited.
+PROBE_AUDIT: dict[str, tuple[str, str]] = {
+    "god_dedication": ("DO_NOT_CITE", "precision 6% - nam-lugal 'kingship' and nam-en 'lordship' are abstract nouns, not dedications"),
+    "excess_diri":    ("DO_NOT_CITE", "precision 19% - diri before a month name marks an INTERCALARY MONTH, not a ledger surplus"),
+    "year_formula":   ("DO_NOT_CITE", "precision 34% - '-' is a regex word boundary, so \\bmu\\b matches the verbal prefixes mu-na-/mu-un-/mu-ni-"),
+    "witness_eye":    ("DO_NOT_CITE", "precision 41% - igi-ni/zu-se3 = 'before him/you' (pronominal); igi-nim = 'upper, north'"),
+    "king_title":     ("DO_NOT_CITE", "precision 42% - mostly lugal- as a personal-name element; bare lugal in Ur III admin often means 'owner/master'"),
+    "received_by":    ("PRECISION_VALIDATED", "100% - fixed formula su ba-ti"),
+    "speak_to_him":   ("PRECISION_VALIDATED", "100% - fixed formula u3-na-a-du11"),
+    "total_audit":    ("PRECISION_VALIDATED", "100% precise, but only 2.2% of Administrative tablets - rare, not characteristic"),
+    "seal_of_PN":     ("PRECISION_VALIDATED", "96% - kisib3-bi N ('its sealed tablets: N') is the only notable contaminant"),
+    "son_of_PN":      ("PRECISION_VALIDATED", "95% - dumu-zi (Dumuzi) is the main contaminant"),
+    "credit_mu_DU":   ("NEVER_FIRES", "regex searches mu-DU; the corpus writes mu-kux(DU) - 60 occurrences never matched"),
+}
 PROBES: list[tuple[str, str, str]] = [
     ("seal_of_PN",         r"\bkišib(?:₃)?\b[^\n]{0,40}",               "identity / authentication"),
     ("month_marker",       r"\biti[\s\-][^\n]{0,30}",                    "temporal index (month)"),
@@ -360,7 +377,27 @@ def main() -> None:
             "source": "structural_stats",
         })
 
+    # Stamp the probe-precision audit onto every affected row, so a consumer reading this
+    # file programmatically cannot pick up a discredited frequency without seeing the verdict.
+    for row in probes + templates:
+        n = row.get("template_name") or row.get("probe")
+        if n in PROBE_AUDIT:
+            row["_audit_verdict"], row["_audit_note"] = PROBE_AUDIT[n]
+
     payload = {
+        "_AUDIT": {
+            "notice": "PROBE PRECISION AUDIT (2026-07-31): several frequencies in this file are NOT citable.",
+            "read_first": "outputs/probe_validation.md",
+            "generated_by": "scripts/phase1b_probe_validation.py",
+            "do_not_cite": {k: v[1] for k, v in PROBE_AUDIT.items() if v[0] == "DO_NOT_CITE"},
+            "precision_validated": {k: v[1] for k, v in PROBE_AUDIT.items() if v[0] == "PRECISION_VALIDATED"},
+            "prevalence_warning": (
+                "Attested is not the same as characteristic. A probe can be 100% precise and still describe "
+                "a rare practice: total_audit (šu-nigin₂) is precise but appears on only 2.2% of Administrative "
+                "tablets. Check the prevalence table in probe_validation.md before calling any pattern typical."
+            ),
+            "withdrawn_claims": "See CORRECTIONS.md — the RULING-parity and Zipf-as-DSL findings were withdrawn.",
+        },
         "meta": {
             "sample_size": int(len(df)),
             "long_form_size": int(len(long_df)),

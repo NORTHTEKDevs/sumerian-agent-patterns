@@ -225,6 +225,7 @@ Full statistics with shuffled-baseline controls in `outputs/compression_findings
 │   ├── phase0_sample.py               loads SumTablets, builds stratified samples
 │   ├── phase1_templates.py            extracts genre templates and probe hits
 │   ├── phase1b_probe_validation.py    precision-audits those probes (which ones are citable)
+│   ├── check_integrity.py             pre-publish gate: links, correction notices, audit stamps
 │   └── phase3_compression.py          Zipf, compression, ELS, RULING-parity analysis
 ├── benchmarks/
 │   ├── kishib3.py                     reference sealed-envelope implementation (~250 LoC)
@@ -260,6 +261,7 @@ python scripts/phase0_sample.py            # ~2 min  downloads SumTablets, cache
 python scripts/phase1_templates.py         # ~10 s   writes outputs/templates.json
 python scripts/phase1b_probe_validation.py # ~5 s    writes outputs/probe_validation.md  <- READ THIS
 python scripts/phase3_compression.py       # ~5 min  writes outputs/compression_findings.md + phase3_raw.json
+python scripts/check_integrity.py          # ~1 s    links resolve, corrections present, audit stamps intact
 ```
 
 The corpus benchmark is independent of the above — pure stdlib, no dependencies, no corpus:
@@ -277,6 +279,8 @@ git diff --stat outputs/
 ```
 
 **Expected: no output.** Anything else is a genuine divergence worth an issue.
+
+`python scripts/check_integrity.py` should print `[integrity] clean`. It verifies that every relative link resolves, that every claim marked WITHDRAWN in the README still carries a correction notice *adjacent to it* in the derived documents, that every DO-NOT-CITE probe is stamped in `templates.json`, and that the corpus totals match. It runs in CI on every push. Its checks were validated by deliberately breaking each one and confirming it fails — one check was found vacuous that way and tightened.
 
 What you should see in the console along the way — these are the load-bearing numbers:
 
@@ -312,6 +316,20 @@ What you should see in the console along the way — these are the load-bearing 
 2b. **Probe validation.** Each probe's matches are partitioned by hand-written discriminators into TRUE / FALSE / UNCLEAR against its claimed semantic role, yielding a precision figure and a per-genre prevalence table. Probes below ~50% precision are marked DO-NOT-CITE rather than silently repaired. This step exists because the original release cited probe frequencies that were measuring the wrong lexeme.
 3. **Compression and ELS.** Per-genre Zipfian fit (OLS on log-log, reported alongside an MLE exponent and an equal-length control that shows the cross-genre comparison does not survive); compression-ratio Δ between raw and shuffled token streams (with the same equal-length control, which it does survive); equidistant-letter-sequence (ELS) decimation at skips 2–100 against 1,000 permutations, `(r+1)/(n+1)` corrected, Bonferroni threshold reported together with the resolution caveat that the permutation count cannot reach it; cross-RULING trigram parity against two nulls — a token-shuffle null retained only to demonstrate it is the wrong control, and a boundary-permutation null holding token order and chunk lengths fixed and varying only where cuts fall (the primary test).
 4. **Mapping.** For each empirical template, propose a named single-responsibility agent primitive with inputs, outputs, state, tools, and guardrails. Distinguish validated-by-data from speculative.
+
+## For Reviewers and Future Readers
+
+If you are evaluating this repo rather than using it, read in this order:
+
+1. **[CORRECTIONS.md](CORRECTIONS.md)** — everything that has been retracted, with the control that killed it. Two statistical findings and five regex probes.
+2. **[outputs/probe_validation.md](outputs/probe_validation.md)** — which frequencies are citable (precision + per-genre prevalence).
+3. **[REVIEWERS.md](REVIEWERS.md)** — where I think this is still weakest, and the specific questions I cannot answer myself.
+
+The hand-authored design documents (`outputs/reference_architecture.md`, `outputs/summary.md`, `outputs/FULL_IDEAS.md`) were written against the original findings. They are **preserved rather than rewritten**, with inline correction notices at each retracted passage, so the record of what was claimed stays visible. `scripts/check_integrity.py` enforces that coupling — a retracted claim cannot sit in this repo without its correction beside it.
+
+**Nothing here has been peer-reviewed.** The probe audit was performed by a non-specialist against standard dictionary values and is deliberately conservative, so its error rates are lower bounds.
+
+---
 
 ## Honest Limits
 

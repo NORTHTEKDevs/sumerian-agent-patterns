@@ -1,13 +1,24 @@
 # Summary — Top 10 Ideas, Ranked by Novelty × Implementability
 
+> ⚠️ **CORRECTION NOTICE (2026-07-31).** This is a hand-authored design document written against
+> the repository's original findings. **Two of those findings were subsequently withdrawn** after a
+> self-audit — the RULING-parity result (wrong null hypothesis) and the Zipf-as-DSL result
+> (stream-length artifact) — and **5 of 10 regex probes were found to match a different lexeme than
+> their label claims.** Passages below that rest on the withdrawn results are marked inline. The
+> document is preserved rather than rewritten so the record of what was claimed stays visible.
+> **Read [`../CORRECTIONS.md`](../CORRECTIONS.md) and [`probe_validation.md`](probe_validation.md)
+> before relying on anything here.**
+
+
+
 Scoring: each axis is 1–5. **Score** is the product (max 25). "Implementability" is for a typical modern agent runtime; "novelty" is relative to common multi-agent / LLM frameworks (LangGraph, AutoGen, CrewAI, MS Semantic Kernel).
 
 | # | Idea | Novelty | Impl. | Score | Source |
 |---|---|---:|---:|---:|---|
 | 1 | Universal sealed write envelope `(payload, seal, witnesses, period)` | 5 | 5 | **25** | §3, §5, §7.1 of `reference_architecture.md` |
-| 2 | L1/L2/L3 tiered memory (SURFACE / COLUMN / RULING) | 4 | 5 | **20** | §2, Phase 3 RULING parity |
+| 2 | L1/L2/L3 tiered memory (SURFACE / COLUMN / RULING) — **empirical basis WITHDRAWN, now an untested proposal** | 4 | 5 | ~~20~~ | §2; the Phase 3 RULING-parity result it rested on is withdrawn (`../CORRECTIONS.md`) |
 | 3 | Periodic signed audits (`šu-nigin₂`) for token/cost/tool ledgers | 5 | 4 | **20** | §5, probe `total_audit` |
-| 4 | Templates-as-types DSL encoder for high-redundancy genres | 5 | 3 | **15** | Phase 3 Zipf s=1.75 (admin/royal) |
+| 4 | Templates-as-types encoder for high-redundancy genres | 5 | 3 | **15** | ~~Phase 3 Zipf s=1.75~~ **withdrawn** — rests instead on the compression-Δ ranking, which survives a length control |
 | 5 | Year-name registry: relative refs that resolve + freeze at write-time | 4 | 4 | **16** | §6, probe `year_following` 74% admin |
 | 6 | Filiation + revocable seal graph for principal identity | 3 | 4 | **12** | §3, probe `dumu PN` 37% admin |
 | 7 | RoyalDecree-style policy registry with explicit supersession | 3 | 5 | **15** | §1 (RoyalDecreeAgent) |
@@ -21,7 +32,14 @@ Scoring: each axis is 1–5. **Score** is the product (max 25). "Implementabilit
 
 ### 1. Universal sealed write envelope (Score 25)
 
-**The pattern.** Every clay tablet ends with `kišib₃ PN` (seal of PN), `iti X` (month), `mu Y` (year), and an optional witness chain (`igi PN-šè`). No write is anonymous, undated, or unattributed. Tablets P101440 and P132611 are textbook examples.
+~~**The pattern.** Every clay tablet ends with `kišib₃ PN` (seal of PN), `iti X` (month), `mu Y` (year), and an optional witness chain (`igi PN-šè`). No write is anonymous, undated, or unattributed. Tablets P101440 and P132611 are textbook examples.~~
+
+> **CORRECTED (2026-07-31).** This overstates the corpus badly. **25.4%** of administrative tablets carry
+> `kišib₃`; **70.2%** carry a year-name; genuine witness clauses appear on **0.4%**; and **23.2%** carry
+> *none* of the three. "Every clay tablet" and "no write is anonymous" are false. P101440 is a genuine
+> sealed example; P132611 is a **Letter** with no seal clause, and was miscited here. The real pattern —
+> a quarter of administrative tablets sealed and ~70% year-dated — is still notable, and is what the
+> README now claims. See `probe_validation.md` for per-genre prevalence.
 
 **The proposal.** Make this the **kernel-wide invariant for every state-changing call** in your agent runtime:
 
@@ -45,7 +63,13 @@ struct WriteEnvelope<T> {
 
 ### 2. Three-tier memory (SURFACE / COLUMN / RULING) (Score 20)
 
-**The pattern.** Sumerian scribes treated tablets as a hierarchical document: physical surface (obverse/reverse) → logical column → atomic row. Phase 3 statistically confirms the row tier: adjacent `<RULING>`-bounded chunks share trigrams 30–500× more than shuffled baseline (Royal Inscription p=0.002, Administrative p=0.005).
+**The pattern.** Sumerian scribes treated tablets as a hierarchical document: physical surface (obverse/reverse) → logical column → atomic row. That three-level physical structure is a real feature of the artifact.
+
+> **WITHDRAWN (2026-07-31).** The sentence that followed — "Phase 3 statistically confirms the row tier:
+> adjacent `<RULING>`-bounded chunks share trigrams 30–500× more than shuffled baseline (Royal p=0.002,
+> Administrative p=0.005)" — is withdrawn. It came from a null that destroys all local structure. Under a
+> boundary-placement null the effect vanishes in every genre. The physical three-level layout is real; the
+> claim that `<RULING>` marks *content* boundaries is unsupported. See `../CORRECTIONS.md`.
 
 **The proposal.** Replace flat agent memory with a three-tier store. Reads return the *smallest enclosing tier* that satisfies the query, never the whole frame.
 
