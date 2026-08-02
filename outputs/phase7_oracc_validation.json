@@ -1,0 +1,590 @@
+{
+  "source": {
+    "corpus": "Oracc ePSD2 admin/ur3",
+    "url": "https://oracc.museum.upenn.edu/json/epsd2-admin-ur3.zip",
+    "license": "CC BY-SA"
+  },
+  "results": {
+    "king_title": {
+      "head": "lugal",
+      "claim": "title: king",
+      "oracc_occurrences": 73749,
+      "correct_by_oracc": 42746,
+      "precision_vs_oracc": 0.58,
+      "pos_distribution": {
+        "N": 42861,
+        "PN": 30381,
+        "u": 340,
+        "X": 89,
+        "FN": 31,
+        "DN": 18
+      },
+      "top_readings": [
+        {
+          "cf": "lugal",
+          "gw": "king",
+          "pos": "N",
+          "n": 42746,
+          "counts_as_correct": true
+        },
+        {
+          "cf": "Lugalemahe",
+          "gw": "0",
+          "pos": "PN",
+          "n": 2216,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "Lugalezem",
+          "gw": "0",
+          "pos": "PN",
+          "n": 1802,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "Lugalkugzu",
+          "gw": "0",
+          "pos": "PN",
+          "n": 1705,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "Lugalmagure",
+          "gw": "0",
+          "pos": "PN",
+          "n": 1292,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "Lugalazida",
+          "gw": "0",
+          "pos": "PN",
+          "n": 1154,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "Lugalkugani",
+          "gw": "0",
+          "pos": "PN",
+          "n": 1133,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "Lugalniŋlagare",
+          "gw": "0",
+          "pos": "PN",
+          "n": 1067,
+          "counts_as_correct": false
+        }
+      ],
+      "note": "A PN tag means the match is a personal-name element, not the title."
+    },
+    "seal_of_PN": {
+      "head": "kišib",
+      "claim": "identity / authentication",
+      "oracc_occurrences": 30044,
+      "correct_by_oracc": 30029,
+      "precision_vs_oracc": 1.0,
+      "pos_distribution": {
+        "N": 30030,
+        "X": 10,
+        "PN": 2,
+        "u": 2
+      },
+      "top_readings": [
+        {
+          "cf": "kišib",
+          "gw": "seal",
+          "pos": "N",
+          "n": 30003,
+          "counts_as_correct": true
+        },
+        {
+          "cf": "kišibla",
+          "gw": "wrist",
+          "pos": "N",
+          "n": 26,
+          "counts_as_correct": true
+        },
+        {
+          "cf": null,
+          "gw": null,
+          "pos": "X",
+          "n": 10,
+          "counts_as_correct": false
+        },
+        {
+          "cf": null,
+          "gw": null,
+          "pos": "u",
+          "n": 2,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "Kišib₃.NE",
+          "gw": "00",
+          "pos": "PN",
+          "n": 1,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "dub",
+          "gw": "tablet",
+          "pos": "N",
+          "n": 1,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "Kišib₃.ur.nin.geš.zi.da",
+          "gw": "00",
+          "pos": "PN",
+          "n": 1,
+          "counts_as_correct": false
+        }
+      ],
+      "note": ""
+    },
+    "son_of_PN": {
+      "head": "dumu",
+      "claim": "filiation / lineage",
+      "oracc_occurrences": 53359,
+      "correct_by_oracc": 50881,
+      "precision_vs_oracc": 0.954,
+      "pos_distribution": {
+        "N": 53199,
+        "X": 72,
+        "PN": 41,
+        "MN": 20,
+        "u": 18,
+        "FN": 5
+      },
+      "top_readings": [
+        {
+          "cf": "dumu",
+          "gw": "child",
+          "pos": "N",
+          "n": 50881,
+          "counts_as_correct": true
+        },
+        {
+          "cf": "dumumunus",
+          "gw": "daughter",
+          "pos": "N",
+          "n": 819,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "dumunita",
+          "gw": "son",
+          "pos": "N",
+          "n": 660,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "dumudaba",
+          "gw": "worker₂",
+          "pos": "N",
+          "n": 353,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "dumugugur",
+          "gw": "worker",
+          "pos": "N",
+          "n": 216,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "dumudaba",
+          "gw": "worker₁",
+          "pos": "N",
+          "n": 136,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "dumugir",
+          "gw": "citizen",
+          "pos": "N",
+          "n": 133,
+          "counts_as_correct": false
+        },
+        {
+          "cf": null,
+          "gw": null,
+          "pos": "X",
+          "n": 72,
+          "counts_as_correct": false
+        }
+      ],
+      "note": "dumu-zi (the deity Dumuzi) should surface as DN, not as 'child'."
+    },
+    "witness_eye": {
+      "head": "igi",
+      "claim": "witness presence",
+      "oracc_occurrences": 7213,
+      "correct_by_oracc": 5155,
+      "precision_vs_oracc": 0.715,
+      "pos_distribution": {
+        "N": 5634,
+        "PN": 1446,
+        "FN": 60,
+        "u": 43,
+        "X": 16,
+        "AN": 8
+      },
+      "top_readings": [
+        {
+          "cf": "igi",
+          "gw": "face",
+          "pos": "N",
+          "n": 2901,
+          "counts_as_correct": true
+        },
+        {
+          "cf": "igi",
+          "gw": "eye",
+          "pos": "N",
+          "n": 2254,
+          "counts_as_correct": true
+        },
+        {
+          "cf": "igikarag",
+          "gw": "delivery",
+          "pos": "N",
+          "n": 261,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "Igi.e₂.mah",
+          "gw": "00",
+          "pos": "PN",
+          "n": 130,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "IgiŠarak",
+          "gw": "0",
+          "pos": "PN",
+          "n": 128,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "Igianakezu",
+          "gw": "0",
+          "pos": "PN",
+          "n": 108,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "Igisagsag",
+          "gw": "0",
+          "pos": "PN",
+          "n": 98,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "igiduh",
+          "gw": "seer",
+          "pos": "N",
+          "n": 89,
+          "counts_as_correct": false
+        }
+      ],
+      "note": "igi also means 'eye/front'; the witness reading needs the igi PN-še₃ frame."
+    },
+    "year_formula": {
+      "head": "mu",
+      "claim": "temporal index (year-name)",
+      "oracc_occurrences": 94309,
+      "correct_by_oracc": 66614,
+      "precision_vs_oracc": 0.706,
+      "pos_distribution": {
+        "N": 83151,
+        "V/t": 4684,
+        "V/i": 3578,
+        "MN": 1035,
+        "ON": 832,
+        "PN": 768
+      },
+      "top_readings": [
+        {
+          "cf": "mu",
+          "gw": "year",
+          "pos": "N",
+          "n": 66614,
+          "counts_as_correct": true
+        },
+        {
+          "cf": "mu.DU",
+          "gw": "delivery",
+          "pos": "N",
+          "n": 8266,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "mu",
+          "gw": "name",
+          "pos": "N",
+          "n": 7955,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "du",
+          "gw": "build",
+          "pos": "V/t",
+          "n": 3687,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "hulu",
+          "gw": "bad",
+          "pos": "V/i",
+          "n": 3082,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "Mušudu",
+          "gw": "1",
+          "pos": "MN",
+          "n": 1035,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "Muriqtidnim",
+          "gw": "1",
+          "pos": "ON",
+          "n": 832,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "dim",
+          "gw": "create",
+          "pos": "V/t",
+          "n": 733,
+          "counts_as_correct": false
+        }
+      ],
+      "note": "mu is also 'name', and mu- is a verbal prefix."
+    },
+    "excess_diri": {
+      "head": "diri",
+      "claim": "excess / surplus",
+      "oracc_occurrences": 3687,
+      "correct_by_oracc": 3476,
+      "precision_vs_oracc": 0.943,
+      "pos_distribution": {
+        "V/i": 3658,
+        "PN": 14,
+        "X": 9,
+        "u": 3,
+        "DN": 2,
+        "FN": 1
+      },
+      "top_readings": [
+        {
+          "cf": "dirig",
+          "gw": "exceed",
+          "pos": "V/i",
+          "n": 3476,
+          "counts_as_correct": true
+        },
+        {
+          "cf": "dirig",
+          "gw": "float",
+          "pos": "V/i",
+          "n": 182,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "Watartum",
+          "gw": "0",
+          "pos": "PN",
+          "n": 14,
+          "counts_as_correct": false
+        },
+        {
+          "cf": null,
+          "gw": null,
+          "pos": "X",
+          "n": 9,
+          "counts_as_correct": false
+        },
+        {
+          "cf": null,
+          "gw": null,
+          "pos": "u",
+          "n": 3,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "Watartum",
+          "gw": "1",
+          "pos": "DN",
+          "n": 2,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "Diri.tar",
+          "gw": "00",
+          "pos": "FN",
+          "n": 1,
+          "counts_as_correct": false
+        }
+      ],
+      "note": "diri also marks an intercalary month."
+    },
+    "total_audit": {
+      "head": "šu-niŋin",
+      "oracc_occurrences": 0,
+      "precision_vs_oracc": null,
+      "claim": "ledger total",
+      "note": "head token not attested in the Oracc Ur III corpus"
+    },
+    "received_by": {
+      "head": "ba-ti",
+      "claim": "transaction confirmation",
+      "oracc_occurrences": 14452,
+      "correct_by_oracc": 14426,
+      "precision_vs_oracc": 0.998,
+      "pos_distribution": {
+        "V/i": 14426,
+        "PN": 20,
+        "N": 4,
+        "u": 1,
+        "X": 1
+      },
+      "top_readings": [
+        {
+          "cf": "teŋ",
+          "gw": "near",
+          "pos": "V/i",
+          "n": 14426,
+          "counts_as_correct": true
+        },
+        {
+          "cf": "Ba.ti.ti",
+          "gw": "00",
+          "pos": "PN",
+          "n": 11,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "batiʾum",
+          "gw": "container",
+          "pos": "N",
+          "n": 4,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "Ba.ti.la",
+          "gw": "00",
+          "pos": "PN",
+          "n": 3,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "Ba.ti.um.ma",
+          "gw": "00",
+          "pos": "PN",
+          "n": 2,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "Ba.ti.mu",
+          "gw": "00",
+          "pos": "PN",
+          "n": 2,
+          "counts_as_correct": false
+        },
+        {
+          "cf": null,
+          "gw": null,
+          "pos": "u",
+          "n": 1,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "Ba.ti.ir",
+          "gw": "00",
+          "pos": "PN",
+          "n": 1,
+          "counts_as_correct": false
+        }
+      ],
+      "note": "šu ba-ti is a fixed receipt formula."
+    },
+    "ensi_title": {
+      "head": "ensi",
+      "claim": "title: governor",
+      "oracc_occurrences": 9379,
+      "correct_by_oracc": 9250,
+      "precision_vs_oracc": 0.986,
+      "pos_distribution": {
+        "N": 9322,
+        "PN": 48,
+        "u": 4,
+        "X": 4,
+        "FN": 1
+      },
+      "top_readings": [
+        {
+          "cf": "ensik",
+          "gw": "ruler",
+          "pos": "N",
+          "n": 9250,
+          "counts_as_correct": true
+        },
+        {
+          "cf": "ensikgal",
+          "gw": "steward",
+          "pos": "N",
+          "n": 59,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "Ensi₂",
+          "gw": "00",
+          "pos": "PN",
+          "n": 46,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "ensi",
+          "gw": "interpreter",
+          "pos": "N",
+          "n": 13,
+          "counts_as_correct": false
+        },
+        {
+          "cf": null,
+          "gw": null,
+          "pos": "u",
+          "n": 4,
+          "counts_as_correct": false
+        },
+        {
+          "cf": null,
+          "gw": null,
+          "pos": "X",
+          "n": 4,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "Ensi₂.aš",
+          "gw": "00",
+          "pos": "PN",
+          "n": 1,
+          "counts_as_correct": false
+        },
+        {
+          "cf": "Ensi₂.GAN₂.en.ki",
+          "gw": "00",
+          "pos": "FN",
+          "n": 1,
+          "counts_as_correct": false
+        }
+      ],
+      "note": ""
+    }
+  }
+}

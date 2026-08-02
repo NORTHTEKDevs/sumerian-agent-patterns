@@ -32,3 +32,6 @@ huggingface/
 # Misc
 *.log
 peek.py
+
+# Oracc bulk data (regenerable, 561MB)
+data/oracc/

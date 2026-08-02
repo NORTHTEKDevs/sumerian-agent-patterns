@@ -60,8 +60,11 @@ Getting the right answer for the wrong reason is not a vindication, and it is no
 **Claim.** 25.4% of administrative tablets carry a `kišib₃` (seal) clause; 70.2% carry a year-name;
 15.2% carry `šu ba-ti` ("received"). 23.2% carry neither seal, year-name, nor witness clause.
 
-**Evidence.** Regex probes over a 2,069-tablet stratified sample, each precision-audited:
-`seal_of_PN` 96%, `received_by` 100%, strict year-name probe. See
+**Evidence.** Regex probes over a 2,069-tablet stratified sample, precision-audited twice — first
+against my own discriminators, then against **Oracc's expert lemmatisation of the Ur III corpus
+(3.6M annotated tokens)**. Gold-standard precision: `seal_of_PN` **100%**, `received_by` **99.8%**,
+`ensi_title` **98.6%**, `son_of_PN` **95.4%**. See
+[`outputs/phase7_oracc_validation.md`](outputs/phase7_oracc_validation.md) and
 [`outputs/probe_validation.md`](outputs/probe_validation.md).
 
 **Why it can be believed.** These four probes were partitioned match-by-match against their claimed
@@ -157,8 +160,10 @@ half of this result is the cost side, which is real and measured.
   consistent with ruling-aligned chunking being meaningful, but no agent system was built or
   evaluated here.
 - **`outputs/FULL_IDEAS.md`** (~158 items) is ideation, preserved for browsability.
-- **Five of ten audited regex probes** are unreliable (precision 6–42%) and must not be cited. See
-  [`outputs/probe_validation.md`](outputs/probe_validation.md).
+- **`king_title` is broken** — Oracc's expert annotation tags **41% of `lugal` occurrences as
+  personal names** (30,381 of 73,749), not the royal title. Never cite the 48.6% figure. Other probes
+  flagged in Phase 1b are weaker at the *construction* level than at the *lexeme* level; see
+  [`outputs/phase7_oracc_validation.md`](outputs/phase7_oracc_validation.md) for which is which.
 
 ## Standing caveats
 
