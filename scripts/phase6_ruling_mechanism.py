@@ -139,6 +139,52 @@ def rates_from(encoded, placements):
              for j in range(len(MARKERS))}, n_pre, n_oth)
 
 
+N_STRATA = 10
+
+
+def stratified_null(encoded, rng, n_perm=N_PERM):
+    """Position-controlled null.
+
+    The within-tablet null permutes ruling positions uniformly over interior lines. That leaves a
+    confound: if BOTH rulings and closing formulae drift toward the back of a tablet, enrichment can
+    arise from positional co-clustering with no record-boundary relationship at all.
+
+    This null removes that. Every interior line is assigned a stratum by its RELATIVE position in its
+    tablet (decile), and the `is_pre_ruling` labels are permuted only WITHIN a stratum. The positional
+    distribution of rulings is therefore held fixed by construction, and the only thing that varies is
+    which specific line at a given relative depth is treated as ruling-adjacent.
+
+    Returns (observed_rates, null_rate_distributions, n_pre, stratum_sizes).
+    """
+    rows, labels, strata = [], [], []
+    for m, sel in encoded:
+        n = m.shape[0]
+        if n == 0:
+            continue
+        sel = set(int(s) for s in sel)
+        for i in range(n):
+            rows.append(m[i])
+            labels.append(i in sel)
+            strata.append(min(N_STRATA - 1, int(N_STRATA * i / n)))
+    X = np.array(rows, dtype=bool)
+    y = np.array(labels, dtype=bool)
+    s = np.array(strata, dtype=int)
+
+    obs = X[y].sum(axis=0) / max(int(y.sum()), 1)
+    idx_by_stratum = [np.flatnonzero(s == k) for k in range(N_STRATA)]
+    k_by_stratum = [int(y[ix].sum()) for ix in idx_by_stratum]
+
+    null = np.empty((n_perm, X.shape[1]))
+    for b in range(n_perm):
+        pick = []
+        for ix, k in zip(idx_by_stratum, k_by_stratum):
+            if k:
+                pick.append(rng.choice(ix, size=k, replace=False))
+        sel_idx = np.concatenate(pick) if pick else np.array([], dtype=int)
+        null[b] = X[sel_idx].sum(axis=0) / max(sel_idx.size, 1)
+    return obs, null, int(y.sum()), [int(len(ix)) for ix in idx_by_stratum], k_by_stratum
+
+
 def main() -> None:
     rng = np.random.default_rng(SEED)
     df = pd.read_parquet(DATA / "sumtablets.parquet", columns=["id", "genre", "transliteration"])
@@ -173,13 +219,21 @@ def main() -> None:
             for k in obs:
                 null_rates[k][b] = r[k][0]
 
+        # POSITION-CONTROLLED null -- the one that closes the co-clustering confound.
+        s_obs, s_null, s_npre, s_sizes, s_k = stratified_null(encoded, rng)
+
         genre_out = {}
-        for name in obs:
+        for j, name in enumerate(NAMES):
             o = obs[name][0]
             nul = null_rates[name]
             p_up = (int((nul >= o).sum()) + 1) / (N_PERM + 1)
             p_lo = (int((nul <= o).sum()) + 1) / (N_PERM + 1)
             enrich = o / nul.mean() if nul.mean() > 0 else float("nan")
+
+            so, sn = float(s_obs[j]), s_null[:, j]
+            sp_up = (int((sn >= so).sum()) + 1) / (N_PERM + 1)
+            s_enrich = so / sn.mean() if sn.mean() > 0 else float("nan")
+
             genre_out[name] = {
                 "rate_before_ruling": round(o, 4),
                 "rate_other_lines": round(obs[name][1], 4),
@@ -187,6 +241,11 @@ def main() -> None:
                 "enrichment_vs_null": round(enrich, 2) if enrich == enrich else None,
                 "p_upper": round(p_up, 5),
                 "p_lower": round(p_lo, 5),
+                "position_controlled": {
+                    "null_mean_rate": round(float(sn.mean()), 4),
+                    "enrichment": round(s_enrich, 2) if s_enrich == s_enrich else None,
+                    "p_upper": round(sp_up, 5),
+                },
                 "is_negative_control": name == OPENER[0],
             }
         results[genre] = {"n_tablets": len(encoded), "n_pre_ruling_lines": n_pre,
@@ -217,12 +276,15 @@ def main() -> None:
     for genre, r in results.items():
         md.append(f"## {genre}\n\n{r['n_tablets']:,} tablets · {r['n_pre_ruling_lines']:,} pre-ruling lines · "
                   f"{r['n_other_lines']:,} other interior lines\n\n")
-        md.append("| Marker | Rate before ruling | Rate elsewhere | Null mean | Enrichment | p |\n")
-        md.append("|---|---:|---:|---:|---:|---:|\n")
+        md.append("| Marker | Rate before ruling | Rate elsewhere | Within-tablet enrich | p | "
+                  "**Position-controlled enrich** | **p** |\n")
+        md.append("|---|---:|---:|---:|---:|---:|---:|\n")
         for name, v in r["markers"].items():
             label = f"{name} *(negative control)*" if v["is_negative_control"] else name
-            md.append(f"| {label} | {v['rate_before_ruling']} | {v['rate_other_lines']} | {v['null_mean_rate']} | "
-                      f"**{v['enrichment_vs_null']}×** | {v['p_upper']} |\n")
+            pc = v["position_controlled"]
+            md.append(f"| {label} | {v['rate_before_ruling']} | {v['rate_other_lines']} | "
+                      f"{v['enrichment_vs_null']}× | {v['p_upper']} | "
+                      f"**{pc['enrichment']}×** | **{pc['p_upper']}** |\n")
         md.append("\n")
     md.append("## How to read this\n\n")
     md.append("`Enrichment` is the observed rate before a ruling divided by the rate expected when the same number "
@@ -263,8 +325,15 @@ def main() -> None:
               "both sides — which is precisely why arbitrary cuts show *higher* cross-boundary overlap.\n")
     md.append("2. **`<RULING>` is not merely an editorial artifact.** Its placement is predicted by the semantic "
               "content of the preceding line. A modern editor drawing lines without regard to content could not "
-              "produce a 5.4× enrichment of `šu ba-ti` at p = 0.0001. This was listed as an open threat to "
-              "validity in Phase 4; it is now substantially addressed.\n\n")
+              "produce this. This was listed as an open threat to validity in Phase 4; it is now substantially "
+              "addressed.\n\n")
+    md.append("3. **The result is not positional co-clustering.** The obvious objection to the within-tablet null "
+              "is that rulings *and* closing formulae might both drift toward the back of a tablet, producing "
+              "enrichment with no record-boundary relationship at all. The position-controlled null removes that: "
+              "every interior line is assigned a relative-position decile and labels are permuted only within a "
+              "decile, so the positional distribution of rulings is fixed by construction. **The effect does not "
+              "weaken — it strengthens slightly** (`šu ba-ti` 5.4× → 6.31×, `kišib₃` 2.46× → 2.52×, both still at "
+              "p = 0.0001). Position is therefore not the driver.\n\n")
     md.append("**Does not settle:**\n\n")
     md.append("- Whether this generalises beyond Ur III administrative practice. Literary is underpowered here and "
               "every other genre lacks the record structure entirely.\n")

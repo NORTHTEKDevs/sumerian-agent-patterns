@@ -17,6 +17,11 @@
           "enrichment_vs_null": 2.46,
           "p_upper": 0.0001,
           "p_lower": 1.0,
+          "position_controlled": {
+            "null_mean_rate": 0.012,
+            "enrichment": 2.52,
+            "p_upper": 0.0001
+          },
           "is_negative_control": false
         },
         "received_by (šu ba-ti)": {
@@ -26,6 +31,11 @@
           "enrichment_vs_null": 5.4,
           "p_upper": 0.0001,
           "p_lower": 1.0,
+          "position_controlled": {
+            "null_mean_rate": 0.0146,
+            "enrichment": 6.31,
+            "p_upper": 0.0001
+          },
           "is_negative_control": false
         },
         "month (iti)": {
@@ -35,6 +45,11 @@
           "enrichment_vs_null": 0.58,
           "p_upper": 1.0,
           "p_lower": 0.0001,
+          "position_controlled": {
+            "null_mean_rate": 0.0585,
+            "enrichment": 0.53,
+            "p_upper": 1.0
+          },
           "is_negative_control": false
         },
         "year-name (strict mu)": {
@@ -44,6 +59,11 @@
           "enrichment_vs_null": 0.3,
           "p_upper": 1.0,
           "p_lower": 0.0001,
+          "position_controlled": {
+            "null_mean_rate": 0.0579,
+            "enrichment": 0.28,
+            "p_upper": 1.0
+          },
           "is_negative_control": false
         },
         "letter address (u₃-na-a-du₁₁)": {
@@ -53,6 +73,11 @@
           "enrichment_vs_null": null,
           "p_upper": 1.0,
           "p_lower": 1.0,
+          "position_controlled": {
+            "null_mean_rate": 0.0,
+            "enrichment": null,
+            "p_upper": 1.0
+          },
           "is_negative_control": true
         }
       }
@@ -66,9 +91,14 @@
           "rate_before_ruling": 0.0034,
           "rate_other_lines": 0.0016,
           "null_mean_rate": 0.0016,
-          "enrichment_vs_null": 2.14,
-          "p_upper": 0.39906,
-          "p_lower": 0.93641,
+          "enrichment_vs_null": 2.15,
+          "p_upper": 0.40416,
+          "p_lower": 0.94291,
+          "position_controlled": {
+            "null_mean_rate": 0.0018,
+            "enrichment": 1.94,
+            "p_upper": 0.41606
+          },
           "is_negative_control": false
         },
         "received_by (šu ba-ti)": {
@@ -77,7 +107,12 @@
           "null_mean_rate": 0.0007,
           "enrichment_vs_null": 0.0,
           "p_upper": 1.0,
-          "p_lower": 0.79662,
+          "p_lower": 0.80492,
+          "position_controlled": {
+            "null_mean_rate": 0.0002,
+            "enrichment": 0.0,
+            "p_upper": 1.0
+          },
           "is_negative_control": false
         },
         "month (iti)": {
@@ -86,16 +121,26 @@
           "null_mean_rate": 0.002,
           "enrichment_vs_null": 0.0,
           "p_upper": 1.0,
-          "p_lower": 0.52475,
+          "p_lower": 0.51885,
+          "position_controlled": {
+            "null_mean_rate": 0.0013,
+            "enrichment": 0.0,
+            "p_upper": 1.0
+          },
           "is_negative_control": false
         },
         "year-name (strict mu)": {
           "rate_before_ruling": 0.0171,
           "rate_other_lines": 0.0454,
-          "null_mean_rate": 0.0286,
-          "enrichment_vs_null": 0.6,
-          "p_upper": 0.94311,
-          "p_lower": 0.12859,
+          "null_mean_rate": 0.029,
+          "enrichment_vs_null": 0.59,
+          "p_upper": 0.94911,
+          "p_lower": 0.11769,
+          "position_controlled": {
+            "null_mean_rate": 0.0449,
+            "enrichment": 0.38,
+            "p_upper": 0.999
+          },
           "is_negative_control": false
         },
         "letter address (u₃-na-a-du₁₁)": {
@@ -105,6 +150,11 @@
           "enrichment_vs_null": null,
           "p_upper": 1.0,
           "p_lower": 1.0,
+          "position_controlled": {
+            "null_mean_rate": 0.0,
+            "enrichment": null,
+            "p_upper": 1.0
+          },
           "is_negative_control": true
         }
       }

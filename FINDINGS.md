@@ -28,8 +28,11 @@ known degeneracy of that null (tablets whose chunk lengths are all equal cannot 
 
 **Mechanism — now tested directly (Phase 6).** In Administrative tablets, transaction-*closing*
 formulae are strongly enriched in the line immediately before a ruling: `šu ba-ti` ("received")
-**5.4×** enriched (p = 0.0001) and `kišib₃` (seal) **2.46×** (p = 0.0001), against a null that
-permutes ruling positions within the same tablet. Date elements are *depleted* — as expected, since
+**6.31×** enriched (p = 0.0001) and `kišib₃` (seal) **2.52×** (p = 0.0001), under a null that holds
+each line's relative position in its tablet fixed and permutes labels only within a position decile.
+The obvious objection — that rulings and closing formulae might merely co-cluster toward the back of
+a tablet — is therefore ruled out: controlling for position does not weaken the effect, it slightly
+strengthens it (5.40× → 6.31×). Date elements are *depleted* — as expected, since
 in Ur III practice the date closes the whole tablet rather than each internal entry, and tablet-final
 lines are excluded by design. A letter-*opening* formula used as a negative control shows nothing.
 So a ruling separates completed transactions, and an arbitrary cut lands mid-record leaving related

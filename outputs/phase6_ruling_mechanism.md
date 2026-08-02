@@ -12,25 +12,25 @@ A letter-*opening* formula (`u₃-na-a-du₁₁`) is included as a **negative co
 
 1,783 tablets · 2,213 pre-ruling lines · 31,469 other interior lines
 
-| Marker | Rate before ruling | Rate elsewhere | Null mean | Enrichment | p |
-|---|---:|---:|---:|---:|---:|
-| seal_of_PN (kišib₃) | 0.0303 | 0.0093 | 0.0123 | **2.46×** | 0.0001 |
-| received_by (šu ba-ti) | 0.0922 | 0.004 | 0.0171 | **5.4×** | 0.0001 |
-| month (iti) | 0.0307 | 0.0399 | 0.0529 | **0.58×** | 1.0 |
-| year-name (strict mu) | 0.0163 | 0.0433 | 0.0536 | **0.3×** | 1.0 |
-| letter address (u₃-na-a-du₁₁) *(negative control)* | 0.0 | 0.0 | 0.0 | **None×** | 1.0 |
+| Marker | Rate before ruling | Rate elsewhere | Within-tablet enrich | p | **Position-controlled enrich** | **p** |
+|---|---:|---:|---:|---:|---:|---:|
+| seal_of_PN (kišib₃) | 0.0303 | 0.0093 | 2.46× | 0.0001 | **2.52×** | **0.0001** |
+| received_by (šu ba-ti) | 0.0922 | 0.004 | 5.4× | 0.0001 | **6.31×** | **0.0001** |
+| month (iti) | 0.0307 | 0.0399 | 0.58× | 1.0 | **0.53×** | **1.0** |
+| year-name (strict mu) | 0.0163 | 0.0433 | 0.3× | 1.0 | **0.28×** | **1.0** |
+| letter address (u₃-na-a-du₁₁) *(negative control)* | 0.0 | 0.0 | None× | 1.0 | **None×** | **1.0** |
 
 ## Literary
 
 109 tablets · 293 pre-ruling lines · 3,770 other interior lines
 
-| Marker | Rate before ruling | Rate elsewhere | Null mean | Enrichment | p |
-|---|---:|---:|---:|---:|---:|
-| seal_of_PN (kišib₃) | 0.0034 | 0.0016 | 0.0016 | **2.14×** | 0.39906 |
-| received_by (šu ba-ti) | 0.0 | 0.0003 | 0.0007 | **0.0×** | 1.0 |
-| month (iti) | 0.0 | 0.0013 | 0.002 | **0.0×** | 1.0 |
-| year-name (strict mu) | 0.0171 | 0.0454 | 0.0286 | **0.6×** | 0.94311 |
-| letter address (u₃-na-a-du₁₁) *(negative control)* | 0.0 | 0.0 | 0.0 | **None×** | 1.0 |
+| Marker | Rate before ruling | Rate elsewhere | Within-tablet enrich | p | **Position-controlled enrich** | **p** |
+|---|---:|---:|---:|---:|---:|---:|
+| seal_of_PN (kišib₃) | 0.0034 | 0.0016 | 2.15× | 0.40416 | **1.94×** | **0.41606** |
+| received_by (šu ba-ti) | 0.0 | 0.0003 | 0.0× | 1.0 | **0.0×** | **1.0** |
+| month (iti) | 0.0 | 0.0013 | 0.0× | 1.0 | **0.0×** | **1.0** |
+| year-name (strict mu) | 0.0171 | 0.0454 | 0.59× | 0.94911 | **0.38×** | **0.999** |
+| letter address (u₃-na-a-du₁₁) *(negative control)* | 0.0 | 0.0 | None× | 1.0 | **None×** | **1.0** |
 
 ## How to read this
 
@@ -58,7 +58,9 @@ The date elements go the other way — `iti` (month) and `mu` (year-name) are *d
 **Settles (for Ur III administrative tablets):**
 
 1. **The Phase 4 effect has a mechanism.** Rulings fall after record-closing formulae, so a ruling separates completed transactions. An arbitrary cut lands mid-record, leaving related material on both sides — which is precisely why arbitrary cuts show *higher* cross-boundary overlap.
-2. **`<RULING>` is not merely an editorial artifact.** Its placement is predicted by the semantic content of the preceding line. A modern editor drawing lines without regard to content could not produce a 5.4× enrichment of `šu ba-ti` at p = 0.0001. This was listed as an open threat to validity in Phase 4; it is now substantially addressed.
+2. **`<RULING>` is not merely an editorial artifact.** Its placement is predicted by the semantic content of the preceding line. A modern editor drawing lines without regard to content could not produce this. This was listed as an open threat to validity in Phase 4; it is now substantially addressed.
+
+3. **The result is not positional co-clustering.** The obvious objection to the within-tablet null is that rulings *and* closing formulae might both drift toward the back of a tablet, producing enrichment with no record-boundary relationship at all. The position-controlled null removes that: every interior line is assigned a relative-position decile and labels are permuted only within a decile, so the positional distribution of rulings is fixed by construction. **The effect does not weaken — it strengthens slightly** (`šu ba-ti` 5.4× → 6.31×, `kišib₃` 2.46× → 2.52×, both still at p = 0.0001). Position is therefore not the driver.
 
 **Does not settle:**
 
