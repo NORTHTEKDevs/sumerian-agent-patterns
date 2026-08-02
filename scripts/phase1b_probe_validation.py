@@ -24,11 +24,28 @@ Output: outputs/probe_validation.md + outputs/probe_validation.json
 """
 from __future__ import annotations
 
+import sys
+
 import json
 import re
 from pathlib import Path
 
 import pandas as pd
+
+def _ascii_safe_stdout() -> None:
+    """Windows consoles default to cp1252, which cannot encode Sumerian transliteration.
+    Without this, printing a probe name crashes the script after the analysis has already
+    succeeded -- the same failure that made benchmark.py unusable on Windows."""
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, OSError):
+        pass
+
+
+_ascii_safe_stdout()
+
+
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"

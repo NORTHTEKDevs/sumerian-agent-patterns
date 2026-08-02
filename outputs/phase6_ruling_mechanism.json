@@ -1,0 +1,113 @@
+{
+  "config": {
+    "permutations": 10000,
+    "seed": 20260801,
+    "probes": "phase-1b precision-validated only (>=95%)"
+  },
+  "results": {
+    "Administrative": {
+      "n_tablets": 1783,
+      "n_pre_ruling_lines": 2213,
+      "n_other_lines": 31469,
+      "markers": {
+        "seal_of_PN (kišib₃)": {
+          "rate_before_ruling": 0.0303,
+          "rate_other_lines": 0.0093,
+          "null_mean_rate": 0.0123,
+          "enrichment_vs_null": 2.46,
+          "p_upper": 0.0001,
+          "p_lower": 1.0,
+          "is_negative_control": false
+        },
+        "received_by (šu ba-ti)": {
+          "rate_before_ruling": 0.0922,
+          "rate_other_lines": 0.004,
+          "null_mean_rate": 0.0171,
+          "enrichment_vs_null": 5.4,
+          "p_upper": 0.0001,
+          "p_lower": 1.0,
+          "is_negative_control": false
+        },
+        "month (iti)": {
+          "rate_before_ruling": 0.0307,
+          "rate_other_lines": 0.0399,
+          "null_mean_rate": 0.0529,
+          "enrichment_vs_null": 0.58,
+          "p_upper": 1.0,
+          "p_lower": 0.0001,
+          "is_negative_control": false
+        },
+        "year-name (strict mu)": {
+          "rate_before_ruling": 0.0163,
+          "rate_other_lines": 0.0433,
+          "null_mean_rate": 0.0536,
+          "enrichment_vs_null": 0.3,
+          "p_upper": 1.0,
+          "p_lower": 0.0001,
+          "is_negative_control": false
+        },
+        "letter address (u₃-na-a-du₁₁)": {
+          "rate_before_ruling": 0.0,
+          "rate_other_lines": 0.0,
+          "null_mean_rate": 0.0,
+          "enrichment_vs_null": null,
+          "p_upper": 1.0,
+          "p_lower": 1.0,
+          "is_negative_control": true
+        }
+      }
+    },
+    "Literary": {
+      "n_tablets": 109,
+      "n_pre_ruling_lines": 293,
+      "n_other_lines": 3770,
+      "markers": {
+        "seal_of_PN (kišib₃)": {
+          "rate_before_ruling": 0.0034,
+          "rate_other_lines": 0.0016,
+          "null_mean_rate": 0.0016,
+          "enrichment_vs_null": 2.14,
+          "p_upper": 0.39906,
+          "p_lower": 0.93641,
+          "is_negative_control": false
+        },
+        "received_by (šu ba-ti)": {
+          "rate_before_ruling": 0.0,
+          "rate_other_lines": 0.0003,
+          "null_mean_rate": 0.0007,
+          "enrichment_vs_null": 0.0,
+          "p_upper": 1.0,
+          "p_lower": 0.79662,
+          "is_negative_control": false
+        },
+        "month (iti)": {
+          "rate_before_ruling": 0.0,
+          "rate_other_lines": 0.0013,
+          "null_mean_rate": 0.002,
+          "enrichment_vs_null": 0.0,
+          "p_upper": 1.0,
+          "p_lower": 0.52475,
+          "is_negative_control": false
+        },
+        "year-name (strict mu)": {
+          "rate_before_ruling": 0.0171,
+          "rate_other_lines": 0.0454,
+          "null_mean_rate": 0.0286,
+          "enrichment_vs_null": 0.6,
+          "p_upper": 0.94311,
+          "p_lower": 0.12859,
+          "is_negative_control": false
+        },
+        "letter address (u₃-na-a-du₁₁)": {
+          "rate_before_ruling": 0.0,
+          "rate_other_lines": 0.0,
+          "null_mean_rate": 0.0,
+          "enrichment_vs_null": null,
+          "p_upper": 1.0,
+          "p_lower": 1.0,
+          "is_negative_control": true
+        }
+      }
+    }
+  }
+}

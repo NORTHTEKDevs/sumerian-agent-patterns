@@ -26,10 +26,24 @@ preserves the chunk-length distribution exactly, so the effect is not a chunk-si
 known degeneracy of that null (tablets whose chunk lengths are all equal cannot move) affects only
 1.2% of tablets and biases *against* finding an effect. Effect sizes carry bootstrap CIs.
 
-**What it does not establish.** The *mechanism*. A record-boundary explanation — arbitrary cuts fall
-within a record, real rulings fall between records — is consistent with the data but is not tested
-here, and would need record-level annotation the corpus does not carry. The effect is also modest:
-a ~22% reduction against a mean of 1.19 shared trigrams per pair.
+**Mechanism — now tested directly (Phase 6).** In Administrative tablets, transaction-*closing*
+formulae are strongly enriched in the line immediately before a ruling: `šu ba-ti` ("received")
+**5.4×** enriched (p = 0.0001) and `kišib₃` (seal) **2.46×** (p = 0.0001), against a null that
+permutes ruling positions within the same tablet. Date elements are *depleted* — as expected, since
+in Ur III practice the date closes the whole tablet rather than each internal entry, and tablet-final
+lines are excluded by design. A letter-*opening* formula used as a negative control shows nothing.
+So a ruling separates completed transactions, and an arbitrary cut lands mid-record leaving related
+material on both sides — which is exactly why arbitrary cuts show higher overlap. See
+[`outputs/phase6_ruling_mechanism.md`](outputs/phase6_ruling_mechanism.md).
+
+**This also addresses the editorial-artifact concern.** Ruling placement is predicted by the semantic
+content of the preceding line. A modern editor drawing lines without regard to content could not
+produce a 5.4× enrichment of `šu ba-ti` at p = 0.0001.
+
+**What it still does not establish.** Whether this generalises beyond Ur III administrative practice
+(Literary is underpowered, other genres lack record structure), or whether the association reflects
+scribal intent rather than a downstream regularity of layout. The Phase 4 effect is also modest in
+size: a ~22% reduction against a mean of 1.19 shared trigrams per pair.
 
 **Relationship to the withdrawn claim.** The original release claimed the *opposite* direction
 (chunks share *more*) on an invalid null, and that claim stays withdrawn. This is an independent,
