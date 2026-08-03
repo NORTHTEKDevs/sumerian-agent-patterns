@@ -1,6 +1,6 @@
 # Clay as Ground Truth: Testing Text-Chunking Signals Against 4,000-Year-Old Record Boundaries
 
-**Kristian Baer** (Northtek) · Draft v1.3, 2026-08-03 · Not peer-reviewed
+**Kristian Baer** (Northtek) · Draft v1.4, 2026-08-03 · Not peer-reviewed
 **Repository:** https://github.com/NORTHTEKDevs/sumerian-agent-patterns (all numbers regenerate from the pipeline; CI enforces prose–data agreement)
 
 > Draft v1.1 incorporated a five-reviewer adversarial gate (§9). Draft v1.2 adds the experiment
@@ -36,10 +36,16 @@ sparse closing-formula cue, on the 27% of tablets where it exists, remains untou
 Pk 0.208 versus 0.408 for random cuts *on those same tablets*. (3) *Measurement:* the regex probes identifying
 these formulae were validated against expert lemmatisation (Oracc ePSD2, 3.6M tokens); a naive
 royal-title probe matches personal names 41% of the time, quantifying a failure mode directly
-relevant to regex-scored evaluation of agent systems. The resulting hierarchy for record-structured content — structural end-markers where they exist,
-embedding similarity as a weak but real fallback where they do not, lexical-overlap methods and
-fixed-size chunking at or below chance — and the boundary-recovery evaluation methodology itself,
-which the RAG literature currently lacks, are the practical contributions. The
+relevant to regex-scored evaluation of agent systems. An in-distribution replication on modern record streams (git commit histories, boundaries defined
+by the VCS) confirms the central result decisively — attribution trailers, the modern *šu ba-ti*,
+recover boundaries at Pk 0.252 vs. 0.464 random (250/13 paired) — and sharpens the rest:
+in-distribution embeddings clearly beat chance where out-of-distribution ones could not, but
+which similarity algorithm wins is corpus-dependent, and fixed-size chunking's worse-than-random
+showing on Ur III tablets *reverses* on modern commit streams, exposing it as a fact about record-
+length dispersion rather than about fixed-size chunking. The resulting guidance — structural
+end-markers first wherever they exist; embedding similarity as a corpus-dependent fallback; probe
+and evaluate rather than assume — and the boundary-recovery evaluation methodology itself, which
+the RAG literature currently lacks, are the practical contributions. The
 project's full audit trail, including two withdrawn claims and the reviewer-caught defects of
 this paper's own first draft, ships with the repository and is enforced by CI.
 
@@ -342,6 +348,45 @@ generic-subword-geometry reading of the OOD signal over a multilingual-transfer 
 though the two models' near-tie makes that inference weak. See
 [`outputs/phase10_model_robustness.md`](outputs/phase10_model_robustness.md).
 
+### 6.6 In-distribution replication on modern record streams (Phase 11)
+
+The standing objection to every embedding result above is that Sumerian is out-of-distribution
+for the encoder. Phase 11 reruns the full evaluation on modern English record streams where the
+encoder is in-distribution: non-overlapping windows of consecutive **git commit messages**
+(boundaries defined by the VCS, causally prior to the test; commit headers stripped so nothing
+hands the boundary to any method), 300 documents each from two public repositories chosen for
+the marker contrast — **git/git**, whose convention closes nearly every record with attribution
+trailers (`Signed-off-by:` — the modern *šu ba-ti*; 263/300 documents carry one), and
+**expressjs/express**, effectively markerless (32/300). Pinned to `--until=2026-01-01`,
+reproducible with two blobless clones. Five criteria were pre-registered; **three held and two
+failed**, all reported as fixed:
+
+- **M1 held — the central thesis transfers decisively.** On git/git's trailer-bearing documents,
+  the closer cue reaches **Pk 0.252 vs. 0.464 same-stratum random (250/13 paired, p < 10⁻⁴)** —
+  a larger margin than on the tablets. Even in express's 32 trailer-bearing documents the cue
+  wins (0.247 vs. 0.349, p = 0.043).
+- **M3 held.** On the markerless repo, `emb_global` beats random (144/90, BH p = 0.0012),
+  the in-distribution analogue of the Phase 9/10 markerless result.
+- **M5 held.** Shuffled-embedding controls collapse in both repos.
+- **M2 failed in one repo.** Embeddings beat their lexical twin decisively on git/git (199/87,
+  BH p < 10⁻⁴) — and clearly beat random there (emb_valley 0.350 vs. 0.465, 230/70, BH p < 10⁻⁴),
+  which out-of-distribution embeddings never achieved — but the twin comparison is flat on
+  express (70/63), whose records are mostly one-line messages carrying too little block content
+  for any similarity signal. In-distribution helps exactly where there is text to embed.
+- **M4 failed, informatively.** Fixed-size chunking *beats* random on both modern repos
+  (git/git BH p = 0.023; express p < 10⁻⁴) — the reverse of the tablet result. The correct
+  generalisation is therefore about **record-length dispersion**, not fixed-size chunking per se:
+  Ur III entries are extremely uneven, so evenly spaced cuts are systematically misaligned;
+  commit-window records are closer to uniform, so equal spacing is a reasonable prior. We
+  accordingly retract "fixed-size is worse than random" as a general claim and scope it to
+  high-dispersion record streams.
+- A secondary reversal worth recording: the *global* embedding objective, best on tablets,
+  performs at chance on git/git while the *valley* method wins there — algorithm choice among
+  similarity methods does not transfer across corpora, and no similarity algorithm was best
+  everywhere. One caution on express: its documents are short, making all methods look strong
+  (random Pk is only 0.246 there), and 83/300 documents required the feasibility fallback;
+  express numbers should be read within-repo only.
+
 ## 7. Implications for agent memory
 
 Agent memory content — tool-call traces, transaction logs, episodic event streams — is
@@ -349,13 +394,16 @@ record-structured, not narrative. With the scopes established above:
 
 - **A measured hierarchy, not a slogan.** (1) Where structural end-markers exist — tool-call
   terminations, status codes, confirmation lines, the modern analogues of *šu ba-ti* — chunk on
-  them; nothing else came close (Pk 0.208). (2) Where they do not, embedding-based global
-  chunking is a weak but statistically real fallback (BH p = 0.044 on markerless administrative
-  records; clearly significant on narrative text) — and notably, the *global* objective over
-  normalised embeddings beat the local valley method practitioners default to. (3)
-  Lexical-overlap methods and fixed-size chunking performed at or below chance; fixed-size was
-  *worse than random*. Engineered delimiters — making agent traces carry explicit closers — still
-  dominate every post-hoc option and cost almost nothing at trace-generation time.
+  them. This is now confirmed in-distribution: Pk 0.208 on tablets, **0.252 vs. 0.464 random on
+  git/git commit streams**, the largest and most transferable effect in this work. (2) Where
+  markers are absent, embedding similarity is a real but corpus-dependent fallback — clearly
+  better than chance in-distribution where records carry enough text (git/git valleys, 230/70;
+  express global, BH p = 0.0012), weaker out-of-distribution, and *which* embedding algorithm
+  wins did not transfer across corpora. Probe on your own data; do not assume. (3) Fixed-size
+  chunking is worse than random only where record lengths are highly dispersed (Ur III); on
+  more uniform streams it is a reasonable prior. Lexical-overlap methods helped nowhere.
+  Engineered delimiters — making agent traces carry explicit closers — still dominate every
+  post-hoc option and cost almost nothing at trace-generation time.
 - **Evaluate chunkers on boundary recovery, not only downstream metrics.** The methodology here —
   known-K placement, Pk/WindowDiff/F1, permutation nulls matched on chunk-length profile,
   stratified same-population baselines — is directly portable, and to our knowledge the RAG
@@ -382,13 +430,15 @@ about embedding-based semantic chunking, which was not tested.
   hand-written to the published formulas (§2.1) — NLTK reproductions will differ slightly.
 - **Known-K is generous.** All methods receive the true segment count; results are upper bounds
   on placement quality, uniformly across methods.
-- **The embedding experiment's scope.** Two encoders now, from different architecture families
-  (nomic-embed-text; bge-m3), agreeing on all four pre-registered criteria — but both untuned, one
-  block size, and Sumerian transliteration is out-of-distribution for both by construction, so
-  the results measure machinery, not understanding. The administrative markerless-stratum effect
-  is modest in size even where clearly significant (bge-m3 p = 0.001; nomic borderline at
-  BH p = 0.044); the Literary n is 91. In-distribution behaviour on modern text may differ in
-  either direction.
+- **The embedding experiments' scope.** Two encoders on the tablets (agreeing 4/4), one on the
+  modern corpora; all untuned, one block size. The in-distribution replication (§6.6) resolves
+  the OOD objection for the marker result and for embeddings-beat-chance, but also shows
+  similarity-algorithm choice and the fixed-size comparison are corpus-dependent — two
+  generalisations from the tablet data failed pre-registered replication and are retracted or
+  rescoped accordingly. Express's short documents depress Pk for every method and inflate
+  apparent performance; its numbers are within-repo comparisons only. Commit-window documents
+  concatenate messages from the same project and era, which may make boundaries easier than in
+  heterogeneous agent traces.
 - **Statistical hygiene of this draft.** The v1.0 sign test was not genuinely two-sided (it
   saturated at p = 1 for methods losing most comparisons); v1.1 uses the corrected two-tail form,
   BH-corrects all paired tests within each corpus, and discloses the change in the script

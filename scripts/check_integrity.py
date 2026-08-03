@@ -204,6 +204,26 @@ if paper.exists():
         ok("4 of 4" in ptext or "4/4" in ptext,
            "PAPER.md: the 4-of-4 replication claim text not found")
 
+    # phase11: the in-distribution replication the paper cites -- M1/M3/M5 must still hold,
+    # the 3-of-5 verdict count must match, and the headline stratified numbers must appear.
+    p11 = ROOT / "outputs" / "phase11_modern_indistribution.json"
+    if p11.exists():
+        d11 = json.loads(p11.read_text(encoding="utf-8"))
+        v11 = d11.get("verdicts", {})
+        ok(v11.get("M1_trailer_cue_dominates") is True,
+           "phase11: M1 no longer holds -- the paper's central transfer claim is dead")
+        ok(v11.get("M3_markerless_embeddings_beat_random") is True,
+           "phase11: M3 no longer holds -- the markerless in-distribution claim is dead")
+        ok(v11.get("M5_shuffled_control_collapses_both") is True,
+           "phase11: shuffled control no longer collapses -- embedding results suspect")
+        ok(d11.get("n_held") == 3 and d11.get("n_criteria") == 5,
+           "phase11: verdict count changed -- PAPER 'three held and two failed' text is stale")
+        gg = d11["results"].get("git/git (trailer-rich)", {})
+        w11 = gg.get("strata", {}).get("with_trailers", {})
+        if w11:
+            ok(f"{w11['closer_pk']:.3f}" in ptext and f"{w11['random_pk']:.3f}" in ptext,
+               f"PAPER.md: phase11 stratified numbers {w11['closer_pk']}/{w11['random_pk']} missing/drifted")
+
     # phase4 and phase6 headline numbers must appear in PAPER.md too, not only FINDINGS/CORRECTIONS
     p4b = ROOT / "outputs" / "phase4_ruling_fullcorpus.json"
     if p4b.exists():

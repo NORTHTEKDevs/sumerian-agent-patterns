@@ -86,8 +86,19 @@ pre-registered hypotheses were refuted by this data and are reported as written.
 replicated**, the markerless-stratum significance strengthening to p = 0.001 (administrative) and
 3×10⁻⁵ (literary). See [`outputs/phase10_model_robustness.md`](outputs/phase10_model_robustness.md).
 
-**What it does not establish.** Embedding behaviour in-distribution (both encoders untuned, OOD by
-construction); performance under unknown K; anything approaching the marker cue's stratified 0.208.
+**In-distribution replication (Phase 11, pre-registered, 3/5 held).** On modern git commit
+streams (boundaries defined by the VCS; git/git trailer-rich vs express markerless, pinned
+`--until=2026-01-01`): the marker cue transfers decisively (Pk **0.252 vs 0.464** same-stratum
+random, 250/13, p < 10⁻⁴ — larger than on the tablets); in-distribution embeddings clearly beat
+chance where records carry enough text (230/70, BH p < 10⁻⁴); the markerless-embedding result
+replicates (BH p = 0.0012). **Two tablet generalisations failed and are retracted/rescoped:**
+fixed-size chunking *beats* random on modern streams (the tablet result was about record-length
+dispersion, not fixed-size chunking), and no similarity algorithm was best on every corpus. See
+[`outputs/phase11_modern_indistribution.md`](outputs/phase11_modern_indistribution.md).
+
+**What it does not establish.** Performance under unknown K; behaviour on heterogeneous agent
+traces (commit windows are same-project, same-era); anything approaching the marker cue where
+markers exist.
 
 ---
 
