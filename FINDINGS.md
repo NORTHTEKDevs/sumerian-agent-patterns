@@ -55,6 +55,28 @@ Getting the right answer for the wrong reason is not a vindication, and it is no
 
 ---
 
+## 1b. Recovery: markers nearly localise boundaries where present; the lexical similarity signal does not
+
+**Claim.** In a known-K boundary-recovery evaluation on 1,717 administrative tablets, cutting
+after gold-validated closing formulae achieves Pk 0.208 on the 467 tablets carrying such a line
+(vs 0.408 for random cuts *on those same tablets*), while a global trigram-overlap-minimisation
+objective loses to random cuts 550/1,165 paired (BH p < 10⁻⁴). Fixed-size chunking is worse than
+random (Pk 0.438 vs 0.405). On the 73% of tablets with no marker, no tested method beats random.
+
+**Evidence.** `scripts/phase8_boundary_recovery.py` → [`outputs/phase8_boundary_recovery.md`](outputs/phase8_boundary_recovery.md);
+full writeup in [PAPER.md](PAPER.md) §6.
+
+**Why it can be believed.** Two-sided sign tests BH-corrected within corpus; stratified
+comparisons computed on the same population; the objective's degenerate optimum and two other
+defects were caught (once by self-test, twice by a five-reviewer adversarial gate) and are
+disclosed in the script and paper rather than patched silently.
+
+**What it does not establish.** Anything about embedding-based semantic chunking (not tested);
+anything beyond Ur III administrative records at significance (the Literary reversal is
+directional only, BH p ≥ 0.11); performance under unknown K.
+
+---
+
 ## 2. Sealed and dated administrative writing is common but not universal
 
 **Claim.** 25.4% of administrative tablets carry a `kišib₃` (seal) clause; 70.2% carry a year-name;

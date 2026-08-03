@@ -222,6 +222,11 @@ def _seg_ids(n: int, cuts: set[int]) -> list[int]:
 
 
 def pk(n: int, ref: set[int], hyp: set[int]) -> float:
+    """Hand-implemented from Beeferman, Berger & Lafferty (1999): fraction of position pairs
+    (i, i+k) on which reference and hypothesis disagree about same-segment membership, k = half
+    the mean reference segment length. NOTE: uses the paper's N-k window count; NLTK's
+    implementation uses N-k+1, so NLTK reproductions will differ in the third decimal. This is
+    deliberate fidelity to the published formula, not a bug."""
     seg_lens = np.diff([-1, *sorted(ref), n - 1])
     k = max(2, round(float(np.mean(seg_lens)) / 2))
     r, h = _seg_ids(n, ref), _seg_ids(n, hyp)
@@ -234,6 +239,8 @@ def pk(n: int, ref: set[int], hyp: set[int]) -> float:
 
 
 def windowdiff(n: int, ref: set[int], hyp: set[int]) -> float:
+    """Hand-implemented from Pevzner & Hearst (2002): fraction of windows in which the reference
+    and hypothesis boundary COUNTS differ. Same N-k window convention as pk() above."""
     seg_lens = np.diff([-1, *sorted(ref), n - 1])
     k = max(2, round(float(np.mean(seg_lens)) / 2))
     errs = tot = 0
@@ -267,7 +274,6 @@ def evaluate(tablets: list[Tablet], rng) -> dict:
     methods = ["equal", "random", "closer", "overlap_min", "hybrid"]
     acc = {m: {"pk": [], "wd": [], "f1": [], "f1_tol1": []} for m in methods}
     solver_kind = {"exact": 0, "greedy": 0, "fallback": 0}
-    closer_stratum = {"with_closer_lines": [], "without_closer_lines": []}
 
     for t in tablets:
         ref = set(t.truth)
@@ -279,9 +285,6 @@ def evaluate(tablets: list[Tablet], rng) -> dict:
         hyps["overlap_min"] = set(cuts)
         hcuts, _ = solve_overlap(t, closer_bonus=LAMBDA)
         hyps["hybrid"] = set(hcuts)
-
-        closer_stratum["with_closer_lines" if t.has_closer else "without_closer_lines"].append(
-            pk(t.n, ref, hyps["closer"]))
 
         for m in ("equal", "closer", "overlap_min", "hybrid"):
             h = hyps[m]
@@ -300,40 +303,77 @@ def evaluate(tablets: list[Tablet], rng) -> dict:
         for key in rnd:
             acc["random"][key].append(float(np.mean(rnd[key])))
 
-    def sign_test(a: list[float], b: list[float], lower_better: bool) -> float:
-        """Binomial sign test: P(method a beats b this often by chance). Two-sided."""
-        wins = sum(1 for x, y in zip(a, b) if (x < y) == lower_better and x != y)
+    def sign_test(a: list[float], b: list[float]) -> float:
+        """Genuinely two-sided binomial sign test: p = 2 * min(P(X <= w), P(X >= w)) under
+        X ~ Bin(n, 1/2), ties dropped, capped at 1.
+
+        An earlier version summed only the upper tail from the observed win count and doubled
+        it, which is correct when wins > n/2 but saturates at 1.0 whenever wins <= n/2 -- so a
+        method LOSING 0/20 would have reported p = 1.0 instead of significant. Caught in
+        adversarial review; fixed and disclosed here."""
+        wins = sum(1 for x, y in zip(a, b) if x < y)
         ties = sum(1 for x, y in zip(a, b) if x == y)
         n = len(a) - ties
         if n == 0:
             return 1.0
         from math import comb
-        p = sum(comb(n, i) for i in range(wins, n + 1)) / 2 ** n
-        return float(min(1.0, 2 * p))
+        upper = sum(comb(n, i) for i in range(wins, n + 1)) / 2 ** n
+        lower = sum(comb(n, i) for i in range(0, wins + 1)) / 2 ** n
+        return float(min(1.0, 2 * min(upper, lower)))
+
+    def bh(pvals: list[float]) -> list[float]:
+        """Benjamini-Hochberg adjusted p-values."""
+        m = len(pvals)
+        order = sorted(range(m), key=lambda i: pvals[i])
+        adj = [0.0] * m
+        prev = 1.0
+        for rank in range(m - 1, -1, -1):
+            i = order[rank]
+            prev = min(prev, pvals[i] * m / (rank + 1))
+            adj[i] = prev
+        return adj
 
     summary = {}
     for m in methods:
         summary[m] = {k: round(float(np.mean(v)), 4) for k, v in acc[m].items()}
     tests = {}
     for m in ("overlap_min", "closer", "hybrid"):
-        tests[m + "_vs_equal"] = {
-            "pk_sign_p": round(sign_test(acc[m]["pk"], acc["equal"]["pk"], True), 5),
-            "wd_sign_p": round(sign_test(acc[m]["wd"], acc["equal"]["wd"], True), 5),
-            "wins_pk": sum(1 for x, y in zip(acc[m]["pk"], acc["equal"]["pk"]) if x < y),
-            "losses_pk": sum(1 for x, y in zip(acc[m]["pk"], acc["equal"]["pk"]) if x > y),
-        }
+        for base in ("equal", "random"):
+            tests[f"{m}_vs_{base}"] = {
+                "pk_sign_p": round(sign_test(acc[m]["pk"], acc[base]["pk"]), 5),
+                "wins_pk": sum(1 for x, y in zip(acc[m]["pk"], acc[base]["pk"]) if x < y),
+                "losses_pk": sum(1 for x, y in zip(acc[m]["pk"], acc[base]["pk"]) if x > y),
+            }
+    # BH across ALL paired tests in this corpus -- the genre-reversal claim rests on these,
+    # so they get the same multiple-comparison discipline as the Phase 4 result.
+    names = list(tests)
+    adjusted = bh([tests[k]["pk_sign_p"] for k in names])
+    for k, a_ in zip(names, adjusted):
+        tests[k]["pk_sign_p_bh"] = round(a_, 5)
+
+    # Same-population baselines for the closer stratum: the quotable stratified number needs
+    # comparators computed on the SAME tablets, not the whole-corpus mean.
+    strat_base = {}
+    for label, sel in (("with_closer_lines", True), ("without_closer_lines", False)):
+        idx = [i for i, t in enumerate(tablets) if t.has_closer == sel]
+        if idx:
+            strat_base[label] = {
+                "n": len(idx),
+                "closer_pk": round(float(np.mean([acc["closer"]["pk"][i] for i in idx])), 4),
+                "random_pk": round(float(np.mean([acc["random"]["pk"][i] for i in idx])), 4),
+                "equal_pk": round(float(np.mean([acc["equal"]["pk"][i] for i in idx])), 4),
+            }
     return {"n_tablets": len(tablets), "solver": solver_kind, "summary": summary,
-            "paired_tests": tests,
-            "closer_stratum": {k: {"n": len(v), "pk_mean": round(float(np.mean(v)), 4) if v else None}
-                               for k, v in closer_stratum.items()}}
+            "paired_tests": tests, "closer_stratum": strat_base}
 
 
 # ----------------------------------------------------------------- corpora
 
-def sumerian_tablets() -> dict[str, list[Tablet]]:
+def sumerian_tablets() -> tuple[dict[str, list[Tablet]], dict]:
     df = pd.read_parquet(DATA / "sumtablets.parquet", columns=["id", "genre", "transliteration"])
     df["g"] = df["genre"].fillna("Unknown").astype(str).str.split(",").str[0].str.strip()
     df = df[df["transliteration"].astype(str).str.contains("<RULING>")]
+    prefilter = {"tablets_with_any_ruling": int(len(df))}
     out: dict[str, list[Tablet]] = {}
     skipped = 0
     for genre in ["Administrative", "Literary"]:
@@ -348,14 +388,25 @@ def sumerian_tablets() -> dict[str, list[Tablet]]:
             rows.append(Tablet(lines, truth))
         if len(rows) >= 30:
             out[genre] = rows
-    print(f"[phase8] tablets over {MAX_LINES} lines skipped: {skipped}")
-    return out
+    prefilter["skipped_over_max_lines"] = skipped
+    print(f"[phase8] tablets with any ruling: {prefilter['tablets_with_any_ruling']:,}; "
+          f"over {MAX_LINES} lines skipped: {skipped}")
+    return out, prefilter
+
+
+# Fixed allowlist. Earlier versions globbed outputs/*.md, which meant this script INGESTED ITS
+# OWN OUTPUT FILE on rerun (phase8_boundary_recovery.md matched the filter) plus other generated
+# reports quoting the very numbers under test -- a self-referential feedback loop caught in
+# adversarial review. Root-level hand-written documents only. Note these are still in-domain
+# (documents about this project, some quoting Sumerian formulae), which is why the demo is
+# labelled illustrative and its `closer` column is not meaningful here.
+MD_ALLOWLIST = ["README.md", "CORRECTIONS.md", "REVIEWERS.md", "FINDINGS.md"]
 
 
 def markdown_docs() -> list[Tablet]:
     """Modern transfer demo: recover `## ` section boundaries in this repo's own documents."""
     docs = []
-    for path in sorted(list(ROOT.glob("*.md")) + list((ROOT / "outputs").glob("*.md"))):
+    for path in [ROOT / n for n in MD_ALLOWLIST if (ROOT / n).exists()]:
         raw = path.read_text(encoding="utf-8")
         lines, truth = [], set()
         for line in raw.split("\n"):
@@ -377,7 +428,8 @@ def main() -> None:
     rng = np.random.default_rng(SEED)
     results = {}
 
-    for genre, tablets in sumerian_tablets().items():
+    by_genre, prefilter = sumerian_tablets()
+    for genre, tablets in by_genre.items():
         print(f"[phase8] {genre}: {len(tablets):,} tablets ...")
         results[genre] = evaluate(tablets, rng)
         s = results[genre]["summary"]
@@ -393,7 +445,9 @@ def main() -> None:
     (OUT / "phase8_boundary_recovery.json").write_text(json.dumps({
         "config": {"seed": SEED, "n_random": N_RANDOM, "lambda_hybrid": LAMBDA,
                    "max_exact_combos": MAX_EXACT_COMBOS, "min_lines": MIN_LINES,
-                   "max_lines": MAX_LINES, "known_K": True},
+                   "max_lines": MAX_LINES, "known_K": True,
+                   "markdown_allowlist": MD_ALLOWLIST},
+        "corpus_prefilter": prefilter,
         "results": results}, indent=2, ensure_ascii=False), encoding="utf-8")
 
     md = ["# Phase 8 — Recovering scribal boundaries without seeing them\n\n",
@@ -408,7 +462,7 @@ def main() -> None:
           "closer signal as an independent cue, not the objective itself.\n\n",
           "Metrics: Pk (Beeferman et al. 1999) and WindowDiff (Pevzner & Hearst 2002), **lower is better**; "
           "boundary F1 exact and ±1 line. `random` is the mean of "
-          f"{N_RANDOM} uniform draws. Paired sign tests compare methods per tablet against `equal`.\n\n"]
+          f"{N_RANDOM} uniform draws. Paired sign tests (two-sided) compare methods per document against both `equal` and `random`, BH-corrected within corpus.\n\n"]
     for corpus, r in results.items():
         md.append(f"## {corpus}\n\n{r['n_tablets']:,} documents · solver: {r['solver']['exact']:,} exact, "
                   f"{r['solver']['greedy']:,} hill-climb, {r['solver'].get('fallback', 0):,} infeasible-fallback\n\n")
@@ -417,16 +471,22 @@ def main() -> None:
             s = r["summary"][m]
             md.append(f"| {m} | {s['pk']:.3f} | {s['wd']:.3f} | {s['f1']:.3f} | {s['f1_tol1']:.3f} |\n")
         cs = r.get("closer_stratum", {})
-        if cs:
-            w, wo = cs.get("with_closer_lines", {}), cs.get("without_closer_lines", {})
-            md.append(f"`closer` scope: {w.get('n', 0):,} documents contain a closer line "
-                      f"(Pk {w.get('pk_mean')}), {wo.get('n', 0):,} contain none and fall back to "
-                      f"equal spacing (Pk {wo.get('pk_mean')}). The closer signal exists only where "
-                      f"closers exist; the stratified numbers are the honest ones.\n\n")
-        md.append("\n| Comparison | wins / losses (Pk) | sign-test p |\n|---|---:|---:|\n")
+        w = cs.get("with_closer_lines")
+        if w:
+            wo = cs.get("without_closer_lines", {})
+            md.append(f"**Stratified, same-population comparison** — the only fair way to read the closer "
+                      f"result: on the {w['n']:,} documents that contain a closer line, closer Pk = "
+                      f"**{w['closer_pk']}** vs random **{w['random_pk']}** and equal **{w['equal_pk']}** "
+                      f"*on those same documents*. On the {wo.get('n', 0):,} documents with no closer line, "
+                      f"the method falls back to equal spacing (Pk {wo.get('closer_pk')}) and the marker "
+                      f"signal simply does not exist — boundary placement there remains unsolved.\n\n")
+        md.append("\n| Comparison | wins / losses (Pk) | sign p (two-sided) | BH-adjusted |\n|---|---:|---:|---:|\n")
         for name, t in r["paired_tests"].items():
-            md.append(f"| {name.replace('_', ' ')} | {t['wins_pk']} / {t['losses_pk']} | {t['pk_sign_p']} |\n")
-        md.append("\n")
+            md.append(f"| {name.replace('_', ' ')} | {t['wins_pk']} / {t['losses_pk']} | "
+                      f"{t['pk_sign_p']} | {t.get('pk_sign_p_bh')} |\n")
+        md.append("\nBH adjustment is across all paired tests within this corpus. The sign test is the "
+                  "corrected two-sided version (an earlier release's implementation saturated at p=1 for "
+                  "methods that LOST most comparisons; see the function docstring).\n\n")
     (OUT / "phase8_boundary_recovery.md").write_text("".join(md), encoding="utf-8")
     print(f"[save] {OUT / 'phase8_boundary_recovery.md'}")
 

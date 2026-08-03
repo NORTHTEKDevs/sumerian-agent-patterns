@@ -6,7 +6,17 @@
     "max_exact_combos": 200000,
     "min_lines": 6,
     "max_lines": 120,
-    "known_K": true
+    "known_K": true,
+    "markdown_allowlist": [
+      "README.md",
+      "CORRECTIONS.md",
+      "REVIEWERS.md",
+      "FINDINGS.md"
+    ]
+  },
+  "corpus_prefilter": {
+    "tablets_with_any_ruling": 2285,
+    "skipped_over_max_lines": 29
   },
   "results": {
     "Administrative": {
@@ -51,31 +61,53 @@
       "paired_tests": {
         "overlap_min_vs_equal": {
           "pk_sign_p": 0.01156,
-          "wd_sign_p": 0.01068,
           "wins_pk": 756,
-          "losses_pk": 660
+          "losses_pk": 660,
+          "pk_sign_p_bh": 0.01387
+        },
+        "overlap_min_vs_random": {
+          "pk_sign_p": 0.0,
+          "wins_pk": 550,
+          "losses_pk": 1165,
+          "pk_sign_p_bh": 0.0
         },
         "closer_vs_equal": {
           "pk_sign_p": 0.0,
-          "wd_sign_p": 0.0,
           "wins_pk": 311,
-          "losses_pk": 62
+          "losses_pk": 62,
+          "pk_sign_p_bh": 0.0
+        },
+        "closer_vs_random": {
+          "pk_sign_p": 0.04015,
+          "wins_pk": 815,
+          "losses_pk": 901,
+          "pk_sign_p_bh": 0.04015
         },
         "hybrid_vs_equal": {
           "pk_sign_p": 0.0,
-          "wd_sign_p": 0.0,
           "wins_pk": 844,
-          "losses_pk": 557
+          "losses_pk": 557,
+          "pk_sign_p_bh": 0.0
+        },
+        "hybrid_vs_random": {
+          "pk_sign_p": 0.0,
+          "wins_pk": 757,
+          "losses_pk": 960,
+          "pk_sign_p_bh": 0.0
         }
       },
       "closer_stratum": {
         "with_closer_lines": {
           "n": 467,
-          "pk_mean": 0.2076
+          "closer_pk": 0.2076,
+          "random_pk": 0.4082,
+          "equal_pk": 0.4532
         },
         "without_closer_lines": {
           "n": 1250,
-          "pk_mean": 0.4319
+          "closer_pk": 0.4319,
+          "random_pk": 0.4033,
+          "equal_pk": 0.4319
         }
       }
     },
@@ -121,101 +153,145 @@
       "paired_tests": {
         "overlap_min_vs_equal": {
           "pk_sign_p": 0.02053,
-          "wd_sign_p": 0.03558,
           "wins_pk": 44,
-          "losses_pk": 24
+          "losses_pk": 24,
+          "pk_sign_p_bh": 0.10674
+        },
+        "overlap_min_vs_random": {
+          "pk_sign_p": 0.11334,
+          "wins_pk": 53,
+          "losses_pk": 37,
+          "pk_sign_p_bh": 0.17001
         },
         "closer_vs_equal": {
           "pk_sign_p": 1.0,
-          "wd_sign_p": 1.0,
           "wins_pk": 1,
-          "losses_pk": 1
+          "losses_pk": 1,
+          "pk_sign_p_bh": 1.0
+        },
+        "closer_vs_random": {
+          "pk_sign_p": 0.07255,
+          "wins_pk": 36,
+          "losses_pk": 54,
+          "pk_sign_p_bh": 0.1451
         },
         "hybrid_vs_equal": {
           "pk_sign_p": 0.03558,
-          "wd_sign_p": 0.05994,
           "wins_pk": 42,
-          "losses_pk": 24
+          "losses_pk": 24,
+          "pk_sign_p_bh": 0.10674
+        },
+        "hybrid_vs_random": {
+          "pk_sign_p": 0.17024,
+          "wins_pk": 52,
+          "losses_pk": 38,
+          "pk_sign_p_bh": 0.20429
         }
       },
       "closer_stratum": {
         "with_closer_lines": {
           "n": 5,
-          "pk_mean": 0.3983
+          "closer_pk": 0.3983,
+          "random_pk": 0.4314,
+          "equal_pk": 0.4586
         },
         "without_closer_lines": {
           "n": 86,
-          "pk_mean": 0.3678
+          "closer_pk": 0.3678,
+          "random_pk": 0.3711,
+          "equal_pk": 0.3678
         }
       }
     },
     "Markdown (this repo, modern transfer demo)": {
-      "n_tablets": 7,
+      "n_tablets": 2,
       "solver": {
-        "exact": 4,
-        "greedy": 3,
+        "exact": 0,
+        "greedy": 2,
         "fallback": 0
       },
       "summary": {
         "equal": {
-          "pk": 0.55,
-          "wd": 0.5699,
-          "f1": 0.0714,
-          "f1_tol1": 0.1714
+          "pk": 0.5653,
+          "wd": 0.5905,
+          "f1": 0.125,
+          "f1_tol1": 0.225
         },
         "random": {
-          "pk": 0.45,
-          "wd": 0.4799,
-          "f1": 0.0859,
-          "f1_tol1": 0.2193
+          "pk": 0.4712,
+          "wd": 0.5013,
+          "f1": 0.1035,
+          "f1_tol1": 0.2591
         },
         "closer": {
-          "pk": 0.4807,
-          "wd": 0.5061,
-          "f1": 0.0179,
-          "f1_tol1": 0.1536
+          "pk": 0.4996,
+          "wd": 0.5148,
+          "f1": 0.0625,
+          "f1_tol1": 0.2875
         },
         "overlap_min": {
-          "pk": 0.3813,
-          "wd": 0.4264,
-          "f1": 0.1071,
-          "f1_tol1": 0.1833
+          "pk": 0.535,
+          "wd": 0.5754,
+          "f1": 0.125,
+          "f1_tol1": 0.225
         },
         "hybrid": {
-          "pk": 0.3871,
-          "wd": 0.4309,
-          "f1": 0.0893,
-          "f1_tol1": 0.2012
+          "pk": 0.5047,
+          "wd": 0.5198,
+          "f1": 0.0625,
+          "f1_tol1": 0.2875
         }
       },
       "paired_tests": {
         "overlap_min_vs_equal": {
-          "pk_sign_p": 0.03125,
-          "wd_sign_p": 0.03125,
-          "wins_pk": 6,
-          "losses_pk": 0
+          "pk_sign_p": 1.0,
+          "wins_pk": 1,
+          "losses_pk": 0,
+          "pk_sign_p_bh": 1.0
+        },
+        "overlap_min_vs_random": {
+          "pk_sign_p": 0.5,
+          "wins_pk": 0,
+          "losses_pk": 2,
+          "pk_sign_p_bh": 1.0
         },
         "closer_vs_equal": {
-          "pk_sign_p": 0.625,
-          "wd_sign_p": 0.25,
-          "wins_pk": 3,
-          "losses_pk": 1
+          "pk_sign_p": 1.0,
+          "wins_pk": 1,
+          "losses_pk": 0,
+          "pk_sign_p_bh": 1.0
+        },
+        "closer_vs_random": {
+          "pk_sign_p": 1.0,
+          "wins_pk": 1,
+          "losses_pk": 1,
+          "pk_sign_p_bh": 1.0
         },
         "hybrid_vs_equal": {
-          "pk_sign_p": 0.0625,
-          "wd_sign_p": 0.03125,
-          "wins_pk": 5,
-          "losses_pk": 0
+          "pk_sign_p": 1.0,
+          "wins_pk": 1,
+          "losses_pk": 0,
+          "pk_sign_p_bh": 1.0
+        },
+        "hybrid_vs_random": {
+          "pk_sign_p": 1.0,
+          "wins_pk": 1,
+          "losses_pk": 1,
+          "pk_sign_p_bh": 1.0
         }
       },
       "closer_stratum": {
         "with_closer_lines": {
-          "n": 4,
-          "pk_mean": 0.4257
+          "n": 1,
+          "closer_pk": 0.3939,
+          "random_pk": 0.4632,
+          "equal_pk": 0.5253
         },
         "without_closer_lines": {
-          "n": 3,
-          "pk_mean": 0.554
+          "n": 1,
+          "closer_pk": 0.6053,
+          "random_pk": 0.4791,
+          "equal_pk": 0.6053
         }
       }
     }

@@ -134,19 +134,55 @@ if paper.exists():
         d8 = json.loads(p8.read_text(encoding="utf-8"))
         adm8 = d8["results"].get("Administrative", {})
         s8 = adm8.get("summary", {})
-        for method, key, digits in (("closer", "pk", 3), ("overlap_min", "pk", 3), ("random", "pk", 3)):
-            val = s8.get(method, {}).get(key)
+        for method in ("closer", "overlap_min", "random", "equal"):
+            val = s8.get(method, {}).get("pk")
             if val is not None:
                 ok(f"{val:.3f}" in ptext,
                    f"PAPER.md: Administrative {method} Pk {val:.3f} not found — prose has drifted from phase8 JSON")
         strat = adm8.get("closer_stratum", {}).get("with_closer_lines", {})
-        if strat.get("pk_mean") is not None:
-            ok(f"{strat['pk_mean']:.3f}"[:5] in ptext,
-               f"PAPER.md: closer-stratum Pk {strat['pk_mean']} not found — prose has drifted from phase8 JSON")
-        # the paper's central dissociation claim must remain true in the data
+        if strat.get("closer_pk") is not None:
+            ok(f"{strat['closer_pk']:.3f}"[:5] in ptext,
+               f"PAPER.md: closer-stratum Pk {strat['closer_pk']} not found — prose has drifted from phase8 JSON")
+            ok(f"{strat['random_pk']:.3f}"[:5] in ptext,
+               f"PAPER.md: same-stratum random Pk {strat['random_pk']} not found — the stratified comparison must cite both sides")
+        # The paper's central claims, asserted STRICTLY — an earlier tolerance (+0.06) was wider
+        # than the effect it protected, so the headline ordering could have reversed without
+        # breaking the build. Caught in adversarial review.
         if s8:
-            ok(s8["closer"]["pk"] < s8["random"]["pk"] < s8["overlap_min"]["pk"] + 0.06,
-               "phase8: the closer<random<~overlap ordering the paper argues from no longer holds")
+            ok(s8["closer"]["pk"] < s8["random"]["pk"],
+               "phase8: closer no longer beats random on mean Pk — §6 result 2 is dead")
+            ok(s8["overlap_min"]["pk"] >= s8["random"]["pk"] - 0.005,
+               "phase8: overlap_min now clearly beats random — §6 result 1 (similarity fails) is dead")
+            ok(s8["equal"]["pk"] > s8["random"]["pk"],
+               "phase8: equal no longer worse than random — §6 result 3 is dead")
+        ovr = adm8.get("paired_tests", {}).get("overlap_min_vs_random", {})
+        if ovr:
+            ok(ovr.get("losses_pk", 0) > ovr.get("wins_pk", 0),
+               "phase8: overlap_min no longer loses the paired test vs random — abstract claim is dead")
+            ok(f"{ovr['wins_pk']}" in ptext and f"{ovr['losses_pk']:,}" in ptext,
+               "PAPER.md: overlap_min-vs-random win/loss counts not found — prose has drifted")
+        pre = d8.get("corpus_prefilter", {})
+        if pre.get("tablets_with_any_ruling"):
+            ok(f"{pre['tablets_with_any_ruling']:,}" in ptext,
+               f"PAPER.md: ruling-tablet count {pre['tablets_with_any_ruling']:,} not found or drifted")
+
+    # phase4 and phase6 headline numbers must appear in PAPER.md too, not only FINDINGS/CORRECTIONS
+    p4b = ROOT / "outputs" / "phase4_ruling_fullcorpus.json"
+    if p4b.exists():
+        d4 = json.loads(p4b.read_text(encoding="utf-8"))
+        adm4 = next((r for r in d4["results"] if r["genre"] == "Administrative"), None)
+        if adm4:
+            ok(f"{adm4['n_adjacent_pairs']:,}" in ptext, "PAPER.md: phase4 pair count missing/drifted")
+            ok(str(adm4["p_two_sided_null_A_BH"]) in ptext, "PAPER.md: phase4 BH p missing/drifted")
+    p6b = ROOT / "outputs" / "phase6_ruling_mechanism.json"
+    if p6b.exists():
+        d6 = json.loads(p6b.read_text(encoding="utf-8"))
+        adm6 = d6.get("results", {}).get("Administrative", {}).get("markers", {})
+        for probe_label, key in (("received_by (šu ba-ti)", "enrichment"), ("seal_of_PN (kišib₃)", "enrichment")):
+            pc = adm6.get(probe_label, {}).get("position_controlled", {})
+            if pc.get("enrichment") is not None:
+                ok(f"{pc['enrichment']}" in ptext,
+                   f"PAPER.md: phase6 {probe_label} position-controlled enrichment {pc['enrichment']} missing/drifted")
     if p7.exists():
         d7 = json.loads(p7.read_text(encoding="utf-8"))
         kt = d7["results"].get("king_title", {})
