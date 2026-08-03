@@ -1,12 +1,11 @@
 # Clay as Ground Truth: Testing Text-Chunking Signals Against 4,000-Year-Old Record Boundaries
 
-**Kristian Baer** (Northtek) · Draft v1.1, 2026-08-02 · Not peer-reviewed
+**Kristian Baer** (Northtek) · Draft v1.2, 2026-08-03 · Not peer-reviewed
 **Repository:** https://github.com/NORTHTEKDevs/sumerian-agent-patterns (all numbers regenerate from the pipeline; CI enforces prose–data agreement)
 
-> Draft v1.1 incorporates the findings of a five-reviewer adversarial gate run on v1.0 before any
-> external circulation. The issues it caught — including a sign-test implementation that was not
-> genuinely two-sided, a transfer demo that ingested its own output file, and an abstract that
-> advised against a method never actually tested — are catalogued in §9 and in the commit history.
+> Draft v1.1 incorporated a five-reviewer adversarial gate (§9). Draft v1.2 adds the experiment
+> that gate demanded: the embedding-based instantiation of the similarity signal (§6.5), run with
+> pre-registered hypotheses — two of which the data refuted.
 
 ---
 
@@ -24,19 +23,23 @@ of significantly lower cross-boundary trigram overlap than length-matched altern
 adjacent pairs, 10,000 permutations, two independent nulls, BH-corrected p = 0.0006), and
 record-closing formulae are strongly enriched in the line before a ruling (*šu ba-ti* "received"
 6.31×, *kišib₃* seal 2.52×, position-controlled p = 0.0001). (2) *Recovery:* association does not
-imply recoverability. A global **lexical** similarity-minimisation objective — exact trigram
-overlap, the TextTiling-family signal from which embedding-based "semantic chunking" descends;
-embedding-based chunkers themselves were **not** tested here — fails to locate record boundaries,
-losing the per-tablet comparison to random cuts 550/1,165 (BH p < 10⁻⁴). The sparse
-closing-formula cue, on the 27% of tablets where it exists, nearly solves the task: Pk 0.208
-versus 0.408 for random cuts *on those same tablets*. On the majority of tablets, which carry no
-marker, boundary placement remains unsolved. (3) *Measurement:* the regex probes identifying
+imply recoverability, and representation matters. A global **lexical** similarity-minimisation
+objective — exact trigram overlap, the TextTiling-family signal — fails to locate record
+boundaries, losing the per-tablet comparison to random cuts 550/1,165 (BH p < 10⁻⁴). Its
+**embedding** twin (nomic-embed-text, out-of-distribution for Sumerian by construction)
+decisively beats the identical lexical algorithm (717/480 paired, BH p < 10⁻⁴) and, on the 73% of
+tablets carrying no closing marker — where the lexical experiment left boundary placement
+unsolved — is significantly better than random (Pk 0.368 vs. 0.403, BH p = 0.044;
+literary tablets 0.286 vs. 0.372, BH p = 0.0013), though its corpus-wide advantage does not reach
+significance and a within-tablet shuffled-embedding control collapses to chance as required. The
+sparse closing-formula cue, on the 27% of tablets where it exists, remains untouched at the top:
+Pk 0.208 versus 0.408 for random cuts *on those same tablets*. (3) *Measurement:* the regex probes identifying
 these formulae were validated against expert lemmatisation (Oracc ePSD2, 3.6M tokens); a naive
 royal-title probe matches personal names 41% of the time, quantifying a failure mode directly
-relevant to regex-scored evaluation of agent systems. We argue the practical implication for
-agent memory is that record-structured content should be chunked on structural end-markers where
-they exist — the lexical-cohesion signal alone was insufficient here — and that chunking methods
-should be evaluated with boundary-recovery metrics, which the RAG literature currently lacks. The
+relevant to regex-scored evaluation of agent systems. The resulting hierarchy for record-structured content — structural end-markers where they exist,
+embedding similarity as a weak but real fallback where they do not, lexical-overlap methods and
+fixed-size chunking at or below chance — and the boundary-recovery evaluation methodology itself,
+which the RAG literature currently lacks, are the practical contributions. The
 project's full audit trail, including two withdrawn claims and the reviewer-caught defects of
 this paper's own first draft, ships with the repository and is enforced by CI.
 
@@ -118,7 +121,8 @@ against ground truth; and structure-aware splitters are almost entirely *opening
 with closing-marker signals appearing only incidentally. Agent-memory systems (MemGPT/Letta,
 Mem0, Zep/Graphiti) make no published claims about boundary placement. Our contribution to this
 literature is a boundary-level evaluation methodology with an unusually clean ground truth — not
-a competing chunker, and not a test of embedding-based semantic chunking, which we did not run.
+a competing chunker. Draft v1.1 had not tested embedding-based chunking; §6.5 now does, with the
+scope caveats stated there.
 
 ### 2.3 Computational cuneiform studies
 
@@ -282,18 +286,65 @@ remains in the pipeline for illustration but was reduced to **2 documents** afte
 it ingesting self-referential inputs (including, on rerun, its own output file); at n = 2 it
 carries no evidential weight and we cite no numbers from it.
 
+### 6.5 The embedding instantiation (Phase 9)
+
+Draft v1.1 scoped the recovery result to the lexical signal and named embedding-based chunking as
+the obvious next experiment. Phase 9 runs it as a 2×2 crossing **representation** (trigram set vs.
+768-d `nomic-embed-text` [Nussbaum-2024], served locally) with **algorithm** (local valley cutting
+— practitioners' semantic chunking, adapted to known K — vs. global adjacent-similarity
+minimisation), plus a within-tablet **shuffled-embedding control**, with hypotheses pre-registered
+in the script header. The out-of-distribution caveat is structural: no published embedding model
+is trained on Sumerian transliteration, so this tests semantic-chunking *machinery*, not
+embedding *understanding* of Sumerian.
+
+**Administrative (1,717 tablets):**
+
+| Method | Pk ↓ | F1 ±1 ↑ |
+|---|---:|---:|
+| random | 0.405 | 0.269 |
+| closer | 0.371 | 0.400 |
+| lex_valley | 0.454 | 0.041 |
+| emb_valley | 0.381 | 0.302 |
+| emb_global | 0.370 | 0.221 |
+| shuffled control | 0.406 | 0.241 |
+
+Two pre-registered hypotheses **failed**, informatively:
+
+- **H1 (embeddings ≈ fuzzy lexical matching out-of-distribution): refuted.** Against the
+  *identical* algorithm and blocks, the embedding representation beats the trigram representation
+  717/480 paired (BH p < 10⁻⁴). Even on a language the encoder never saw, dense subword
+  representations extract boundary signal that exact n-gram overlap misses.
+- **H3 (local valleys beat the global objective): refuted for embeddings.** `emb_global` (0.370)
+  outperforms `emb_valley` (0.381). Length-normalised centroid cosine removes the degenerate
+  tiny-segment incentive that broke the raw-count global objective in §6, which is the likely
+  mechanism.
+
+The caution that survives: neither embedding method's corpus-wide advantage over random reaches
+paired significance (emb_valley BH p = 0.226; emb_global BH p = 0.494) — the mean gains come from
+a minority of tablets with large improvements. The decisive stratified result is where it matters
+most: **on the 1,250 markerless tablets, where §6 declared boundary placement unsolved,
+`emb_global` is significantly better than random** (Pk 0.368 vs. 0.403, 662/584 paired,
+BH p = 0.044 — significant but borderline, and the effect is modest). On Literary tablets the
+same method is clearly significant (Pk 0.286 vs. 0.372 markerless stratum, BH p = 0.0013; whole
+corpus 63/27, BH p = 0.0017), which **upgrades v1.1's "directional hint" about narrative text to
+a finding — for the embedding representation only**. The shuffled-embedding control collapses to
+chance (Pk 0.406 vs. 0.405), confirming the signal is embedding content rather than an artifact
+of the machinery. The closer cue's stratified 0.208 remains untouched by every similarity method.
+
 ## 7. Implications for agent memory
 
 Agent memory content — tool-call traces, transaction logs, episodic event streams — is
 record-structured, not narrative. With the scopes established above:
 
-- **Where structural end-markers exist, chunk on them.** Tool-call terminations, status codes,
-  signature/confirmation lines are the modern analogues of *šu ba-ti*; on marker-bearing records
-  the cue nearly pinned boundaries while the lexical-cohesion objective performed below chance.
-  The advice is conditional by construction: on the majority of our tablets no marker existed and
-  nothing tested here worked — for markerless record streams, boundary placement is an open
-  problem, and engineered delimiters (making agent traces *carry* explicit closers) may be worth
-  more than any post-hoc segmentation.
+- **A measured hierarchy, not a slogan.** (1) Where structural end-markers exist — tool-call
+  terminations, status codes, confirmation lines, the modern analogues of *šu ba-ti* — chunk on
+  them; nothing else came close (Pk 0.208). (2) Where they do not, embedding-based global
+  chunking is a weak but statistically real fallback (BH p = 0.044 on markerless administrative
+  records; clearly significant on narrative text) — and notably, the *global* objective over
+  normalised embeddings beat the local valley method practitioners default to. (3)
+  Lexical-overlap methods and fixed-size chunking performed at or below chance; fixed-size was
+  *worse than random*. Engineered delimiters — making agent traces carry explicit closers — still
+  dominate every post-hoc option and cost almost nothing at trace-generation time.
 - **Evaluate chunkers on boundary recovery, not only downstream metrics.** The methodology here —
   known-K placement, Pk/WindowDiff/F1, permutation nulls matched on chunk-length profile,
   stratified same-population baselines — is directly portable, and to our knowledge the RAG
@@ -320,8 +371,12 @@ about embedding-based semantic chunking, which was not tested.
   hand-written to the published formulas (§2.1) — NLTK reproductions will differ slightly.
 - **Known-K is generous.** All methods receive the true segment count; results are upper bounds
   on placement quality, uniformly across methods.
-- **The similarity method tested is lexical, not neural.** Embedding-based semantic chunking may
-  behave differently; testing it on this ground truth is the obvious next experiment.
+- **The embedding experiment's scope.** One embedding model (nomic-embed-text), one block size,
+  untuned; Sumerian transliteration is out-of-distribution for it by construction, so the
+  embedding results measure machinery, not understanding, and in-distribution behaviour on modern
+  text may differ in either direction. The markerless-stratum significance on administrative
+  records is borderline (BH p = 0.044) and the effect modest; the Literary result is stronger but
+  n = 91. Model-family robustness (a second encoder) has not been run.
 - **Statistical hygiene of this draft.** The v1.0 sign test was not genuinely two-sided (it
   saturated at p = 1 for methods losing most comparisons); v1.1 uses the corrected two-tail form,
   BH-corrects all paired tests within each corpus, and discloses the change in the script
@@ -342,7 +397,9 @@ statistics attached to comparisons never computed; a sign-test implementation th
 two-sided; a transfer demo whose input set included the pipeline's own output file; an unsourced
 corpus count; and a CI tolerance wide enough to let the paper's central ordering claim silently
 reverse. Every one is fixed in v1.1, the CI checks were tightened accordingly, and the defects
-are preserved in the commit history rather than amended away. We offer this as a working example
+are preserved in the commit history rather than amended away. Draft v1.2 then ran the experiment
+the gate demanded with hypotheses pre-registered in the script header — and two of three were
+refuted by the data (§6.5), which we report as written rather than repaired into predictions. We offer this as a working example
 of adversarial self-correction in computational work on historical corpora, where the scarcity of
 domain experts makes silent error unusually durable.
 
@@ -351,9 +408,10 @@ domain experts makes silent error unusually durable.
 A boundary drawn on clay four thousand years ago turns out to be a demanding, honest referee for
 one of the most casually made decisions in modern agent systems. Its verdict, within the scopes
 measured here: the lexical-cohesion signal that similarity-based chunking descends from is real
-but insufficient for record-structured text; sparse closing markers, where they exist, nearly
-solve the problem; fixed-size chunking is worse than random; markerless records remain open; and
-the probes used to measure any of this deserve the same audit as the claims they support.
+but insufficient for record-structured text; its embedding form carries genuinely more signal —
+enough to beat chance on the markerless majority, not enough to rival a marker; sparse closing
+markers, where they exist, nearly solve the problem; fixed-size chunking is worse than random;
+and the probes used to measure any of this deserve the same audit as the claims they support.
 
 ## References
 
@@ -376,6 +434,7 @@ the probes used to measure any of this deserve the same audit as the claims they
 - [Luo-2015] Luo, Liu et al. Enhancing Sumerian Lemmatization by Unsupervised Named-Entity Recognition. NAACL 2015.
 - [Lukasik-2020] Lukasik et al. Text Segmentation by Cross Segment Attention. EMNLP 2020.
 - [Malioutov-2006] Malioutov, Barzilay. Minimum Cut Model for Spoken Lecture Segmentation. ACL 2006.
+- [Nussbaum-2024] Nussbaum et al. Nomic Embed: Training a Reproducible Long Context Text Embedder. arXiv:2402.01613, 2024.
 - [PagePerron-2017] Pagé-Perron, Sukhareva, Khait, Chiarcos. Machine Translation and Automated Analysis of the Sumerian Language. SIGHUM/ACL 2017.
 - [Passonneau-Litman] Passonneau, Litman. Discourse Segmentation by Human and Automated Means. *Computational Linguistics* 23(1), 1997.
 - [Pevzner-2002] Pevzner, Hearst. A Critique and Improvement of an Evaluation Metric for Text Segmentation. *Computational Linguistics* 28(1):19–36, 2002.

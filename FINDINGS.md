@@ -61,7 +61,8 @@ Getting the right answer for the wrong reason is not a vindication, and it is no
 after gold-validated closing formulae achieves Pk 0.208 on the 467 tablets carrying such a line
 (vs 0.408 for random cuts *on those same tablets*), while a global trigram-overlap-minimisation
 objective loses to random cuts 550/1,165 paired (BH p < 10⁻⁴). Fixed-size chunking is worse than
-random (Pk 0.438 vs 0.405). On the 73% of tablets with no marker, no tested method beats random.
+random (Pk 0.438 vs 0.405). On the 73% of tablets with no marker, no *lexical or marker* method
+beats random — a gap the embedding follow-up below partially closes.
 
 **Evidence.** `scripts/phase8_boundary_recovery.py` → [`outputs/phase8_boundary_recovery.md`](outputs/phase8_boundary_recovery.md);
 full writeup in [PAPER.md](PAPER.md) §6.
@@ -71,9 +72,17 @@ comparisons computed on the same population; the objective's degenerate optimum 
 defects were caught (once by self-test, twice by a five-reviewer adversarial gate) and are
 disclosed in the script and paper rather than patched silently.
 
-**What it does not establish.** Anything about embedding-based semantic chunking (not tested);
-anything beyond Ur III administrative records at significance (the Literary reversal is
-directional only, BH p ≥ 0.11); performance under unknown K.
+**Embedding follow-up (Phase 9, pre-registered).** The embedding twin of the failed lexical
+objective (nomic-embed-text, out-of-distribution for Sumerian by construction) beats the identical
+lexical algorithm 717/480 paired (BH p < 10⁻⁴), and on the 1,250 markerless tablets — where the
+lexical experiment left the problem open — is significantly better than random (Pk 0.368 vs 0.403,
+BH p = 0.044; Literary 0.286 vs 0.372, BH p = 0.0013). Corpus-wide advantage does not reach
+significance; a shuffled-embedding control collapses to chance as required. Two of three
+pre-registered hypotheses were refuted by this data and are reported as written. See
+[`outputs/phase9_embedding_chunking.md`](outputs/phase9_embedding_chunking.md).
+
+**What it does not establish.** Embedding behaviour in-distribution (one model, untuned, OOD by
+construction); performance under unknown K; anything approaching the marker cue's stratified 0.208.
 
 ---
 

@@ -166,6 +166,35 @@ if paper.exists():
             ok(f"{pre['tablets_with_any_ruling']:,}" in ptext,
                f"PAPER.md: ruling-tablet count {pre['tablets_with_any_ruling']:,} not found or drifted")
 
+    # phase9: the embedding-experiment numbers the paper cites, plus the assertions its claims
+    # rest on -- the twin comparison direction, the markerless-stratum significance, and the
+    # shuffled control collapsing to chance.
+    p9 = ROOT / "outputs" / "phase9_embedding_chunking.json"
+    if p9.exists():
+        d9 = json.loads(p9.read_text(encoding="utf-8"))
+        adm9 = d9["results"].get("Administrative", {})
+        s9 = adm9.get("summary", {})
+        t9 = adm9.get("paired_tests", {})
+        twin = t9.get("emb_valley_vs_lex_valley", {})
+        if twin:
+            ok(twin.get("wins_pk", 0) > twin.get("losses_pk", 0),
+               "phase9: embeddings no longer beat their lexical twin — abstract claim is dead")
+            ok(f"{twin['wins_pk']}/{twin['losses_pk']}" in ptext,
+               "PAPER.md: twin-comparison win/loss counts not found — prose has drifted")
+        no9 = adm9.get("marker_strata", {}).get("without_closer_lines", {})
+        if no9:
+            eg = no9.get("emb_global_vs_random", {})
+            ok(eg.get("pk_sign_p_bh", 1.0) < 0.05,
+               "phase9: markerless-stratum emb_global significance lost — §6.5 claim is dead")
+            ok(f"{no9['emb_global_pk']:.3f}" in ptext,
+               f"PAPER.md: markerless emb_global Pk {no9['emb_global_pk']} not found — drifted")
+            bhval = eg.get("pk_sign_p_bh")
+            ok(str(bhval) in ptext or f"{bhval:.3f}" in ptext,
+               f"PAPER.md: markerless BH p {bhval} (or 3-dp rounding) not found — drifted")
+        if s9:
+            ok(abs(s9["shuffled_control"]["pk"] - s9["random"]["pk"]) < 0.015,
+               "phase9: shuffled-embedding control no longer collapses to chance — emb results suspect")
+
     # phase4 and phase6 headline numbers must appear in PAPER.md too, not only FINDINGS/CORRECTIONS
     p4b = ROOT / "outputs" / "phase4_ruling_fullcorpus.json"
     if p4b.exists():

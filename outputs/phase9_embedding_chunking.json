@@ -1,0 +1,325 @@
+{
+  "config": {
+    "seed": 20260803,
+    "model": "nomic-embed-text",
+    "model_info": "",
+    "block_lines": 2,
+    "n_random": 200,
+    "min_seg_tokens": 4,
+    "known_K": true,
+    "cache": "embeddings_ur3_nomic.npz"
+  },
+  "results": {
+    "Administrative": {
+      "n_tablets": 1717,
+      "summary": {
+        "random": {
+          "pk": 0.4045,
+          "wd": 0.4073,
+          "f1": 0.0966,
+          "f1_tol1": 0.2691
+        },
+        "equal": {
+          "pk": 0.4377,
+          "wd": 0.4398,
+          "f1": 0.0798,
+          "f1_tol1": 0.301
+        },
+        "closer": {
+          "pk": 0.3709,
+          "wd": 0.3732,
+          "f1": 0.1938,
+          "f1_tol1": 0.4004
+        },
+        "lex_valley": {
+          "pk": 0.4537,
+          "wd": 0.4551,
+          "f1": 0.014,
+          "f1_tol1": 0.041
+        },
+        "emb_valley": {
+          "pk": 0.3808,
+          "wd": 0.3839,
+          "f1": 0.1169,
+          "f1_tol1": 0.3022
+        },
+        "emb_global": {
+          "pk": 0.37,
+          "wd": 0.3749,
+          "f1": 0.0841,
+          "f1_tol1": 0.2208
+        },
+        "shuffled_control": {
+          "pk": 0.4055,
+          "wd": 0.4079,
+          "f1": 0.0822,
+          "f1_tol1": 0.2411
+        }
+      },
+      "paired_tests": {
+        "lex_valley_vs_random": {
+          "pk_sign_p": 0.0,
+          "wins_pk": 559,
+          "losses_pk": 1152,
+          "pk_sign_p_bh": 0.0
+        },
+        "lex_valley_vs_closer": {
+          "pk_sign_p": 0.0,
+          "wins_pk": 657,
+          "losses_pk": 835,
+          "pk_sign_p_bh": 0.0
+        },
+        "emb_valley_vs_random": {
+          "pk_sign_p": 0.17577,
+          "wins_pk": 827,
+          "losses_pk": 884,
+          "pk_sign_p_bh": 0.22599
+        },
+        "emb_valley_vs_closer": {
+          "pk_sign_p": 0.77826,
+          "wins_pk": 636,
+          "losses_pk": 625,
+          "pk_sign_p_bh": 0.77826
+        },
+        "emb_global_vs_random": {
+          "pk_sign_p": 0.43917,
+          "wins_pk": 872,
+          "losses_pk": 839,
+          "pk_sign_p_bh": 0.49407
+        },
+        "emb_global_vs_closer": {
+          "pk_sign_p": 0.05941,
+          "wins_pk": 787,
+          "losses_pk": 713,
+          "pk_sign_p_bh": 0.10413
+        },
+        "shuffled_control_vs_random": {
+          "pk_sign_p": 0.0,
+          "wins_pk": 748,
+          "losses_pk": 965,
+          "pk_sign_p_bh": 0.0
+        },
+        "shuffled_control_vs_closer": {
+          "pk_sign_p": 0.06942,
+          "wins_pk": 608,
+          "losses_pk": 674,
+          "pk_sign_p_bh": 0.10413
+        },
+        "emb_valley_vs_lex_valley": {
+          "pk_sign_p": 0.0,
+          "wins_pk": 717,
+          "losses_pk": 480,
+          "pk_sign_p_bh": 0.0
+        }
+      },
+      "valley_fallbacks": {
+        "lex_valley": 1,
+        "emb_valley": 1,
+        "shuffled_control": 2
+      },
+      "emb_global_solver": {
+        "exact": 1694,
+        "greedy": 22,
+        "fallback": 1
+      },
+      "marker_strata": {
+        "without_closer_lines": {
+          "n": 1250,
+          "random_pk": 0.4028,
+          "equal_pk": 0.4319,
+          "closer_pk": 0.4319,
+          "lex_valley_pk": 0.4525,
+          "emb_valley_pk": 0.3789,
+          "emb_global_pk": 0.3681,
+          "shuffled_control_pk": 0.4056,
+          "emb_valley_vs_random": {
+            "pk_sign_p": 0.75534,
+            "wins_pk": 617,
+            "losses_pk": 629,
+            "pk_sign_p_bh": 0.75534
+          },
+          "emb_global_vs_random": {
+            "pk_sign_p": 0.02911,
+            "wins_pk": 662,
+            "losses_pk": 584,
+            "pk_sign_p_bh": 0.04367
+          },
+          "lex_valley_vs_random": {
+            "pk_sign_p": 0.0,
+            "wins_pk": 430,
+            "losses_pk": 816,
+            "pk_sign_p_bh": 0.0
+          }
+        },
+        "with_closer_lines": {
+          "n": 467,
+          "random_pk": 0.409,
+          "equal_pk": 0.4532,
+          "closer_pk": 0.2076,
+          "lex_valley_pk": 0.4569,
+          "emb_valley_pk": 0.3856,
+          "emb_global_pk": 0.375,
+          "shuffled_control_pk": 0.405,
+          "emb_valley_vs_random": {
+            "pk_sign_p": 0.04119,
+            "wins_pk": 210,
+            "losses_pk": 255
+          },
+          "emb_global_vs_random": {
+            "pk_sign_p": 0.04119,
+            "wins_pk": 210,
+            "losses_pk": 255
+          },
+          "lex_valley_vs_random": {
+            "pk_sign_p": 0.0,
+            "wins_pk": 129,
+            "losses_pk": 336
+          }
+        }
+      }
+    },
+    "Literary": {
+      "n_tablets": 91,
+      "summary": {
+        "random": {
+          "pk": 0.374,
+          "wd": 0.4051,
+          "f1": 0.1424,
+          "f1_tol1": 0.2882
+        },
+        "equal": {
+          "pk": 0.3728,
+          "wd": 0.4032,
+          "f1": 0.2083,
+          "f1_tol1": 0.3612
+        },
+        "closer": {
+          "pk": 0.3695,
+          "wd": 0.4004,
+          "f1": 0.2029,
+          "f1_tol1": 0.3667
+        },
+        "lex_valley": {
+          "pk": 0.3358,
+          "wd": 0.3807,
+          "f1": 0.1073,
+          "f1_tol1": 0.2227
+        },
+        "emb_valley": {
+          "pk": 0.3466,
+          "wd": 0.3826,
+          "f1": 0.1749,
+          "f1_tol1": 0.3682
+        },
+        "emb_global": {
+          "pk": 0.2882,
+          "wd": 0.3268,
+          "f1": 0.1934,
+          "f1_tol1": 0.4067
+        },
+        "shuffled_control": {
+          "pk": 0.3788,
+          "wd": 0.4116,
+          "f1": 0.1512,
+          "f1_tol1": 0.2509
+        }
+      },
+      "paired_tests": {
+        "lex_valley_vs_random": {
+          "pk_sign_p": 0.02058,
+          "wins_pk": 57,
+          "losses_pk": 34,
+          "pk_sign_p_bh": 0.06174
+        },
+        "lex_valley_vs_closer": {
+          "pk_sign_p": 0.02863,
+          "wins_pk": 48,
+          "losses_pk": 28,
+          "pk_sign_p_bh": 0.06442
+        },
+        "emb_valley_vs_random": {
+          "pk_sign_p": 0.5296,
+          "wins_pk": 49,
+          "losses_pk": 42,
+          "pk_sign_p_bh": 0.5958
+        },
+        "emb_valley_vs_closer": {
+          "pk_sign_p": 0.21454,
+          "wins_pk": 38,
+          "losses_pk": 27,
+          "pk_sign_p_bh": 0.38617
+        },
+        "emb_global_vs_random": {
+          "pk_sign_p": 0.00019,
+          "wins_pk": 63,
+          "losses_pk": 27,
+          "pk_sign_p_bh": 0.00171
+        },
+        "emb_global_vs_closer": {
+          "pk_sign_p": 0.00091,
+          "wins_pk": 51,
+          "losses_pk": 22,
+          "pk_sign_p_bh": 0.00409
+        },
+        "shuffled_control_vs_random": {
+          "pk_sign_p": 0.29447,
+          "wins_pk": 40,
+          "losses_pk": 51,
+          "pk_sign_p_bh": 0.44032
+        },
+        "shuffled_control_vs_closer": {
+          "pk_sign_p": 0.80131,
+          "wins_pk": 33,
+          "losses_pk": 30,
+          "pk_sign_p_bh": 0.80131
+        },
+        "emb_valley_vs_lex_valley": {
+          "pk_sign_p": 0.34247,
+          "wins_pk": 31,
+          "losses_pk": 40,
+          "pk_sign_p_bh": 0.44032
+        }
+      },
+      "valley_fallbacks": {
+        "lex_valley": 9,
+        "emb_valley": 9,
+        "shuffled_control": 9
+      },
+      "emb_global_solver": {
+        "exact": 75,
+        "greedy": 7,
+        "fallback": 9
+      },
+      "marker_strata": {
+        "without_closer_lines": {
+          "n": 86,
+          "random_pk": 0.3719,
+          "equal_pk": 0.3678,
+          "closer_pk": 0.3678,
+          "lex_valley_pk": 0.3339,
+          "emb_valley_pk": 0.3367,
+          "emb_global_pk": 0.2858,
+          "shuffled_control_pk": 0.3737,
+          "emb_valley_vs_random": {
+            "pk_sign_p": 0.45055,
+            "wins_pk": 47,
+            "losses_pk": 39,
+            "pk_sign_p_bh": 0.45055
+          },
+          "emb_global_vs_random": {
+            "pk_sign_p": 0.00045,
+            "wins_pk": 59,
+            "losses_pk": 26,
+            "pk_sign_p_bh": 0.00135
+          },
+          "lex_valley_vs_random": {
+            "pk_sign_p": 0.02298,
+            "wins_pk": 54,
+            "losses_pk": 32,
+            "pk_sign_p_bh": 0.03447
+          }
+        }
+      }
+    }
+  }
+}
