@@ -124,6 +124,38 @@ if p5.exists():
         ok(all((r["vuong_p_mean"] or 0) > 0.05 for r in d5["results"]),
            "phase5: a Vuong test is now significant — the 'indistinguishable from lognormal' claim needs revising")
 
+# ---- 3c. PAPER.md headline numbers match the generated JSON -----------------
+paper = ROOT / "PAPER.md"
+p8 = ROOT / "outputs" / "phase8_boundary_recovery.json"
+p7 = ROOT / "outputs" / "phase7_oracc_validation.json"
+if paper.exists():
+    ptext = paper.read_text(encoding="utf-8")
+    if p8.exists():
+        d8 = json.loads(p8.read_text(encoding="utf-8"))
+        adm8 = d8["results"].get("Administrative", {})
+        s8 = adm8.get("summary", {})
+        for method, key, digits in (("closer", "pk", 3), ("overlap_min", "pk", 3), ("random", "pk", 3)):
+            val = s8.get(method, {}).get(key)
+            if val is not None:
+                ok(f"{val:.3f}" in ptext,
+                   f"PAPER.md: Administrative {method} Pk {val:.3f} not found — prose has drifted from phase8 JSON")
+        strat = adm8.get("closer_stratum", {}).get("with_closer_lines", {})
+        if strat.get("pk_mean") is not None:
+            ok(f"{strat['pk_mean']:.3f}"[:5] in ptext,
+               f"PAPER.md: closer-stratum Pk {strat['pk_mean']} not found — prose has drifted from phase8 JSON")
+        # the paper's central dissociation claim must remain true in the data
+        if s8:
+            ok(s8["closer"]["pk"] < s8["random"]["pk"] < s8["overlap_min"]["pk"] + 0.06,
+               "phase8: the closer<random<~overlap ordering the paper argues from no longer holds")
+    if p7.exists():
+        d7 = json.loads(p7.read_text(encoding="utf-8"))
+        kt = d7["results"].get("king_title", {})
+        if kt.get("oracc_occurrences"):
+            pn = kt.get("pos_distribution", {}).get("PN", 0)
+            share = round(100 * pn / kt["oracc_occurrences"])
+            ok(f"{share}%" in ptext,
+               f"PAPER.md: lugal PN share {share}% not found — prose has drifted from phase7 JSON")
+
 # ---- 4. corpus totals match what the docs claim -----------------------------
 parquet = ROOT / "data" / "sumtablets.parquet"
 if parquet.exists():

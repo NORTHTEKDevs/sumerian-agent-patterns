@@ -2,7 +2,7 @@
 
 **Empirical mining of the SumTablets cuneiform corpus (91,606 tablets, 6.97M glyphs) for software-design primitives applicable to modern multi-agent AI systems.**
 
-> **Start with [FINDINGS.md](FINDINGS.md)** — every claim this repo makes, ranked by strength, with the evidence and the limits of each. Then [CORRECTIONS.md](CORRECTIONS.md) for what was withdrawn and why.
+> **The full research writeup is [PAPER.md](PAPER.md)** — abstract through threats-to-validity, every number CI-coupled to the generated data. **Start with [FINDINGS.md](FINDINGS.md)** — every claim this repo makes, ranked by strength, with the evidence and the limits of each. Then [CORRECTIONS.md](CORRECTIONS.md) for what was withdrawn and why.
 
 > **Read [CORRECTIONS.md](CORRECTIONS.md) for the full retraction record.** A self-audit on 2026-07-31 withdrew two headline statistical findings — RULING-parity (wrong null hypothesis) and Zipf-as-DSL (stream-length artifact) — and a probe-precision audit found that **5 of 10 audited regex probes match a different lexeme than their label claims** and must not be cited. What survives: the compression-redundancy contrast (verified against a length control), the ELS null result, four precision-validated probe frequencies, and the engineering benchmark. Every claim is tagged with its evidence strength, and every correction is reproducible from the pipeline rather than asserted — see [`outputs/probe_validation.md`](outputs/probe_validation.md).
 
@@ -231,6 +231,9 @@ Full statistics with shuffled-baseline controls in `outputs/compression_findings
 │   ├── phase1b_probe_validation.py    precision-audits those probes (which ones are citable)
 │   ├── phase4_ruling_fullcorpus.py    the RULING question, full corpus, 2 nulls, 10k permutations
 │   ├── phase5_powerlaw.py             power-law fits by the Clauset-Shalizi-Newman method
+│   ├── phase6_ruling_mechanism.py     do closers precede rulings? (position-controlled null)
+│   ├── phase7_oracc_validation.py     probe precision vs expert lemmatisation (3.6M tokens)
+│   ├── phase8_boundary_recovery.py    can the signals RECOVER the boundaries? (Pk/WindowDiff)
 │   ├── check_integrity.py             pre-publish gate: links, correction notices, audit stamps
 │   └── phase3_compression.py          Zipf, compression, ELS, RULING-parity analysis
 ├── benchmarks/
@@ -240,8 +243,11 @@ Full statistics with shuffled-baseline controls in `outputs/compression_findings
 │   ├── results.json                   raw measurement output
 │   └── RESULTS.md                     report with measured numbers and caveats
 └── outputs/
-    ├── phase4_ruling_fullcorpus.md    full-corpus RULING result (the strongest finding here)
+    ├── phase4_ruling_fullcorpus.md    full-corpus RULING result
     ├── phase5_powerlaw.md             power-law analysis, done by the standard method
+    ├── phase6_ruling_mechanism.md     closer-enrichment mechanism (6.3x, position-controlled)
+    ├── phase7_oracc_validation.md     probe precision vs Oracc gold (lugal = 41% personal names)
+    ├── phase8_boundary_recovery.md    boundary recovery: markers beat similarity on records
     ├── probe_validation.md            per-probe precision + prevalence -- READ BEFORE CITING
     ├── probe_validation.json          machine-readable probe audit
     ├── templates.json                 229 templates × {genre, pattern, role, frequency, tablet IDs}
@@ -271,6 +277,9 @@ python scripts/phase1b_probe_validation.py # ~5 s    writes outputs/probe_valida
 python scripts/phase3_compression.py       # ~5 min  writes outputs/compression_findings.md + phase3_raw.json
 python scripts/phase4_ruling_fullcorpus.py # ~20 min full-corpus RULING test (10,000 permutations)
 python scripts/phase5_powerlaw.py          # ~2 min  Clauset-Shalizi-Newman power-law fits
+python scripts/phase6_ruling_mechanism.py  # ~8 min  closer-enrichment mechanism test
+python scripts/phase7_oracc_validation.py  # ~4 min  probe validation vs Oracc gold (561MB download)
+python scripts/phase8_boundary_recovery.py # ~12 min boundary-recovery experiment (the paper headline)
 python scripts/check_integrity.py          # ~1 s    links resolve, corrections present, audit stamps intact
 ```
 

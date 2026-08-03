@@ -1,0 +1,223 @@
+{
+  "config": {
+    "seed": 20260802,
+    "n_random": 200,
+    "lambda_hybrid": 1.0,
+    "max_exact_combos": 200000,
+    "min_lines": 6,
+    "max_lines": 120,
+    "known_K": true
+  },
+  "results": {
+    "Administrative": {
+      "n_tablets": 1717,
+      "solver": {
+        "exact": 1694,
+        "greedy": 22,
+        "fallback": 1
+      },
+      "summary": {
+        "equal": {
+          "pk": 0.4377,
+          "wd": 0.4398,
+          "f1": 0.0798,
+          "f1_tol1": 0.301
+        },
+        "random": {
+          "pk": 0.4046,
+          "wd": 0.4074,
+          "f1": 0.0967,
+          "f1_tol1": 0.2685
+        },
+        "closer": {
+          "pk": 0.3709,
+          "wd": 0.3732,
+          "f1": 0.1938,
+          "f1_tol1": 0.4004
+        },
+        "overlap_min": {
+          "pk": 0.4543,
+          "wd": 0.4563,
+          "f1": 0.018,
+          "f1_tol1": 0.061
+        },
+        "hybrid": {
+          "pk": 0.3948,
+          "wd": 0.3968,
+          "f1": 0.125,
+          "f1_tol1": 0.2055
+        }
+      },
+      "paired_tests": {
+        "overlap_min_vs_equal": {
+          "pk_sign_p": 0.01156,
+          "wd_sign_p": 0.01068,
+          "wins_pk": 756,
+          "losses_pk": 660
+        },
+        "closer_vs_equal": {
+          "pk_sign_p": 0.0,
+          "wd_sign_p": 0.0,
+          "wins_pk": 311,
+          "losses_pk": 62
+        },
+        "hybrid_vs_equal": {
+          "pk_sign_p": 0.0,
+          "wd_sign_p": 0.0,
+          "wins_pk": 844,
+          "losses_pk": 557
+        }
+      },
+      "closer_stratum": {
+        "with_closer_lines": {
+          "n": 467,
+          "pk_mean": 0.2076
+        },
+        "without_closer_lines": {
+          "n": 1250,
+          "pk_mean": 0.4319
+        }
+      }
+    },
+    "Literary": {
+      "n_tablets": 91,
+      "solver": {
+        "exact": 75,
+        "greedy": 7,
+        "fallback": 9
+      },
+      "summary": {
+        "equal": {
+          "pk": 0.3728,
+          "wd": 0.4032,
+          "f1": 0.2083,
+          "f1_tol1": 0.3612
+        },
+        "random": {
+          "pk": 0.3744,
+          "wd": 0.4057,
+          "f1": 0.1435,
+          "f1_tol1": 0.2896
+        },
+        "closer": {
+          "pk": 0.3695,
+          "wd": 0.4004,
+          "f1": 0.2029,
+          "f1_tol1": 0.3667
+        },
+        "overlap_min": {
+          "pk": 0.3468,
+          "wd": 0.3803,
+          "f1": 0.1109,
+          "f1_tol1": 0.2233
+        },
+        "hybrid": {
+          "pk": 0.3488,
+          "wd": 0.3828,
+          "f1": 0.1146,
+          "f1_tol1": 0.2416
+        }
+      },
+      "paired_tests": {
+        "overlap_min_vs_equal": {
+          "pk_sign_p": 0.02053,
+          "wd_sign_p": 0.03558,
+          "wins_pk": 44,
+          "losses_pk": 24
+        },
+        "closer_vs_equal": {
+          "pk_sign_p": 1.0,
+          "wd_sign_p": 1.0,
+          "wins_pk": 1,
+          "losses_pk": 1
+        },
+        "hybrid_vs_equal": {
+          "pk_sign_p": 0.03558,
+          "wd_sign_p": 0.05994,
+          "wins_pk": 42,
+          "losses_pk": 24
+        }
+      },
+      "closer_stratum": {
+        "with_closer_lines": {
+          "n": 5,
+          "pk_mean": 0.3983
+        },
+        "without_closer_lines": {
+          "n": 86,
+          "pk_mean": 0.3678
+        }
+      }
+    },
+    "Markdown (this repo, modern transfer demo)": {
+      "n_tablets": 7,
+      "solver": {
+        "exact": 4,
+        "greedy": 3,
+        "fallback": 0
+      },
+      "summary": {
+        "equal": {
+          "pk": 0.55,
+          "wd": 0.5699,
+          "f1": 0.0714,
+          "f1_tol1": 0.1714
+        },
+        "random": {
+          "pk": 0.45,
+          "wd": 0.4799,
+          "f1": 0.0859,
+          "f1_tol1": 0.2193
+        },
+        "closer": {
+          "pk": 0.4807,
+          "wd": 0.5061,
+          "f1": 0.0179,
+          "f1_tol1": 0.1536
+        },
+        "overlap_min": {
+          "pk": 0.3813,
+          "wd": 0.4264,
+          "f1": 0.1071,
+          "f1_tol1": 0.1833
+        },
+        "hybrid": {
+          "pk": 0.3871,
+          "wd": 0.4309,
+          "f1": 0.0893,
+          "f1_tol1": 0.2012
+        }
+      },
+      "paired_tests": {
+        "overlap_min_vs_equal": {
+          "pk_sign_p": 0.03125,
+          "wd_sign_p": 0.03125,
+          "wins_pk": 6,
+          "losses_pk": 0
+        },
+        "closer_vs_equal": {
+          "pk_sign_p": 0.625,
+          "wd_sign_p": 0.25,
+          "wins_pk": 3,
+          "losses_pk": 1
+        },
+        "hybrid_vs_equal": {
+          "pk_sign_p": 0.0625,
+          "wd_sign_p": 0.03125,
+          "wins_pk": 5,
+          "losses_pk": 0
+        }
+      },
+      "closer_stratum": {
+        "with_closer_lines": {
+          "n": 4,
+          "pk_mean": 0.4257
+        },
+        "without_closer_lines": {
+          "n": 3,
+          "pk_mean": 0.554
+        }
+      }
+    }
+  }
+}
