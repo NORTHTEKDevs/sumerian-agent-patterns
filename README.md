@@ -235,6 +235,7 @@ Full statistics with shuffled-baseline controls in `outputs/compression_findings
 │   ├── phase7_oracc_validation.py     probe precision vs expert lemmatisation (3.6M tokens)
 │   ├── phase8_boundary_recovery.py    can the signals RECOVER the boundaries? (Pk/WindowDiff)
 │   ├── phase9_embedding_chunking.py   embedding twin of phase 8 (2x2 + shuffled control)
+│   ├── phase10_model_robustness.py    4/4 pre-registered criteria replicate with bge-m3
 │   ├── check_integrity.py             pre-publish gate: links, correction notices, audit stamps
 │   └── phase3_compression.py          Zipf, compression, ELS, RULING-parity analysis
 ├── benchmarks/
@@ -250,6 +251,7 @@ Full statistics with shuffled-baseline controls in `outputs/compression_findings
     ├── phase7_oracc_validation.md     probe precision vs Oracc gold (lugal = 41% personal names)
     ├── phase8_boundary_recovery.md    boundary recovery: markers beat similarity on records
     ├── phase9_embedding_chunking.md   embeddings beat their lexical twin; help on markerless tablets
+    ├── phase10_model_robustness.md    second-encoder replication, criteria fixed pre-run
     ├── probe_validation.md            per-probe precision + prevalence -- READ BEFORE CITING
     ├── probe_validation.json          machine-readable probe audit
     ├── templates.json                 229 templates × {genre, pattern, role, frequency, tablet IDs}
@@ -283,6 +285,7 @@ python scripts/phase6_ruling_mechanism.py  # ~8 min  closer-enrichment mechanism
 python scripts/phase7_oracc_validation.py  # ~4 min  probe validation vs Oracc gold (561MB download)
 python scripts/phase8_boundary_recovery.py # ~12 min boundary-recovery experiment (the paper headline)
 python scripts/phase9_embedding_chunking.py # ~45 min embedding chunking (needs Ollama + nomic-embed-text)
+python scripts/phase10_model_robustness.py  # ~45 min second-encoder replication (needs bge-m3)
 python scripts/check_integrity.py          # ~1 s    links resolve, corrections present, audit stamps intact
 ```
 

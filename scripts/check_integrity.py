@@ -195,6 +195,15 @@ if paper.exists():
             ok(abs(s9["shuffled_control"]["pk"] - s9["random"]["pk"]) < 0.015,
                "phase9: shuffled-embedding control no longer collapses to chance — emb results suspect")
 
+    # phase10: the paper claims 4/4 pre-registered replication -- assert it from the JSON
+    p10 = ROOT / "outputs" / "phase10_model_robustness.json"
+    if p10.exists():
+        d10 = json.loads(p10.read_text(encoding="utf-8"))
+        ok(d10.get("n_replicated") == d10.get("n_criteria") == 4,
+           "phase10: replication no longer 4/4 -- PAPER s6.5 and FINDINGS claims are dead")
+        ok("4 of 4" in ptext or "4/4" in ptext,
+           "PAPER.md: the 4-of-4 replication claim text not found")
+
     # phase4 and phase6 headline numbers must appear in PAPER.md too, not only FINDINGS/CORRECTIONS
     p4b = ROOT / "outputs" / "phase4_ruling_fullcorpus.json"
     if p4b.exists():

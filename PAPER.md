@@ -1,6 +1,6 @@
 # Clay as Ground Truth: Testing Text-Chunking Signals Against 4,000-Year-Old Record Boundaries
 
-**Kristian Baer** (Northtek) · Draft v1.2, 2026-08-03 · Not peer-reviewed
+**Kristian Baer** (Northtek) · Draft v1.3, 2026-08-03 · Not peer-reviewed
 **Repository:** https://github.com/NORTHTEKDevs/sumerian-agent-patterns (all numbers regenerate from the pipeline; CI enforces prose–data agreement)
 
 > Draft v1.1 incorporated a five-reviewer adversarial gate (§9). Draft v1.2 adds the experiment
@@ -331,6 +331,17 @@ a finding — for the embedding representation only**. The shuffled-embedding co
 chance (Pk 0.406 vs. 0.405), confirming the signal is embedding content rather than an artifact
 of the machinery. The closer cue's stratified 0.208 remains untouched by every similarity method.
 
+**Second-encoder replication (Phase 10).** All four conclusions above were re-tested with
+`bge-m3` — XLM-RoBERTa lineage, multilingual pretraining, 1024-d, architecturally and
+training-distributionally distinct from nomic — under replication criteria fixed before the run.
+**4 of 4 replicated**, with the markerless-stratum result *strengthening* (administrative:
+Pk 0.364 vs. 0.403, 682/565 paired, p = 0.001, against nomic's borderline 0.044; literary
+p = 3×10⁻⁵). The twin comparison is nearly identical across encoders (716/460 vs. 717/480). The
+multilingual model neither collapses nor markedly improves overall, which favours the
+generic-subword-geometry reading of the OOD signal over a multilingual-transfer advantage,
+though the two models' near-tie makes that inference weak. See
+[`outputs/phase10_model_robustness.md`](outputs/phase10_model_robustness.md).
+
 ## 7. Implications for agent memory
 
 Agent memory content — tool-call traces, transaction logs, episodic event streams — is
@@ -371,12 +382,13 @@ about embedding-based semantic chunking, which was not tested.
   hand-written to the published formulas (§2.1) — NLTK reproductions will differ slightly.
 - **Known-K is generous.** All methods receive the true segment count; results are upper bounds
   on placement quality, uniformly across methods.
-- **The embedding experiment's scope.** One embedding model (nomic-embed-text), one block size,
-  untuned; Sumerian transliteration is out-of-distribution for it by construction, so the
-  embedding results measure machinery, not understanding, and in-distribution behaviour on modern
-  text may differ in either direction. The markerless-stratum significance on administrative
-  records is borderline (BH p = 0.044) and the effect modest; the Literary result is stronger but
-  n = 91. Model-family robustness (a second encoder) has not been run.
+- **The embedding experiment's scope.** Two encoders now, from different architecture families
+  (nomic-embed-text; bge-m3), agreeing on all four pre-registered criteria — but both untuned, one
+  block size, and Sumerian transliteration is out-of-distribution for both by construction, so
+  the results measure machinery, not understanding. The administrative markerless-stratum effect
+  is modest in size even where clearly significant (bge-m3 p = 0.001; nomic borderline at
+  BH p = 0.044); the Literary n is 91. In-distribution behaviour on modern text may differ in
+  either direction.
 - **Statistical hygiene of this draft.** The v1.0 sign test was not genuinely two-sided (it
   saturated at p = 1 for methods losing most comparisons); v1.1 uses the corrected two-tail form,
   BH-corrects all paired tests within each corpus, and discloses the change in the script

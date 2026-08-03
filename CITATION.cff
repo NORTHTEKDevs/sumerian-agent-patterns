@@ -12,7 +12,7 @@ authors:
     affiliation: Northtek
     email: info@northtek.io
 repository-code: 'https://github.com/NORTHTEKDevs/sumerian-agent-patterns'
-version: 0.5.0
+version: 0.5.1
 date-released: '2026-08-03'
 abstract: >-
   A reproducible pipeline that mines the SumTablets corpus

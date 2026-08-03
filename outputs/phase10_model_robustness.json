@@ -1,0 +1,116 @@
+{
+  "config": {
+    "seed": 20260803,
+    "model": "bge-m3",
+    "n_random": 200,
+    "criteria_fixed_before_run": true
+  },
+  "results": {
+    "Administrative": {
+      "n_tablets": 1717,
+      "summary": {
+        "random": 0.4045,
+        "closer": 0.3709,
+        "lex_valley": 0.4537,
+        "emb_valley": 0.38,
+        "emb_global": 0.374,
+        "shuffled_control": 0.4078
+      },
+      "paired_tests": {
+        "emb_valley_vs_lex_valley": {
+          "pk_sign_p": 0.0,
+          "wins_pk": 716,
+          "losses_pk": 460,
+          "pk_sign_p_bh": 0.0
+        },
+        "emb_valley_vs_random": {
+          "pk_sign_p": 0.62915,
+          "wins_pk": 847,
+          "losses_pk": 868,
+          "pk_sign_p_bh": 0.71697
+        },
+        "emb_global_vs_random": {
+          "pk_sign_p": 0.71697,
+          "wins_pk": 864,
+          "losses_pk": 848,
+          "pk_sign_p_bh": 0.71697
+        },
+        "shuffled_control_vs_random": {
+          "pk_sign_p": 0.0,
+          "wins_pk": 736,
+          "losses_pk": 978,
+          "pk_sign_p_bh": 0.0
+        }
+      },
+      "marker_strata": {
+        "without_closer_lines": {
+          "n": 1250,
+          "random_pk": 0.4028,
+          "emb_global_pk": 0.3644,
+          "emb_global_vs_random": {
+            "pk_sign_p": 0.00101,
+            "wins_pk": 682,
+            "losses_pk": 565
+          }
+        }
+      }
+    },
+    "Literary": {
+      "n_tablets": 91,
+      "summary": {
+        "random": 0.374,
+        "closer": 0.3695,
+        "lex_valley": 0.3358,
+        "emb_valley": 0.359,
+        "emb_global": 0.276,
+        "shuffled_control": 0.3566
+      },
+      "paired_tests": {
+        "emb_valley_vs_lex_valley": {
+          "pk_sign_p": 0.14803,
+          "wins_pk": 28,
+          "losses_pk": 41,
+          "pk_sign_p_bh": 0.29606
+        },
+        "emb_valley_vs_random": {
+          "pk_sign_p": 0.83408,
+          "wins_pk": 44,
+          "losses_pk": 47,
+          "pk_sign_p_bh": 0.83408
+        },
+        "emb_global_vs_random": {
+          "pk_sign_p": 1e-05,
+          "wins_pk": 66,
+          "losses_pk": 24,
+          "pk_sign_p_bh": 4e-05
+        },
+        "shuffled_control_vs_random": {
+          "pk_sign_p": 0.67522,
+          "wins_pk": 48,
+          "losses_pk": 43,
+          "pk_sign_p_bh": 0.83408
+        }
+      },
+      "marker_strata": {
+        "without_closer_lines": {
+          "n": 86,
+          "random_pk": 0.3719,
+          "emb_global_pk": 0.2745,
+          "emb_global_vs_random": {
+            "pk_sign_p": 3e-05,
+            "wins_pk": 62,
+            "losses_pk": 23
+          }
+        }
+      }
+    }
+  },
+  "replication_verdicts": {
+    "R1_twin_direction_significant": true,
+    "R2_markerless_stratum_significant": true,
+    "R3_shuffled_control_collapses": true,
+    "R4_global_beats_valley": true
+  },
+  "n_replicated": 4,
+  "n_criteria": 4
+}

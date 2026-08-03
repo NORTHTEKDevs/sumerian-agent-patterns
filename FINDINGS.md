@@ -81,7 +81,12 @@ significance; a shuffled-embedding control collapses to chance as required. Two 
 pre-registered hypotheses were refuted by this data and are reported as written. See
 [`outputs/phase9_embedding_chunking.md`](outputs/phase9_embedding_chunking.md).
 
-**What it does not establish.** Embedding behaviour in-distribution (one model, untuned, OOD by
+**Second-encoder replication (Phase 10).** All four embedding conclusions re-tested with bge-m3
+(different architecture family, multilingual) under criteria fixed before the run: **4/4
+replicated**, the markerless-stratum significance strengthening to p = 0.001 (administrative) and
+3×10⁻⁵ (literary). See [`outputs/phase10_model_robustness.md`](outputs/phase10_model_robustness.md).
+
+**What it does not establish.** Embedding behaviour in-distribution (both encoders untuned, OOD by
 construction); performance under unknown K; anything approaching the marker cue's stratified 0.208.
 
 ---
