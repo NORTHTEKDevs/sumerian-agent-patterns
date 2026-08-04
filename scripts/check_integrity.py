@@ -224,6 +224,30 @@ if paper.exists():
             ok(f"{w11['closer_pk']:.3f}" in ptext and f"{w11['random_pk']:.3f}" in ptext,
                f"PAPER.md: phase11 stratified numbers {w11['closer_pk']}/{w11['random_pk']} missing/drifted")
 
+    # WRITEUP.md (the public post) cites headline numbers too -- couple them to the same JSONs
+    # so the post cannot drift from the data any more than the paper can.
+    wpath = ROOT / "WRITEUP.md"
+    if wpath.exists():
+        wtext = wpath.read_text(encoding="utf-8")
+        if p8.exists():
+            strat_w = json.loads(p8.read_text(encoding="utf-8"))["results"].get(
+                "Administrative", {}).get("closer_stratum", {}).get("with_closer_lines", {})
+            if strat_w.get("closer_pk") is not None:
+                ok(f"{strat_w['closer_pk']:.3f}"[:5] in wtext and f"{strat_w['random_pk']:.3f}"[:5] in wtext,
+                   "WRITEUP.md: phase8 stratified numbers missing or drifted")
+        p11w = ROOT / "outputs" / "phase11_modern_indistribution.json"
+        if p11w.exists():
+            gg_w = json.loads(p11w.read_text(encoding="utf-8"))["results"].get(
+                "git/git (trailer-rich)", {}).get("strata", {}).get("with_trailers", {})
+            if gg_w:
+                ok(f"{gg_w['closer_pk']:.3f}" in wtext and f"{gg_w['random_pk']:.3f}" in wtext,
+                   "WRITEUP.md: phase11 stratified numbers missing or drifted")
+        if p7.exists():
+            kt_w = json.loads(p7.read_text(encoding="utf-8"))["results"].get("king_title", {})
+            if kt_w.get("oracc_occurrences"):
+                pn_share = round(100 * kt_w["pos_distribution"].get("PN", 0) / kt_w["oracc_occurrences"])
+                ok(f"{pn_share}%" in wtext, f"WRITEUP.md: lugal PN share {pn_share}% missing or drifted")
+
     # phase4 and phase6 headline numbers must appear in PAPER.md too, not only FINDINGS/CORRECTIONS
     p4b = ROOT / "outputs" / "phase4_ruling_fullcorpus.json"
     if p4b.exists():
