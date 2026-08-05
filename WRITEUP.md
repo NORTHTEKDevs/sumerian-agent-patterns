@@ -98,8 +98,11 @@ to probe on your own data rather than trust anyone's default, including mine.
 
 And one of my tablet claims died in the modern replication, which is exactly what
 pre-registration is for: fixed-size chunking was worse than random on the tablets, and I said so
-loudly. On commit streams it beat random. The tablet result was a fact about how wildly uneven
-Ur III record lengths are, not a fact about fixed-size chunking. Retracted and rescoped.
+loudly. On commit streams it beat random, so I retracted the general claim. I then proposed an
+explanation (uneven record lengths) and pre-registered a test of it across six corpora. The
+explanation failed too (Spearman rho of -0.03), so the reversal stands and its cause is an open
+question. The corrections file now contains a correction of a correction, which I am told is not
+a good look, and which I would do again.
 
 If you maintain an agent framework, the actionable version is one sentence: make your traces
 carry explicit end-markers (tool-call terminations, confirmation lines, status closers), because
