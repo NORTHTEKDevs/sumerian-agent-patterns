@@ -248,6 +248,45 @@ if paper.exists():
                 pn_share = round(100 * kt_w["pos_distribution"].get("PN", 0) / kt_w["oracc_occurrences"])
                 ok(f"{pn_share}%" in wtext, f"WRITEUP.md: lugal PN share {pn_share}% missing or drifted")
 
+    # phases 12-14: the claims v1.5 rests on, asserted from the generated JSONs.
+    p12 = ROOT / "outputs" / "phase12_unknown_k.json"
+    if p12.exists():
+        d12 = json.loads(p12.read_text(encoding="utf-8"))
+        ok(d12.get("verdicts", {}).get("U1_markers_dominate_and_estimate_K") is True,
+           "phase12: U1 no longer holds — the unknown-K marker claim is dead")
+        gg12 = d12["results"].get("git/git (trailer-rich)", {}).get("strata", {}).get("with_markers", {})
+        if gg12:
+            ok(f"{gg12['marker_K_pk']:.3f}"[:5] in ptext,
+               f"PAPER.md: phase12 git/git marker stratum Pk {gg12['marker_K_pk']} missing/drifted")
+    p13 = ROOT / "outputs" / "phase13_dispersion.json"
+    if p13.exists():
+        d13 = json.loads(p13.read_text(encoding="utf-8"))
+        ok(d13.get("verdicts", {}).get("D1_gap_increases_with_cv") is False,
+           "phase13: D1 now HOLDS — the dispersion-mechanism withdrawal in CORRECTIONS/PAPER is stale")
+        ok("rho = −0.03" in ptext or "rho = -0.03" in ptext
+           or f"{d13.get('spearman_rho')}" in ptext,
+           "PAPER.md: phase13 rho missing — the refutation must be visible in the paper")
+    p14 = ROOT / "outputs" / "phase14_agent_traces.json"
+    if p14.exists():
+        d14 = json.loads(p14.read_text(encoding="utf-8"))
+        v14 = d14.get("verdicts", {})
+        ok(v14.get("T1_embeddings_beat_random_on_raw_traces") is False,
+           "phase14: T1 now HOLDS — the paper reports it as failed; prose is stale")
+        ok(v14.get("T2_engineered_delimiter_closes_problem") is True,
+           "phase14: T2 no longer holds — the engineered-delimiter demonstration failed")
+        ok(v14.get("T3_dispersion_prediction", {}).get("status") == "VOID_mechanism_refuted_in_phase13",
+           "phase14: T3 no longer marked VOID — coherence with phase 13's refutation is broken")
+        raw14 = d14.get("raw_condition", {}).get("summary", {})
+        if raw14:
+            ok(raw14.get("equal", {}).get("pk", 1) < min(raw14.get("emb_valley", {}).get("pk", 0),
+                                                          raw14.get("emb_global", {}).get("pk", 0)),
+               "phase14: fixed-size no longer beats similarity methods on raw traces — §6.7/§7 claim is dead")
+            ok(f"{raw14['equal']['pk']:.3f}" in ptext,
+               f"PAPER.md: phase14 raw-trace equal Pk {raw14['equal']['pk']} missing/drifted")
+        # privacy re-assertion at integrity time: no long transcript-looking lines in the JSON
+        ok('"privacy": "aggregate metrics only' in (ROOT / "outputs" / "phase14_agent_traces.json").read_text(encoding="utf-8"),
+           "phase14: privacy statement missing from output JSON")
+
     # phase4 and phase6 headline numbers must appear in PAPER.md too, not only FINDINGS/CORRECTIONS
     p4b = ROOT / "outputs" / "phase4_ruling_fullcorpus.json"
     if p4b.exists():

@@ -96,9 +96,29 @@ fixed-size chunking *beats* random on modern streams (the tablet result was abou
 dispersion, not fixed-size chunking), and no similarity algorithm was best on every corpus. See
 [`outputs/phase11_modern_indistribution.md`](outputs/phase11_modern_indistribution.md).
 
-**What it does not establish.** Performance under unknown K; behaviour on heterogeneous agent
-traces (commit windows are same-project, same-era); anything approaching the marker cue where
-markers exist.
+**Unknown K (Phase 12, pre-registered).** Removing the oracle segment count *widens* the marker
+lead: markers self-estimate K (MAE 0.33–0.70) and reach Pk **0.080** on trailer-bearing commit
+documents (132/0 vs oracle-K random) and 0.211 on tablets. Gating required: applied to markerless
+text the marker method is the worst measured (0.786). One pre-registered expectation failed: a
+learned length prior beats oracle-K random on the uniform-record corpus, so "markerless unknown-K
+is unsolved" was too strong. See [`outputs/phase12_unknown_k.md`](outputs/phase12_unknown_k.md).
+
+**Dispersion mechanism (Phase 13, pre-registered): REFUTED.** Our own v0.6.0 explanation for the
+fixed-size reversal (record-length dispersion) fails across six corpora (rho = −0.03, exact
+p = 1.0). The reversal is real; its cause is open. See
+[`outputs/phase13_dispersion.md`](outputs/phase13_dispersion.md) and CORRECTIONS.md.
+
+**Real agent traces (Phase 14, BYO-data, pre-registered; T1 DID NOT HOLD).** On 200 documents
+from real agent sessions (corpus frozen after a live-corpus reproducibility bug was caught —
+three runs saw three corpora and an apparent embedding advantage decayed BH 0.002 → 0.038 →
+0.94): **plain fixed-size is the only post-hoc method stably better than random** (Pk 0.383 vs
+0.470, BH p = 0.006); embeddings are flat on the frozen corpus; one engineered delimiter line
+per record achieves Pk 0.000 with K unknown (a demonstration by construction; the finding is the
+0.383 → 0.000 gap). See [`outputs/phase14_agent_traces.md`](outputs/phase14_agent_traces.md).
+
+**What it does not establish.** Why the equal-vs-random sign flips between corpus families
+(tested, unexplained); trace behaviour beyond one author's sessions; anything approaching the
+marker cue where markers exist.
 
 ---
 

@@ -1,6 +1,6 @@
 # Clay as Ground Truth: Testing Text-Chunking Signals Against 4,000-Year-Old Record Boundaries
 
-**Kristian Baer** (Northtek) · Draft v1.4, 2026-08-03 · Not peer-reviewed
+**Kristian Baer** (Northtek) · Draft v1.5, 2026-08-05 · Not peer-reviewed
 **Repository:** https://github.com/NORTHTEKDevs/sumerian-agent-patterns (all numbers regenerate from the pipeline; CI enforces prose–data agreement)
 
 > Draft v1.1 incorporated a five-reviewer adversarial gate (§9). Draft v1.2 adds the experiment
@@ -41,8 +41,16 @@ by the VCS) confirms the central result decisively — attribution trailers, the
 recover boundaries at Pk 0.252 vs. 0.464 random (250/13 paired) — and sharpens the rest:
 in-distribution embeddings clearly beat chance where out-of-distribution ones could not, but
 which similarity algorithm wins is corpus-dependent, and fixed-size chunking's worse-than-random
-showing on Ur III tablets *reverses* on modern commit streams, exposing it as a fact about record-
-length dispersion rather than about fixed-size chunking. The resulting guidance — structural
+showing on Ur III tablets *reverses* on modern commit streams. (A record-length-dispersion
+mechanism we proposed for that reversal then failed its own pre-registered test across six
+corpora, Spearman rho = −0.03; the reversal is real, its cause is open.) Under unknown K the
+marker cue *widens* its lead — markers estimate the segment count that every other method must
+guess, reaching Pk 0.080 on trailer-bearing commit documents — and on 200 real agent-trace
+documents the practical hierarchy sharpens: plain fixed-size is the only post-hoc method stably
+better than random (an apparent embedding advantage did not survive freezing the live trace
+corpus, decaying from BH p = 0.002 to p = 0.94 across snapshots), while a single engineered
+delimiter line per record takes recovery to Pk 0.000 with K unknown (a by-construction
+demonstration; the finding is the gap it opens over the best post-hoc method). The resulting guidance — structural
 end-markers first wherever they exist; embedding similarity as a corpus-dependent fallback; probe
 and evaluate rather than assume — and the boundary-recovery evaluation methodology itself, which
 the RAG literature currently lacks, are the practical contributions. The
@@ -374,12 +382,14 @@ failed**, all reported as fixed:
   express (70/63), whose records are mostly one-line messages carrying too little block content
   for any similarity signal. In-distribution helps exactly where there is text to embed.
 - **M4 failed, informatively.** Fixed-size chunking *beats* random on both modern repos
-  (git/git BH p = 0.023; express p < 10⁻⁴) — the reverse of the tablet result. The correct
-  generalisation is therefore about **record-length dispersion**, not fixed-size chunking per se:
-  Ur III entries are extremely uneven, so evenly spaced cuts are systematically misaligned;
-  commit-window records are closer to uniform, so equal spacing is a reasonable prior. We
-  accordingly retract "fixed-size is worse than random" as a general claim and scope it to
-  high-dispersion record streams.
+  (git/git BH p = 0.023; express p < 10⁻⁴) — the reverse of the tablet result. We retracted
+  "fixed-size is worse than random" as a general claim and, in this section as first published,
+  proposed record-length dispersion as the mechanism. **That proposal then failed its own
+  pre-registered test** (§6.7, Phase 13): across six corpora the equal-vs-random gap does not
+  track dispersion (rho = −0.03, exact p = 1.0). The reversal is real and corpus-family-shaped —
+  both tablet genres show equal ≥ random, and all four commit corpora point the other way (two
+  significantly: express and prettier; git/git and curl directionally, paired p = 0.27/0.30) —
+  but its cause is an open question, and we no longer offer dispersion as the answer.
 - A secondary reversal worth recording: the *global* embedding objective, best on tablets,
   performs at chance on git/git while the *valley* method wins there — algorithm choice among
   similarity methods does not transfer across corpora, and no similarity algorithm was best
@@ -387,23 +397,67 @@ failed**, all reported as fixed:
   (random Pk is only 0.246 there), and 83/300 documents required the feasibility fallback;
   express numbers should be read within-repo only.
 
+### 6.7 Unknown K, the dispersion test, and real agent traces (Phases 12–14)
+
+**Unknown K (Phase 12).** Dropping the oracle segment count — methods must decide how many cuts,
+not just where — *widens* the marker cue's lead, because markers answer the question everything
+else must now guess. Cutting after every marker run self-estimates K with MAE 0.33–0.70 on
+marker-bearing strata and reaches **Pk 0.211** on tablets and **Pk 0.080 on git/git trailer
+documents (132/0 paired against oracle-K random)**. Two honest complications: on the markerless
+corpus the marker method is catastrophic (Pk 0.786 — it must be gated on marker presence, never
+applied blind), and our pre-registered "markerless unknown-K is unsolved" failed in one direction
+we did not expect: a length prior learned on held-out data beats even oracle-K random on the
+uniform-record corpus (Pk 0.186 vs. 0.243), though its WindowDiff advantage is far smaller
+(0.494 vs. 0.545) — a Pk-leniency gap we flag rather than exploit. A post-hoc observation, not
+pre-registered and therefore only hypothesis-generating: conservative lexical threshold cutting
+(cut only at strong valleys) beats oracle-K random on tablets (0.312 vs. 0.407, 810/48), where
+its known-K global cousin had failed — under-cutting is a viable strategy on uneven records.
+
+**The dispersion test (Phase 13).** Phase 11's rescope proposed that fixed-size chunking's
+quality is governed by record-length dispersion. Pre-registered across six corpora (two tablet
+genres, four commit repos spanning message cultures): **refuted.** Spearman rho between
+record-length CV and the equal-vs-random gap is −0.029 (exact p = 1.0); express and prettier
+carry high CV yet equal clearly beats random there. What survives is a corpus-family regularity
+— tablets: equal worse or level; commit streams: equal better, two of four significantly — whose
+mechanism we leave explicitly open rather than replacing one failed explanation with another
+untested one.
+
+**Real agent traces (Phase 14, bring-your-own-data).** The corpus the whole argument is about:
+200 documents of consecutive tool-call interactions from the author's own agent sessions,
+boundaries defined by transcript structure, embedded locally, aggregate metrics only (the script
+asserts no transcript content reaches its outputs; anyone can rerun on their own sessions). This
+phase also caught its own worst methodological trap: the transcript directory is *live* — it
+grew between runs, partly from the very sessions developing the experiment — so three runs saw
+three corpora, and the apparent embedding advantage decayed across them (emb-valley vs. random:
+BH p = 0.002, then 0.038, then 0.94 on the now-frozen snapshot). Documents are frozen to a local
+cache and the frozen numbers are canonical: **T1 (embeddings beat random on raw traces) DID NOT
+HOLD** — reported under the pre-registered criterion, with the snapshot history disclosed
+because the fragility is itself the result. What *is* stable across every snapshot: **plain
+fixed-size chunking beats every similarity method and is the only post-hoc method reliably
+better than random** (frozen: Pk 0.383 vs. 0.470, 123/77, BH p = 0.006), and appending one
+delimiter line per record — the §7 advice, applied — takes recovery to **Pk 0.000, F1 1.000,
+200/0, with K unknown**. The delimiter number is by construction and is labelled a
+demonstration; the finding is the 0.383 → 0.000 gap on identical documents.
+
 ## 7. Implications for agent memory
 
 Agent memory content — tool-call traces, transaction logs, episodic event streams — is
 record-structured, not narrative. With the scopes established above:
 
-- **A measured hierarchy, not a slogan.** (1) Where structural end-markers exist — tool-call
-  terminations, status codes, confirmation lines, the modern analogues of *šu ba-ti* — chunk on
-  them. This is now confirmed in-distribution: Pk 0.208 on tablets, **0.252 vs. 0.464 random on
-  git/git commit streams**, the largest and most transferable effect in this work. (2) Where
-  markers are absent, embedding similarity is a real but corpus-dependent fallback — clearly
-  better than chance in-distribution where records carry enough text (git/git valleys, 230/70;
-  express global, BH p = 0.0012), weaker out-of-distribution, and *which* embedding algorithm
-  wins did not transfer across corpora. Probe on your own data; do not assume. (3) Fixed-size
-  chunking is worse than random only where record lengths are highly dispersed (Ur III); on
-  more uniform streams it is a reasonable prior. Lexical-overlap methods helped nowhere.
-  Engineered delimiters — making agent traces carry explicit closers — still dominate every
-  post-hoc option and cost almost nothing at trace-generation time.
+- **A measured hierarchy, not a slogan.** (1) Where structural end-markers exist, chunk on
+  them — and under unknown K their lead *widens*, because markers also estimate the record count
+  (Pk 0.080 on trailer-bearing commit documents, 132/0). Gate on marker presence: applied blind
+  to markerless text, the marker method is the worst thing we measured. (2) On real agent traces
+  today — markerless — the sobering result is that **plain fixed-size chunking beat every
+  similarity method and was the only post-hoc method stably better than random** (frozen corpus:
+  Pk 0.383 vs. 0.463 for the best embedding method); an apparent embedding advantage proved
+  snapshot-fragile and failed its pre-registered criterion once the corpus was frozen. (3) The equal-vs-random sign
+  flips between corpus families for reasons we tested and could not identify (a dispersion
+  mechanism failed pre-registration); measure on your own data, there is no proxy shortcut.
+  (4) **Engineered delimiters dominate everything**: one closing line per record took real-trace
+  recovery from 0.383 to 0.000 with K unknown (by construction — the gap, not the zero, is the
+  finding), at near-zero generation-time cost. The Sumerians
+  did this by convention on clay; agent frameworks should do it by default in traces.
 - **Evaluate chunkers on boundary recovery, not only downstream metrics.** The methodology here —
   known-K placement, Pk/WindowDiff/F1, permutation nulls matched on chunk-length profile,
   stratified same-population baselines — is directly portable, and to our knowledge the RAG
@@ -431,14 +485,30 @@ about embedding-based semantic chunking, which was not tested.
 - **Known-K is generous.** All methods receive the true segment count; results are upper bounds
   on placement quality, uniformly across methods.
 - **The embedding experiments' scope.** Two encoders on the tablets (agreeing 4/4), one on the
-  modern corpora; all untuned, one block size. The in-distribution replication (§6.6) resolves
-  the OOD objection for the marker result and for embeddings-beat-chance, but also shows
-  similarity-algorithm choice and the fixed-size comparison are corpus-dependent — two
-  generalisations from the tablet data failed pre-registered replication and are retracted or
-  rescoped accordingly. Express's short documents depress Pk for every method and inflate
-  apparent performance; its numbers are within-repo comparisons only. Commit-window documents
-  concatenate messages from the same project and era, which may make boundaries easier than in
-  heterogeneous agent traces.
+  modern corpora and traces; all untuned, one block size. Express's short documents depress Pk
+  for every method; its numbers are within-repo comparisons only.
+- **Five pre-registered criteria have now failed across the experiment waves** (M2:
+  embeddings-beat-lexical-twin in both modern repos; M4: fixed-size-worse-than-random; U3:
+  markerless-unknown-K-unsolved; D1: the dispersion mechanism; T1: embeddings-beat-random on raw
+  traces), and one further generalisation — a universal best similarity algorithm — fell to a
+  *post-hoc* observation, which we label as such rather than counting it among the
+  pre-registered failures (an earlier draft of this section miscounted it there; caught in
+  review). Each failure is retracted or left open in place. The tally is reported because it
+  calibrates how much to trust what remains.
+- **Live corpora are a reproducibility hazard.** The trace corpus grew between runs — partly
+  from the sessions developing the experiment — and a borderline significance evaporated across
+  snapshots. The pipeline now freezes parsed documents at first run; any experiment whose input
+  can mutate during development needs the same treatment.
+- **Pk leniency under unknown K.** Pk under-penalises missing boundaries, so conservative cutters
+  look better on Pk than on WindowDiff (the express length-prior gap: Pk 0.186/0.243 vs.
+  WD 0.494/0.545). Both metrics are reported everywhere; claims rest on comparisons where they
+  agree.
+- **The trace corpus is one author's sessions.** 200 documents from one user's agent workloads,
+  one rendering scheme, aggregate-only publication. The BYO-data script exists precisely so
+  others can check whether the pattern holds on their traces.
+- **The engineered-delimiter number is a demonstration.** Pk 0.000 follows from construction;
+  what carries information is the measured gap to the best post-hoc method on the same
+  documents, and the near-zero cost of adding the delimiter at generation time.
 - **Statistical hygiene of this draft.** The v1.0 sign test was not genuinely two-sided (it
   saturated at p = 1 for methods losing most comparisons); v1.1 uses the corrected two-tail form,
   BH-corrects all paired tests within each corpus, and discloses the change in the script

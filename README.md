@@ -237,6 +237,9 @@ Full statistics with shuffled-baseline controls in `outputs/compression_findings
 │   ├── phase9_embedding_chunking.py   embedding twin of phase 8 (2x2 + shuffled control)
 │   ├── phase10_model_robustness.py    4/4 pre-registered criteria replicate with bge-m3
 │   ├── phase11_modern_indistribution.py  in-distribution replication on git commit streams (3/5)
+│   ├── phase12_unknown_k.py           unknown-K: markers widen their lead (Pk 0.080)
+│   ├── phase13_dispersion.py          dispersion mechanism: pre-registered and REFUTED
+│   ├── phase14_agent_traces.py        real agent traces, BYO-data, privacy-asserting
 │   ├── check_integrity.py             pre-publish gate: links, correction notices, audit stamps
 │   └── phase3_compression.py          Zipf, compression, ELS, RULING-parity analysis
 ├── benchmarks/
@@ -254,6 +257,9 @@ Full statistics with shuffled-baseline controls in `outputs/compression_findings
     ├── phase9_embedding_chunking.md   embeddings beat their lexical twin; help on markerless tablets
     ├── phase10_model_robustness.md    second-encoder replication, criteria fixed pre-run
     ├── phase11_modern_indistribution.md  modern-text replication: marker cue transfers, 2 claims rescoped
+    ├── phase12_unknown_k.md           unknown-K results
+    ├── phase13_dispersion.md          the dispersion curve that wasn't
+    ├── phase14_agent_traces.md        agent-trace results (aggregates only)
     ├── probe_validation.md            per-probe precision + prevalence -- READ BEFORE CITING
     ├── probe_validation.json          machine-readable probe audit
     ├── templates.json                 229 templates × {genre, pattern, role, frequency, tablet IDs}
@@ -289,6 +295,9 @@ python scripts/phase8_boundary_recovery.py # ~12 min boundary-recovery experimen
 python scripts/phase9_embedding_chunking.py # ~45 min embedding chunking (needs Ollama + nomic-embed-text)
 python scripts/phase10_model_robustness.py  # ~45 min second-encoder replication (needs bge-m3)
 python scripts/phase11_modern_indistribution.py # ~30 min in-distribution modern-text replication (clones git/git + express)
+python scripts/phase12_unknown_k.py         # ~10 min unknown-K evaluation (uses phase 9/11 caches)
+python scripts/phase13_dispersion.py        # ~15 min dispersion test (clones curl + prettier; refuted our own mechanism)
+python scripts/phase14_agent_traces.py      # ~20 min real agent traces, BYO-data (--transcripts-dir)
 python scripts/check_integrity.py          # ~1 s    links resolve, corrections present, audit stamps intact
 ```
 

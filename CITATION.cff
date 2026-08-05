@@ -12,8 +12,8 @@ authors:
     affiliation: Northtek
     email: info@northtek.io
 repository-code: 'https://github.com/NORTHTEKDevs/sumerian-agent-patterns'
-version: 0.6.0
-date-released: '2026-08-03'
+version: 0.7.0
+date-released: '2026-08-05'
 abstract: >-
   A reproducible pipeline that mines the SumTablets corpus
   (91,606 transliterated Sumerian tablets) for recurring

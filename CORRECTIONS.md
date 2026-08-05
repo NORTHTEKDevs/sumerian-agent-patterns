@@ -6,6 +6,28 @@ Nothing is removed from the record. Superseded claims stay visible with the reas
 
 ---
 
+## 2026-08-05 — WITHDRAWN: "the fixed-size reversal is explained by record-length dispersion"
+
+**Affected:** PAPER v1.4 abstract and §6.6 (published in v0.6.0), which retracted "fixed-size is
+worse than random" and proposed record-length dispersion as the mechanism for why the result
+reversed between tablets and commit streams.
+
+**Status: the proposed mechanism is withdrawn.** The reversal itself stands; our explanation of
+it does not. A pre-registered test (Phase 13) measured the equal-vs-random Pk gap against
+record-length CV across six corpora with real boundaries. Prediction: gap increases with CV.
+Result: Spearman rho = −0.029, exact permutation p = 1.0. Two corpora with *high* CV (express
+1.755, prettier 1.478) show fixed-size clearly *better* than random. What survives is a
+corpus-family regularity — both tablet genres show equal ≥ random, all four commit corpora the
+opposite — whose cause we leave open rather than proposing a second untested mechanism.
+
+This is the first correction of a correction in this log: the v0.6.0 rescope was itself too
+confident about *why*. (An earlier wording here also miscounted a post-hoc observation — the
+similarity-algorithm reversal — among the pre-registered failures; the accurate tally of failed
+pre-registered criteria at this entry's date is M2, M4, U3, D1, with T1 following the same day.)
+See [`outputs/phase13_dispersion.md`](outputs/phase13_dispersion.md).
+
+---
+
 ## 2026-08-01 — RESOLVED: the RULING question, answered at full corpus scale
 
 The RULING claim was withdrawn on 2026-07-31 (below) for using an invalid null, and the corrected test returned a null result — but on only 10–17 adjacent chunk pairs per genre, which cannot settle the question in either direction. **A withdrawal on an underpowered test is not an answer, so the question was reopened and tested properly.**

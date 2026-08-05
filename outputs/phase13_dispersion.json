@@ -1,0 +1,101 @@
+{
+  "config": {
+    "seed": 20260805,
+    "n_random": 200,
+    "known_K": true,
+    "criteria_fixed_before_run": true
+  },
+  "points": [
+    {
+      "corpus": "Administrative tablets",
+      "n_docs": 1717,
+      "n_records": 3806,
+      "record_len_cv": 1.389,
+      "equal_pk": 0.4377,
+      "random_pk": 0.405,
+      "gap_equal_minus_random": 0.0327,
+      "equal_worse": true,
+      "paired_sign_p": 0.0
+    },
+    {
+      "corpus": "Literary tablets",
+      "n_docs": 91,
+      "n_records": 326,
+      "record_len_cv": 2.086,
+      "equal_pk": 0.3728,
+      "random_pk": 0.3723,
+      "gap_equal_minus_random": 0.0005,
+      "equal_worse": true,
+      "paired_sign_p": 0.0446
+    },
+    {
+      "corpus": "git/git commits",
+      "n_docs": 300,
+      "n_records": 1177,
+      "record_len_cv": 0.902,
+      "equal_pk": 0.4291,
+      "random_pk": 0.4648,
+      "gap_equal_minus_random": -0.0357,
+      "equal_worse": false,
+      "paired_sign_p": 0.27263
+    },
+    {
+      "corpus": "express commits",
+      "n_docs": 300,
+      "n_records": 1335,
+      "record_len_cv": 1.755,
+      "equal_pk": 0.1858,
+      "random_pk": 0.2429,
+      "gap_equal_minus_random": -0.0572,
+      "equal_worse": false,
+      "paired_sign_p": 0.0
+    },
+    {
+      "corpus": "curl/curl commits",
+      "n_docs": 300,
+      "n_records": 1210,
+      "record_len_cv": 1.143,
+      "equal_pk": 0.4484,
+      "random_pk": 0.4615,
+      "gap_equal_minus_random": -0.0131,
+      "equal_worse": false,
+      "paired_sign_p": 0.29788
+    },
+    {
+      "corpus": "prettier commits",
+      "n_docs": 300,
+      "n_records": 1251,
+      "record_len_cv": 1.478,
+      "equal_pk": 0.2333,
+      "random_pk": 0.3347,
+      "gap_equal_minus_random": -0.1013,
+      "equal_worse": false,
+      "paired_sign_p": 0.0
+    }
+  ],
+  "spearman_rho": -0.029,
+  "spearman_p_exact": 1.0,
+  "sign_flip_between": [
+    [
+      "curl/curl commits",
+      1.143,
+      "Administrative tablets",
+      1.389
+    ],
+    [
+      "Administrative tablets",
+      1.389,
+      "prettier commits",
+      1.478
+    ],
+    [
+      "express commits",
+      1.755,
+      "Literary tablets",
+      2.086
+    ]
+  ],
+  "verdicts": {
+    "D1_gap_increases_with_cv": false
+  }
+}

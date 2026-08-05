@@ -1,0 +1,242 @@
+{
+  "config": {
+    "seed": 20260805,
+    "c_thresh": 0.5,
+    "held_out_split": "index parity",
+    "criteria_fixed_before_run": true
+  },
+  "results": {
+    "Administrative tablets": {
+      "n_eval_docs": 858,
+      "length_prior_L": 6,
+      "summary": {
+        "oracle_random": {
+          "pk": 0.4066,
+          "wd": 0.409,
+          "k_mae": 0.0,
+          "k_bias": 0.0
+        },
+        "oracle_equal": {
+          "pk": 0.4396,
+          "wd": 0.4411,
+          "k_mae": 0.0,
+          "k_bias": 0.0
+        },
+        "marker_K": {
+          "pk": 0.2695,
+          "wd": 0.2706,
+          "k_mae": 1.04,
+          "k_bias": -0.909
+        },
+        "emb_thresh": {
+          "pk": 0.518,
+          "wd": 0.6009,
+          "k_mae": 3.682,
+          "k_bias": 3.677
+        },
+        "lex_thresh": {
+          "pk": 0.3123,
+          "wd": 0.3229,
+          "k_mae": 1.903,
+          "k_bias": -0.5
+        },
+        "length_prior": {
+          "pk": 0.4446,
+          "wd": 0.4578,
+          "k_mae": 1.231,
+          "k_bias": 1.079
+        }
+      },
+      "paired_tests": {
+        "marker_K_vs_oracle_random": {
+          "pk_sign_p": 0.0,
+          "wins_pk": 798,
+          "losses_pk": 60,
+          "pk_sign_p_bh": 0.0
+        },
+        "emb_thresh_vs_oracle_random": {
+          "pk_sign_p": 0.0,
+          "wins_pk": 256,
+          "losses_pk": 602,
+          "pk_sign_p_bh": 0.0
+        },
+        "lex_thresh_vs_oracle_random": {
+          "pk_sign_p": 0.0,
+          "wins_pk": 810,
+          "losses_pk": 48,
+          "pk_sign_p_bh": 0.0
+        },
+        "length_prior_vs_oracle_random": {
+          "pk_sign_p": 0.0,
+          "wins_pk": 341,
+          "losses_pk": 517,
+          "pk_sign_p_bh": 0.0
+        }
+      },
+      "strata": {
+        "with_markers": {
+          "n": 224,
+          "marker_K_pk": 0.2111,
+          "oracle_random_pk": 0.4106,
+          "marker_K_k_mae": 0.326,
+          "sign_p": 0.0,
+          "wins": 172,
+          "losses": 52
+        }
+      }
+    },
+    "git/git (trailer-rich)": {
+      "n_eval_docs": 150,
+      "length_prior_L": 8,
+      "summary": {
+        "oracle_random": {
+          "pk": 0.4634,
+          "wd": 0.4813,
+          "k_mae": 0.0,
+          "k_bias": 0.0
+        },
+        "oracle_equal": {
+          "pk": 0.4199,
+          "wd": 0.426,
+          "k_mae": 0.0,
+          "k_bias": 0.0
+        },
+        "marker_K": {
+          "pk": 0.12,
+          "wd": 0.1287,
+          "k_mae": 0.96,
+          "k_bias": -0.853
+        },
+        "emb_thresh": {
+          "pk": 0.4729,
+          "wd": 0.6996,
+          "k_mae": 9.813,
+          "k_bias": 9.8
+        },
+        "lex_thresh": {
+          "pk": 0.4004,
+          "wd": 0.4103,
+          "k_mae": 3.26,
+          "k_bias": -2.393
+        },
+        "length_prior": {
+          "pk": 0.5122,
+          "wd": 0.532,
+          "k_mae": 2.08,
+          "k_bias": 1.693
+        }
+      },
+      "paired_tests": {
+        "marker_K_vs_oracle_random": {
+          "pk_sign_p": 0.0,
+          "wins_pk": 147,
+          "losses_pk": 3,
+          "pk_sign_p_bh": 0.0
+        },
+        "emb_thresh_vs_oracle_random": {
+          "pk_sign_p": 0.06003,
+          "wins_pk": 63,
+          "losses_pk": 87,
+          "pk_sign_p_bh": 0.06003
+        },
+        "lex_thresh_vs_oracle_random": {
+          "pk_sign_p": 0.0,
+          "wins_pk": 141,
+          "losses_pk": 9,
+          "pk_sign_p_bh": 0.0
+        },
+        "length_prior_vs_oracle_random": {
+          "pk_sign_p": 1e-05,
+          "wins_pk": 48,
+          "losses_pk": 102,
+          "pk_sign_p_bh": 1e-05
+        }
+      },
+      "strata": {
+        "with_markers": {
+          "n": 132,
+          "marker_K_pk": 0.0801,
+          "oracle_random_pk": 0.4626,
+          "marker_K_k_mae": 0.697,
+          "sign_p": 0.0,
+          "wins": 132,
+          "losses": 0
+        }
+      }
+    },
+    "express (markerless)": {
+      "n_eval_docs": 150,
+      "length_prior_L": 2,
+      "summary": {
+        "oracle_random": {
+          "pk": 0.2428,
+          "wd": 0.5447,
+          "k_mae": 0.0,
+          "k_bias": 0.0
+        },
+        "oracle_equal": {
+          "pk": 0.1799,
+          "wd": 0.5048,
+          "k_mae": 0.0,
+          "k_bias": 0.0
+        },
+        "marker_K": {
+          "pk": 0.786,
+          "wd": 0.7911,
+          "k_mae": 3.34,
+          "k_bias": -3.327
+        },
+        "emb_thresh": {
+          "pk": 0.4698,
+          "wd": 0.6545,
+          "k_mae": 1.567,
+          "k_bias": -1.233
+        },
+        "lex_thresh": {
+          "pk": 0.7497,
+          "wd": 0.7794,
+          "k_mae": 3.26,
+          "k_bias": -2.993
+        },
+        "length_prior": {
+          "pk": 0.1864,
+          "wd": 0.4939,
+          "k_mae": 1.173,
+          "k_bias": -0.36
+        }
+      },
+      "paired_tests": {
+        "marker_K_vs_oracle_random": {
+          "pk_sign_p": 0.0,
+          "wins_pk": 15,
+          "losses_pk": 135,
+          "pk_sign_p_bh": 0.0
+        },
+        "emb_thresh_vs_oracle_random": {
+          "pk_sign_p": 0.0,
+          "wins_pk": 40,
+          "losses_pk": 107,
+          "pk_sign_p_bh": 0.0
+        },
+        "lex_thresh_vs_oracle_random": {
+          "pk_sign_p": 0.0,
+          "wins_pk": 14,
+          "losses_pk": 134,
+          "pk_sign_p_bh": 0.0
+        },
+        "length_prior_vs_oracle_random": {
+          "pk_sign_p": 0.0,
+          "wins_pk": 106,
+          "losses_pk": 14,
+          "pk_sign_p_bh": 0.0
+        }
+      },
+      "strata": {}
+    }
+  },
+  "verdicts": {
+    "U1_markers_dominate_and_estimate_K": true,
+    "U3_markerless_unknownK_unsolved": false,
+    "U2_reported_degradation": true
+  }
+}
