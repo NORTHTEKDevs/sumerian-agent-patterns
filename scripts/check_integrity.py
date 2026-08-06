@@ -283,6 +283,18 @@ if paper.exists():
                "phase14: fixed-size no longer beats similarity methods on raw traces — §6.7/§7 claim is dead")
             ok(f"{raw14['equal']['pk']:.3f}" in ptext,
                f"PAPER.md: phase14 raw-trace equal Pk {raw14['equal']['pk']} missing/drifted")
+        # Couple the PAIRED numbers too. The prose was once written from the second-to-last run
+        # and drifted in the third decimal after the final regeneration -- caught by the review
+        # gate's numbers verifier ("fresh drift inside the very passage that claims to have
+        # fixed drift"). Never again.
+        eq14 = d14.get("raw_condition", {}).get("paired_tests", {}).get("equal_vs_random", {})
+        if eq14:
+            ok(f"{eq14['wins_pk']}/{eq14['losses_pk']}" in ptext,
+               f"PAPER.md: phase14 equal-vs-random {eq14['wins_pk']}/{eq14['losses_pk']} missing/drifted")
+        ev14 = d14.get("raw_condition", {}).get("paired_tests", {}).get("emb_valley_vs_random", {})
+        if ev14 and ev14.get("pk_sign_p_bh") is not None:
+            ok(f"{ev14['pk_sign_p_bh']:.2f}" in ptext,
+               f"PAPER.md: phase14 emb-valley BH {ev14['pk_sign_p_bh']} (2dp) missing/drifted")
         # privacy re-assertion at integrity time: no long transcript-looking lines in the JSON
         ok('"privacy": "aggregate metrics only' in (ROOT / "outputs" / "phase14_agent_traces.json").read_text(encoding="utf-8"),
            "phase14: privacy statement missing from output JSON")

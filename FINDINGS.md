@@ -93,7 +93,8 @@ random, 250/13, p < 10⁻⁴ — larger than on the tablets); in-distribution em
 chance where records carry enough text (230/70, BH p < 10⁻⁴); the markerless-embedding result
 replicates (BH p = 0.0012). **Two tablet generalisations failed and are retracted/rescoped:**
 fixed-size chunking *beats* random on modern streams (the tablet result was about record-length
-dispersion, not fixed-size chunking), and no similarity algorithm was best on every corpus. See
+dispersion, not fixed-size chunking — an explanation itself refuted by the pre-registered Phase
+13 test below), and no similarity algorithm was best on every corpus (a post-hoc observation). See
 [`outputs/phase11_modern_indistribution.md`](outputs/phase11_modern_indistribution.md).
 
 **Unknown K (Phase 12, pre-registered).** Removing the oracle segment count *widens* the marker
@@ -111,8 +112,8 @@ p = 1.0). The reversal is real; its cause is open. See
 **Real agent traces (Phase 14, BYO-data, pre-registered; T1 DID NOT HOLD).** On 200 documents
 from real agent sessions (corpus frozen after a live-corpus reproducibility bug was caught —
 three runs saw three corpora and an apparent embedding advantage decayed BH 0.002 → 0.038 →
-0.94): **plain fixed-size is the only post-hoc method stably better than random** (Pk 0.383 vs
-0.470, BH p = 0.006); embeddings are flat on the frozen corpus; one engineered delimiter line
+0.83): **plain fixed-size is the only post-hoc method stably better than random** (Pk 0.383 vs
+0.470, 124/76, BH p = 0.003); embeddings are flat on the frozen corpus; one engineered delimiter line
 per record achieves Pk 0.000 with K unknown (a demonstration by construction; the finding is the
 0.383 → 0.000 gap). See [`outputs/phase14_agent_traces.md`](outputs/phase14_agent_traces.md).
 

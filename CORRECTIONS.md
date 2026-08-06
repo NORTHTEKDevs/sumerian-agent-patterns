@@ -23,7 +23,13 @@ opposite — whose cause we leave open rather than proposing a second untested m
 This is the first correction of a correction in this log: the v0.6.0 rescope was itself too
 confident about *why*. (An earlier wording here also miscounted a post-hoc observation — the
 similarity-algorithm reversal — among the pre-registered failures; the accurate tally of failed
-pre-registered criteria at this entry's date is M2, M4, U3, D1, with T1 following the same day.)
+pre-registered criteria at this entry's date is M2, M4, U3, D1. T1 — embeddings-beat-random on
+raw agent traces — also failed the same day, for an unrelated root cause: a live, growing trace
+corpus, documented in Phase 14, not anything to do with dispersion. It is listed here only for
+tally completeness.) A metric caveat verified after review: express's equal-beats-random reversal
+is decisive under paired Pk but a coin flip under paired WindowDiff; the corpus-family claim
+therefore rests on git/git (replicates under both metrics) and prettier, with express
+Pk-supported only.
 See [`outputs/phase13_dispersion.md`](outputs/phase13_dispersion.md).
 
 ---

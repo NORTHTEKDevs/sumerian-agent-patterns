@@ -48,7 +48,7 @@ marker cue *widens* its lead — markers estimate the segment count that every o
 guess, reaching Pk 0.080 on trailer-bearing commit documents — and on 200 real agent-trace
 documents the practical hierarchy sharpens: plain fixed-size is the only post-hoc method stably
 better than random (an apparent embedding advantage did not survive freezing the live trace
-corpus, decaying from BH p = 0.002 to p = 0.94 across snapshots), while a single engineered
+corpus, decaying from BH p = 0.002 to p = 0.83 across snapshots), while a single engineered
 delimiter line per record takes recovery to Pk 0.000 with K unknown (a by-construction
 demonstration; the finding is the gap it opens over the best post-hoc method). The resulting guidance — structural
 end-markers first wherever they exist; embedding similarity as a corpus-dependent fallback; probe
@@ -388,8 +388,13 @@ failed**, all reported as fixed:
   pre-registered test** (§6.7, Phase 13): across six corpora the equal-vs-random gap does not
   track dispersion (rho = −0.03, exact p = 1.0). The reversal is real and corpus-family-shaped —
   both tablet genres show equal ≥ random, and all four commit corpora point the other way (two
-  significantly: express and prettier; git/git and curl directionally, paired p = 0.27/0.30) —
-  but its cause is an open question, and we no longer offer dispersion as the answer.
+  significantly under paired Pk: express and prettier; git/git and curl directionally, paired
+  p = 0.27/0.30) — but its cause is an open question, and we no longer offer dispersion as the
+  answer. One metric caveat from review, verified by reproduction: express's reversal is
+  decisive under paired Pk yet a coin flip under paired WindowDiff (mean WD still favours
+  equal); git/git's reversal replicates under both metrics. By this paper's own
+  both-metrics-agree standard, the family reversal rests on git/git and prettier, with express
+  Pk-supported only.
 - A secondary reversal worth recording: the *global* embedding objective, best on tablets,
   performs at chance on git/git while the *valley* method wins there — algorithm choice among
   similarity methods does not transfer across corpora, and no similarity algorithm was best
@@ -429,12 +434,12 @@ asserts no transcript content reaches its outputs; anyone can rerun on their own
 phase also caught its own worst methodological trap: the transcript directory is *live* — it
 grew between runs, partly from the very sessions developing the experiment — so three runs saw
 three corpora, and the apparent embedding advantage decayed across them (emb-valley vs. random:
-BH p = 0.002, then 0.038, then 0.94 on the now-frozen snapshot). Documents are frozen to a local
+BH p = 0.002, then 0.038, then 0.83 on the now-frozen snapshot). Documents are frozen to a local
 cache and the frozen numbers are canonical: **T1 (embeddings beat random on raw traces) DID NOT
 HOLD** — reported under the pre-registered criterion, with the snapshot history disclosed
 because the fragility is itself the result. What *is* stable across every snapshot: **plain
 fixed-size chunking beats every similarity method and is the only post-hoc method reliably
-better than random** (frozen: Pk 0.383 vs. 0.470, 123/77, BH p = 0.006), and appending one
+better than random** (frozen: Pk 0.383 vs. 0.470, 124/76, BH p = 0.003), and appending one
 delimiter line per record — the §7 advice, applied — takes recovery to **Pk 0.000, F1 1.000,
 200/0, with K unknown**. The delimiter number is by construction and is labelled a
 demonstration; the finding is the 0.383 → 0.000 gap on identical documents.
