@@ -123,6 +123,30 @@ marker cue where markers exist.
 
 ---
 
+## 1c. Six hundred years of format history: standardization was adoption, not discipline
+*(Phase 15, pre-registered; **pending the adversarial review gate** — treat as provisional until gated)*
+
+**Claim.** Across ED IIIa -> Ur III (c. 2600-2000 BCE, Administrative genre, gold probes only):
+seal-clause prevalence is nearly flat for five centuries (0.1% -> 0.4% -> 0.5% -> 1.4%) then jumps
+~19x at Ur III (26.5%) — a sharp discontinuity, quantitatively favouring Steinkeller's
+Shulgi-break account over Selz's continuity thesis *for this practice*. The sealed+dated "full
+envelope" is effectively an Ur III invention (=<0.3% before, 24.2% Ur III). Year-name dating grows
+stepwise (0.5% -> 10.6% -> 10.3% -> 20.0% -> 73.2%) and keeps rising into OB (85.4%, small n) —
+matching the independent received wisdom that date formulae were the last Sumerian element to
+survive in administration. **But S2 failed (sixth pre-registered failure):** placement entropy of
+the year formula did NOT tighten (Δ = 0.14 bits, length-stratified p = 0.57) — WHERE formulas sit
+was already conventional; what changed was WHETHER documents carried them. Adoption, not
+discipline.
+
+**Evidence.** [`outputs/phase15_diachronic.md`](outputs/phase15_diachronic.md); novelty sweep
+found no prior quantitative diachronic study of administrative-formula standardization across
+these periods. Four caveats bound the claim (surviving record ≠ practice; text clauses ≠ physical
+seal impressions — BDTNS reports ~35.7% physically sealed in Ur III vs our 25.4% textual; formula
+spelling itself evolves; single-period entropy proves nothing per arXiv:2608.02999 — only the
+diachronic delta was tested, and it was null).
+
+---
+
 ## 2. Sealed and dated administrative writing is common but not universal
 
 **Claim.** 25.4% of administrative tablets carry a `kišib₃` (seal) clause; 70.2% carry a year-name;

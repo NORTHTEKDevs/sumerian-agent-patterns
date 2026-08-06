@@ -299,6 +299,26 @@ if paper.exists():
         ok('"privacy": "aggregate metrics only' in (ROOT / "outputs" / "phase14_agent_traces.json").read_text(encoding="utf-8"),
            "phase14: privacy statement missing from output JSON")
 
+    # phase15: the diachronic claims in FINDINGS, asserted from the generated JSON
+    p15 = ROOT / "outputs" / "phase15_diachronic.json"
+    if p15.exists():
+        d15 = json.loads(p15.read_text(encoding="utf-8"))
+        v15 = d15.get("verdicts", {})
+        ftext = (ROOT / "FINDINGS.md").read_text(encoding="utf-8")
+        ok(v15.get("S1_sealing_rises_monotonically", {}).get("held") is True,
+           "phase15: S1 no longer holds — the adoption-trajectory claim is dead")
+        ok(v15.get("S2_yearname_placement_tightens", {}).get("held") is False,
+           "phase15: S2 now HOLDS — 'adoption, not discipline' framing is stale")
+        ok(v15.get("S3_full_envelope_peaks_in_UrIII", {}).get("held") is True,
+           "phase15: S3 no longer holds — the full-envelope claim is dead")
+        ur3 = d15.get("results", {}).get("Ur III", {})
+        if ur3:
+            seal_rate = ur3["prevalence"]["seal (kišib₃)"]["rate"]
+            ok(f"{100*seal_rate:.1f}%" in ftext,
+               f"FINDINGS.md: phase15 Ur III seal rate {100*seal_rate:.1f}% missing/drifted")
+            ok(f"{100*ur3['full_envelope_rate']:.1f}%" in ftext,
+               f"FINDINGS.md: phase15 full-envelope rate {100*ur3['full_envelope_rate']:.1f}% missing/drifted")
+
     # phase4 and phase6 headline numbers must appear in PAPER.md too, not only FINDINGS/CORRECTIONS
     p4b = ROOT / "outputs" / "phase4_ruling_fullcorpus.json"
     if p4b.exists():

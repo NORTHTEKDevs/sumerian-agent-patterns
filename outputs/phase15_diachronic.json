@@ -1,0 +1,320 @@
+{
+  "config": {
+    "seed": 20260806,
+    "n_perm": 5000,
+    "ur3_entropy_cap": 5000,
+    "genre": "Administrative only",
+    "probes": "gold-validated only",
+    "criteria_fixed_before_run": true
+  },
+  "results": {
+    "Early Dynastic IIIa": {
+      "n_tablets": 789,
+      "prevalence": {
+        "seal (kišib₃)": {
+          "rate": 0.0013,
+          "n": 789,
+          "k": 1,
+          "ci95": [
+            0.0002,
+            0.0071
+          ]
+        },
+        "receipt (šu ba-ti)": {
+          "rate": 0.0076,
+          "n": 789,
+          "k": 6,
+          "ci95": [
+            0.0035,
+            0.0165
+          ]
+        },
+        "year-name (strict mu)": {
+          "rate": 0.0051,
+          "n": 789,
+          "k": 4,
+          "ci95": [
+            0.002,
+            0.013
+          ]
+        }
+      },
+      "full_envelope_rate": 0.0,
+      "full_envelope_k": 0,
+      "placement_entropy": {
+        "seal (kišib₃)": {
+          "entropy_bits": 1.9219,
+          "n_occurrences": 5
+        },
+        "receipt (šu ba-ti)": {
+          "entropy_bits": 1.8464,
+          "n_occurrences": 10
+        },
+        "year-name (strict mu)": {
+          "entropy_bits": 2.585,
+          "n_occurrences": 6
+        }
+      }
+    },
+    "Early Dynastic IIIb": {
+      "n_tablets": 3331,
+      "prevalence": {
+        "seal (kišib₃)": {
+          "rate": 0.0045,
+          "n": 3331,
+          "k": 15,
+          "ci95": [
+            0.0027,
+            0.0074
+          ]
+        },
+        "receipt (šu ba-ti)": {
+          "rate": 0.027,
+          "n": 3331,
+          "k": 90,
+          "ci95": [
+            0.022,
+            0.0331
+          ]
+        },
+        "year-name (strict mu)": {
+          "rate": 0.1057,
+          "n": 3331,
+          "k": 352,
+          "ci95": [
+            0.0957,
+            0.1166
+          ]
+        }
+      },
+      "full_envelope_rate": 0.0,
+      "full_envelope_k": 0,
+      "placement_entropy": {
+        "seal (kišib₃)": {
+          "entropy_bits": 2.7806,
+          "n_occurrences": 16
+        },
+        "receipt (šu ba-ti)": {
+          "entropy_bits": 3.1951,
+          "n_occurrences": 168
+        },
+        "year-name (strict mu)": {
+          "entropy_bits": 2.79,
+          "n_occurrences": 547
+        }
+      }
+    },
+    "Old Akkadian": {
+      "n_tablets": 4987,
+      "prevalence": {
+        "seal (kišib₃)": {
+          "rate": 0.0052,
+          "n": 4987,
+          "k": 26,
+          "ci95": [
+            0.0036,
+            0.0076
+          ]
+        },
+        "receipt (šu ba-ti)": {
+          "rate": 0.0598,
+          "n": 4987,
+          "k": 298,
+          "ci95": [
+            0.0535,
+            0.0667
+          ]
+        },
+        "year-name (strict mu)": {
+          "rate": 0.1033,
+          "n": 4987,
+          "k": 515,
+          "ci95": [
+            0.0951,
+            0.112
+          ]
+        }
+      },
+      "full_envelope_rate": 0.0014,
+      "full_envelope_k": 7,
+      "placement_entropy": {
+        "seal (kišib₃)": {
+          "entropy_bits": 3.0859,
+          "n_occurrences": 30
+        },
+        "receipt (šu ba-ti)": {
+          "entropy_bits": 2.9542,
+          "n_occurrences": 338
+        },
+        "year-name (strict mu)": {
+          "entropy_bits": 2.0648,
+          "n_occurrences": 618
+        }
+      }
+    },
+    "Lagash II": {
+      "n_tablets": 625,
+      "prevalence": {
+        "seal (kišib₃)": {
+          "rate": 0.0144,
+          "n": 625,
+          "k": 9,
+          "ci95": [
+            0.0076,
+            0.0271
+          ]
+        },
+        "receipt (šu ba-ti)": {
+          "rate": 0.112,
+          "n": 625,
+          "k": 70,
+          "ci95": [
+            0.0896,
+            0.1391
+          ]
+        },
+        "year-name (strict mu)": {
+          "rate": 0.2,
+          "n": 625,
+          "k": 125,
+          "ci95": [
+            0.1705,
+            0.2332
+          ]
+        }
+      },
+      "full_envelope_rate": 0.0032,
+      "full_envelope_k": 2,
+      "placement_entropy": {
+        "seal (kišib₃)": {
+          "entropy_bits": 2.5037,
+          "n_occurrences": 20
+        },
+        "receipt (šu ba-ti)": {
+          "entropy_bits": 2.8271,
+          "n_occurrences": 79
+        },
+        "year-name (strict mu)": {
+          "entropy_bits": 1.8034,
+          "n_occurrences": 146
+        }
+      }
+    },
+    "Ur III": {
+      "n_tablets": 75792,
+      "prevalence": {
+        "seal (kišib₃)": {
+          "rate": 0.2646,
+          "n": 75792,
+          "k": 20058,
+          "ci95": [
+            0.2615,
+            0.2678
+          ]
+        },
+        "receipt (šu ba-ti)": {
+          "rate": 0.1677,
+          "n": 75792,
+          "k": 12707,
+          "ci95": [
+            0.165,
+            0.1703
+          ]
+        },
+        "year-name (strict mu)": {
+          "rate": 0.7319,
+          "n": 75792,
+          "k": 55475,
+          "ci95": [
+            0.7288,
+            0.7351
+          ]
+        }
+      },
+      "full_envelope_rate": 0.2418,
+      "full_envelope_k": 18324,
+      "placement_entropy": {
+        "seal (kišib₃)": {
+          "entropy_bits": 3.0931,
+          "n_occurrences": 1992
+        },
+        "receipt (šu ba-ti)": {
+          "entropy_bits": 2.8937,
+          "n_occurrences": 905
+        },
+        "year-name (strict mu)": {
+          "entropy_bits": 2.6508,
+          "n_occurrences": 4629
+        }
+      }
+    },
+    "Old Babylonian": {
+      "n_tablets": 130,
+      "prevalence": {
+        "seal (kišib₃)": {
+          "rate": 0.0154,
+          "n": 130,
+          "k": 2,
+          "ci95": [
+            0.0042,
+            0.0544
+          ]
+        },
+        "receipt (šu ba-ti)": {
+          "rate": 0.0154,
+          "n": 130,
+          "k": 2,
+          "ci95": [
+            0.0042,
+            0.0544
+          ]
+        },
+        "year-name (strict mu)": {
+          "rate": 0.8538,
+          "n": 130,
+          "k": 111,
+          "ci95": [
+            0.783,
+            0.9044
+          ]
+        }
+      },
+      "full_envelope_rate": 0.0154,
+      "full_envelope_k": 2
+    }
+  },
+  "s2_test": {
+    "entropy_EDIIIb_minus_UrIII_bits": 0.1392,
+    "null_mean": 0.1502,
+    "p_upper": 0.57289,
+    "p_lower": 0.42731,
+    "n_perm": 5000,
+    "length_stratified": true
+  },
+  "verdicts": {
+    "S1_sealing_rises_monotonically": {
+      "spearman_rho": 1.0,
+      "exact_p": 0.00833,
+      "held": true
+    },
+    "S2_yearname_placement_tightens": {
+      "held": false,
+      "entropy_EDIIIb_minus_UrIII_bits": 0.1392,
+      "null_mean": 0.1502,
+      "p_upper": 0.57289,
+      "p_lower": 0.42731,
+      "n_perm": 5000,
+      "length_stratified": true
+    },
+    "S3_full_envelope_peaks_in_UrIII": {
+      "held": true,
+      "rates_by_period": {
+        "Early Dynastic IIIa": 0.0,
+        "Early Dynastic IIIb": 0.0,
+        "Old Akkadian": 0.0014,
+        "Lagash II": 0.0032,
+        "Ur III": 0.2418
+      }
+    }
+  }
+}
