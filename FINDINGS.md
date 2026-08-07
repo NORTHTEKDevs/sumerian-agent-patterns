@@ -135,6 +135,16 @@ the Ur III-vs-earlier contrast is not threatened. This is one quantitative datap
 textual practice within the Steinkeller-vs-Selz dispute, not an adjudication of it — and read
 symmetrically, the placement-conventions null below is continuity-compatible.
 
+**Probe audit update (Phase 15b, threshold fixed pre-run at 95%/75% worst-case).** The strict
+probe was audited over all 79,993 administrative matches: precision 99.2% on adjudicated matches,
+and the gate's feared oath class measured at ONE match in 79,993 — but 41% of matches are
+UNCLEAR under conservative discriminators, holding the worst-case bound at 58.7% < 75%: **NOT
+GRADUATED, no goalpost-moving.** The UNCLEAR decode found real uncovered year-formula types (the
+omen-chosen-priestess type, ~900) AND a second genuine false-positive class the gate never named:
+`mu N(aš)` duration counts ("N years", ~2,600+). Path to graduation documented: add the duration
+FALSE class and omen TRUE class, adjudicate the remainder against ePSD2 guide-words. See
+[`outputs/phase15b_yearname_audit.md`](outputs/phase15b_yearname_audit.md).
+
 **What is provisional (unaudited probe).** Year-name prevalence rises stepwise
 (0.5% -> 10.6% -> 10.3% -> 20.0% -> 73.2% -> 85.4% OB small-n) and the sealed+dated envelope is
 effectively an Ur III phenomenon (<=0.3% before, 24.2% Ur III) — both contingent on a probe whose

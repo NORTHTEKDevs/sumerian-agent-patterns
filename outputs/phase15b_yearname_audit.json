@@ -1,0 +1,123 @@
+{
+  "total_matches": 79993,
+  "true": 46953,
+  "false": 388,
+  "unclear": 32652,
+  "precision_excl_unclear": 0.9918,
+  "worst_case_all_unclear_false": 0.587,
+  "oath_line_matches": 1,
+  "oath_share_of_matches": 0.0,
+  "fired_tablets": 59053,
+  "threshold": 0.95,
+  "graduated": false,
+  "top_true": [
+    [
+      "GN destroyed (year-event)",
+      17430
+    ],
+    [
+      "royal name + lugal (regnal year)",
+      11134
+    ],
+    [
+      "priest/official installed (year-event)",
+      7970
+    ],
+    [
+      "built/fashioned (year-event)",
+      6536
+    ],
+    [
+      "boat caulked (year-event)",
+      1666
+    ],
+    [
+      "campaign toponym (year-event)",
+      1516
+    ],
+    [
+      "wall built (year-event)",
+      360
+    ],
+    [
+      "mu us₂-sa (derived year-name)",
+      341
+    ]
+  ],
+  "top_false": [
+    [
+      "oath: by its king",
+      222
+    ],
+    [
+      "purpose clause (-še₃)",
+      165
+    ],
+    [
+      "oath formula (swore by the name)",
+      1
+    ]
+  ],
+  "top_unclear": [
+    [
+      "šu ba-ti",
+      1219
+    ],
+    [
+      "2(aš)",
+      1095
+    ],
+    [
+      "maškim",
+      929
+    ],
+    [
+      "1(aš)",
+      840
+    ],
+    [
+      "3(aš)",
+      663
+    ],
+    [
+      "i₃-dab₅",
+      594
+    ],
+    [
+      "en {d}nanna maš-e i₃-pa₃",
+      490
+    ],
+    [
+      "en {d}inana unu{ki} maš₂-e i₃-pa₃",
+      407
+    ],
+    [
+      "dub-sar",
+      405
+    ],
+    [
+      "ma₂-dara₃-abzu ba-ab-du₈",
+      326
+    ],
+    [
+      "{d}šu{d}suen",
+      309
+    ],
+    [
+      "aga₃-us₂-e-ne-še₃",
+      269
+    ],
+    [
+      "en {d}inana unu{ki}ga maš₂-e i₃-pa",
+      231
+    ],
+    [
+      "sukkal",
+      200
+    ],
+    [
+      "en eridu{ki}",
+      197
+    ]
+  ]
+}
