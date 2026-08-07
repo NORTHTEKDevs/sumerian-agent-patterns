@@ -154,6 +154,26 @@ unverified by us, flagged); formula spelling itself evolves; entropy levels are 
 
 ---
 
+## 1d. The arithmetic audit: killed by its own protocol, as designed
+*(Phase 16, run 2026-08-07 against the protocol committed 2026-08-06)*
+
+**Outcome: no error rate is published, and that is the protocol working.** Of 671 Ur III
+total-bearing tablets, the committed exclusion rules left **2 verifiable** (rule 2 — damage
+markers anywhere on the tablet — alone eliminated 533, i.e. 79%), and the validation gate scored
+75% group agreement against the ePSD2 second annotator, far below the required 98%. Both kill
+criteria fired. The publishable output is the validation and attrition accounting itself:
+checking 4,000-year-old arithmetic at scale is not achievable from this transliterated corpus
+under damage-exclusion rules this strict, because Ur III transliterations are pervasively marked
+with damage/uncertainty notation. Any future attempt requires a new committed protocol (v2) with
+per-section rather than whole-tablet damage handling and subtotal support — and it must be
+committed before analysis, like this one was. A4 (provenance) was dropped as pre-authorised
+(SumTablets has no provenance field). MTAAC evaluation: public repos, no standalone parser
+package; logged. See
+[`outputs/phase16_arithmetic_audit.md`](outputs/phase16_arithmetic_audit.md) and
+[PROTOCOL_phase16_arithmetic_audit.md](PROTOCOL_phase16_arithmetic_audit.md).
+
+---
+
 ## 2. Sealed and dated administrative writing is common but not universal
 
 **Claim.** 25.4% of administrative tablets carry a `kišib₃` (seal) clause; 70.2% carry a year-name;
