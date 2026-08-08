@@ -345,6 +345,41 @@ if paper.exists():
             ok(f"{share}%" in ptext,
                f"PAPER.md: lugal PN share {share}% not found — prose has drifted from phase7 JSON")
 
+# ---- 3b. phase 16 v1+v2: the arithmetic audit retired by its own protocols ----
+# Both runs ended on kill criteria; couple the retirement so no later edit can quietly
+# resurrect an error rate that was never validated.
+p16 = ROOT / "outputs" / "phase16_arithmetic_audit.json"
+if p16.exists():
+    d16 = json.loads(p16.read_text(encoding="utf-8"))
+    ok(d16["verdicts"]["gate"] == "FAILED"
+       and d16["verdicts"]["error_rate_published"] is False,
+       "phase16 v1: verdicts changed — the FINDINGS 1d retirement record is stale")
+    ok(d16["n_verifiable"] < 150, "phase16 v1: kill criterion 2 no longer holds")
+p16v2 = ROOT / "outputs" / "phase16_arithmetic_audit_v2.json"
+if p16v2.exists():
+    d16v2 = json.loads(p16v2.read_text(encoding="utf-8"))
+    ftext16 = (ROOT / "FINDINGS.md").read_text(encoding="utf-8")
+    v16 = d16v2["verdicts"]
+    ok(v16["kill2_fewer_than_150_sections"] is True
+       and d16v2["n_verifiable_sections"] < 150,
+       "phase16 v2: kill criterion 2 no longer fires — FINDINGS 1d retirement is stale")
+    ok(v16["error_rate_published"] is False and v16["hypothesis_tests_run"] is False,
+       "phase16 v2: an error rate or hypothesis test leaked past a fired kill criterion")
+    ok(f"{d16v2['n_verifiable_sections']} verifiable sections" in ftext16,
+       f"FINDINGS.md: phase16 v2 verifiable-section count "
+       f"{d16v2['n_verifiable_sections']} missing/drifted")
+    ok(f"{d16v2['n_sections']:,}" in ftext16,
+       "FINDINGS.md: phase16 v2 total section count missing/drifted")
+    r2 = d16v2["second_annotator_round2"]
+    ok(f"{r2['groups_agree']}/{r2['groups_parser']}" in ftext16,
+       "FINDINGS.md: phase16 v2 second-annotator agreement missing/drifted")
+    ok(d16v2.get("postmortem_verdict", "").startswith(
+        "all round-1 disagreements annotator-alignment"),
+       "phase16 v2: post-mortem verdict changed — alignment-vs-classifier record is stale")
+    md16 = (ROOT / "outputs" / "phase16_arithmetic_audit_v2.md").read_text(encoding="utf-8")
+    ok("no error rate" in md16 and "NOT an error rate" in md16,
+       "phase16 v2 md: the retirement / no-error-rate language is missing")
+
 # ---- 4. corpus totals match what the docs claim -----------------------------
 parquet = ROOT / "data" / "sumtablets.parquet"
 if parquet.exists():

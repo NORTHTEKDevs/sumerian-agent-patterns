@@ -191,6 +191,28 @@ package; logged. See
 [`outputs/phase16_arithmetic_audit.md`](outputs/phase16_arithmetic_audit.md) and
 [PROTOCOL_phase16_arithmetic_audit.md](PROTOCOL_phase16_arithmetic_audit.md).
 
+**v2 ran 2026-08-08 against
+[PROTOCOL_phase16_arithmetic_audit_v2.md](PROTOCOL_phase16_arithmetic_audit_v2.md) (committed
+2026-08-07, before the analysis) — and the study retires again, for a different and more
+interesting reason.** The per-section damage rule worked: damage removes only 375 of 1,731
+total-line sections (22%), not 79%. What kills v2 is the corpus itself: 1,079 sections fail
+rule 3 (613 are grain/capacity metrology outside the System-S head-count scope; 403 System-S
+totals carry no lexicon commodity on the total line — bare grand totals, status words, personnel
+terms outside the fixed lexicon; 61 have no readable numeral) and 201 fail rule 5 (149 are
+grand-total sections with no items of their own; 35 total implicit one-name-per-line lists).
+**32 verifiable sections < 150 → kill criterion 2: no error rate, no hypothesis tests.** A
+deliberately generous lexicon extension raises 32 only to 34 — the kill is not a lexicon
+artifact. The v2-mandated annotator-alignment post-mortem adjudicated **all six** round-1
+disagreements as annotator-alignment error (maš₂-sag/gu₄-ab₂-ba lemma coverage, an igi-
+substring guard eating a personal name) with **zero classifier errors**; after repair, **242/242
+COUNTED groups agree (100%)** across the 12 verifiable tablets — demonstrating that v1's 75%
+gate score was annotator-alignment failure, not classifier failure. The structural finding: Ur
+III head-count totals mostly do not total explicit numeral item lines, so explicit
+item-arithmetic is rare in this corpus regardless of damage handling. A v3 would need a
+different estimand (grain metrology with full capacity-system arithmetic, or implicit
+name-list counting) — a new study, not a rules patch. See
+[`outputs/phase16_arithmetic_audit_v2.md`](outputs/phase16_arithmetic_audit_v2.md).
+
 ---
 
 ## 2. Sealed and dated administrative writing is common but not universal

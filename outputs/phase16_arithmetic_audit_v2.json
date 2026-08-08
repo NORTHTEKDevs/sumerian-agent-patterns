@@ -1,0 +1,396 @@
+{
+  "config": {
+    "seed": 20260808,
+    "protocol": "PROTOCOL_phase16_arithmetic_audit_v2.md",
+    "unit": "section",
+    "gate_n": 100,
+    "gate_precision_required": 0.98,
+    "min_verifiable_sections": 150,
+    "classifier": "v1 verbatim (iteration 1)",
+    "sensitivity_extra_lexicon": [
+      "aga₃-us₂",
+      "erin₂",
+      "dumu",
+      "lu₂",
+      "munus",
+      "nita₂"
+    ]
+  },
+  "n_candidates": 671,
+  "n_sections": 1731,
+  "attrition_by_rule": {
+    "rule2_damage": 375,
+    "rule3_total_line": 1079,
+    "rule4_unclassifiable": 44,
+    "rule5_too_few_items": 201
+  },
+  "attrition_decomposition": {
+    "rule3_no_numeral": 61,
+    "rule3_capacity_or_weight": 613,
+    "rule3_other_number_system": 2,
+    "rule3_no_lexicon_commodity": 403,
+    "rule5_empty_item_region": 149,
+    "rule5_no_numeral_lines": 35,
+    "rule5_all_numerals_noncounted": 13,
+    "rule5_exactly_one_counted": 4
+  },
+  "n_verifiable_sections": 32,
+  "n_verifiable_tablets": 12,
+  "kill2_fired": true,
+  "sensitivity_wide_lexicon": {
+    "n_verifiable_sections": 34,
+    "still_below_150": true
+  },
+  "second_annotator_round1": {
+    "groups_parser": 242,
+    "groups_agree": 236,
+    "precision": 0.9752,
+    "n_disagreeing_tablets": 3
+  },
+  "second_annotator_round2": {
+    "attempted": 12,
+    "epsd2_matched": 12,
+    "groups_parser": 242,
+    "groups_agree": 242,
+    "precision": 1.0
+  },
+  "postmortem": {
+    "P205369": "annotator-alignment",
+    "P515662": "annotator-alignment",
+    "P207923": "annotator-alignment"
+  },
+  "postmortem_verdict": "all round-1 disagreements annotator-alignment; 0 classifier errors in matched sample",
+  "n_disagreeing_tablets_round2": 0,
+  "sections_descriptive": [
+    {
+      "id": "P204617",
+      "section": 1,
+      "claimed": 5193,
+      "item_sum": 5193,
+      "n_items": 4,
+      "match": true,
+      "lead_damage": false,
+      "sealed_tablet": false
+    },
+    {
+      "id": "P204617",
+      "section": 2,
+      "claimed": 1135,
+      "item_sum": 1135,
+      "n_items": 4,
+      "match": true,
+      "lead_damage": false,
+      "sealed_tablet": false
+    },
+    {
+      "id": "P204617",
+      "section": 3,
+      "claimed": 193,
+      "item_sum": 193,
+      "n_items": 4,
+      "match": true,
+      "lead_damage": false,
+      "sealed_tablet": false
+    },
+    {
+      "id": "P204617",
+      "section": 4,
+      "claimed": 113,
+      "item_sum": 113,
+      "n_items": 4,
+      "match": true,
+      "lead_damage": false,
+      "sealed_tablet": false
+    },
+    {
+      "id": "P204617",
+      "section": 5,
+      "claimed": 53,
+      "item_sum": 53,
+      "n_items": 4,
+      "match": true,
+      "lead_damage": false,
+      "sealed_tablet": false
+    },
+    {
+      "id": "P204617",
+      "section": 6,
+      "claimed": 153,
+      "item_sum": 153,
+      "n_items": 4,
+      "match": true,
+      "lead_damage": false,
+      "sealed_tablet": false
+    },
+    {
+      "id": "P204617",
+      "section": 7,
+      "claimed": 124,
+      "item_sum": 124,
+      "n_items": 4,
+      "match": true,
+      "lead_damage": false,
+      "sealed_tablet": false
+    },
+    {
+      "id": "P204617",
+      "section": 8,
+      "claimed": 126,
+      "item_sum": 126,
+      "n_items": 4,
+      "match": true,
+      "lead_damage": false,
+      "sealed_tablet": false
+    },
+    {
+      "id": "P204617",
+      "section": 9,
+      "claimed": 75,
+      "item_sum": 75,
+      "n_items": 4,
+      "match": true,
+      "lead_damage": false,
+      "sealed_tablet": false
+    },
+    {
+      "id": "P204617",
+      "section": 10,
+      "claimed": 60,
+      "item_sum": 60,
+      "n_items": 4,
+      "match": true,
+      "lead_damage": false,
+      "sealed_tablet": false
+    },
+    {
+      "id": "P204617",
+      "section": 11,
+      "claimed": 71,
+      "item_sum": 71,
+      "n_items": 4,
+      "match": true,
+      "lead_damage": false,
+      "sealed_tablet": false
+    },
+    {
+      "id": "P204617",
+      "section": 12,
+      "claimed": 170,
+      "item_sum": 170,
+      "n_items": 4,
+      "match": true,
+      "lead_damage": false,
+      "sealed_tablet": false
+    },
+    {
+      "id": "P204617",
+      "section": 13,
+      "claimed": 543,
+      "item_sum": 543,
+      "n_items": 4,
+      "match": true,
+      "lead_damage": false,
+      "sealed_tablet": false
+    },
+    {
+      "id": "P204617",
+      "section": 14,
+      "claimed": 406,
+      "item_sum": 406,
+      "n_items": 4,
+      "match": true,
+      "lead_damage": false,
+      "sealed_tablet": false
+    },
+    {
+      "id": "P204617",
+      "section": 15,
+      "claimed": 376,
+      "item_sum": 376,
+      "n_items": 4,
+      "match": true,
+      "lead_damage": false,
+      "sealed_tablet": false
+    },
+    {
+      "id": "P205369",
+      "section": 1,
+      "claimed": 415,
+      "item_sum": 415,
+      "n_items": 5,
+      "match": true,
+      "lead_damage": false,
+      "sealed_tablet": false
+    },
+    {
+      "id": "P205369",
+      "section": 2,
+      "claimed": 123,
+      "item_sum": 123,
+      "n_items": 3,
+      "match": true,
+      "lead_damage": false,
+      "sealed_tablet": false
+    },
+    {
+      "id": "P205369",
+      "section": 3,
+      "claimed": 525,
+      "item_sum": 525,
+      "n_items": 5,
+      "match": true,
+      "lead_damage": true,
+      "sealed_tablet": false
+    },
+    {
+      "id": "P205369",
+      "section": 4,
+      "claimed": 540,
+      "item_sum": 540,
+      "n_items": 5,
+      "match": true,
+      "lead_damage": false,
+      "sealed_tablet": false
+    },
+    {
+      "id": "P205369",
+      "section": 5,
+      "claimed": 120,
+      "item_sum": 54,
+      "n_items": 2,
+      "match": false,
+      "lead_damage": true,
+      "sealed_tablet": false
+    },
+    {
+      "id": "P205369",
+      "section": 6,
+      "claimed": 332,
+      "item_sum": 332,
+      "n_items": 4,
+      "match": true,
+      "lead_damage": false,
+      "sealed_tablet": false
+    },
+    {
+      "id": "P207923",
+      "section": 1,
+      "claimed": 120,
+      "item_sum": 120,
+      "n_items": 2,
+      "match": true,
+      "lead_damage": false,
+      "sealed_tablet": false
+    },
+    {
+      "id": "P376970",
+      "section": 1,
+      "claimed": 67,
+      "item_sum": 11,
+      "n_items": 2,
+      "match": false,
+      "lead_damage": false,
+      "sealed_tablet": false
+    },
+    {
+      "id": "P390115",
+      "section": 1,
+      "claimed": 12,
+      "item_sum": 21,
+      "n_items": 4,
+      "match": false,
+      "lead_damage": false,
+      "sealed_tablet": false
+    },
+    {
+      "id": "P514944",
+      "section": 1,
+      "claimed": 221,
+      "item_sum": 221,
+      "n_items": 5,
+      "match": true,
+      "lead_damage": false,
+      "sealed_tablet": false
+    },
+    {
+      "id": "P515528",
+      "section": 1,
+      "claimed": 92,
+      "item_sum": 92,
+      "n_items": 3,
+      "match": true,
+      "lead_damage": false,
+      "sealed_tablet": true
+    },
+    {
+      "id": "P515662",
+      "section": 1,
+      "claimed": 76,
+      "item_sum": 39,
+      "n_items": 2,
+      "match": false,
+      "lead_damage": false,
+      "sealed_tablet": false
+    },
+    {
+      "id": "P515662",
+      "section": 2,
+      "claimed": 74,
+      "item_sum": 41,
+      "n_items": 2,
+      "match": false,
+      "lead_damage": true,
+      "sealed_tablet": false
+    },
+    {
+      "id": "P516034",
+      "section": 1,
+      "claimed": 32,
+      "item_sum": 91,
+      "n_items": 4,
+      "match": false,
+      "lead_damage": true,
+      "sealed_tablet": false
+    },
+    {
+      "id": "P517764",
+      "section": 1,
+      "claimed": 285,
+      "item_sum": 365,
+      "n_items": 4,
+      "match": false,
+      "lead_damage": false,
+      "sealed_tablet": false
+    },
+    {
+      "id": "P518224",
+      "section": 1,
+      "claimed": 22,
+      "item_sum": 22,
+      "n_items": 4,
+      "match": true,
+      "lead_damage": false,
+      "sealed_tablet": false
+    },
+    {
+      "id": "P518266",
+      "section": 1,
+      "claimed": 124,
+      "item_sum": 327,
+      "n_items": 15,
+      "match": false,
+      "lead_damage": false,
+      "sealed_tablet": false
+    }
+  ],
+  "descriptive_counts": {
+    "mismatch_sections": 8,
+    "lead_damage_sections": 4,
+    "mismatch_and_lead_damage": 3
+  },
+  "verdicts": {
+    "kill2_fewer_than_150_sections": true,
+    "error_rate_published": false,
+    "hypothesis_tests_run": false
+  }
+}
