@@ -380,6 +380,32 @@ if p16v2.exists():
     ok("no error rate" in md16 and "NOT an error rate" in md16,
        "phase16 v2 md: the retirement / no-error-rate language is missing")
 
+# ---- 3c. phase 15c: the year-trajectory band — couple verdicts, prose, and the
+# point-rate identity with phase 15 (semantic drift guard)
+p15c = ROOT / "outputs" / "phase15c_year_band.json"
+if p15c.exists():
+    d15c = json.loads(p15c.read_text(encoding="utf-8"))
+    ftext15c = (ROOT / "FINDINGS.md").read_text(encoding="utf-8")
+    v15c = d15c["verdicts"]
+    ok(v15c["B1_ur3_jump_survives"] is True
+       and v15c["B1_strong_band_separation"] is True,
+       "phase15c: the Ur III jump no longer survives the band — FINDINGS 1c is stale")
+    ok(v15c["B2_rise_into_OB_survives"] is False,
+       "phase15c: B2 now holds — the 'unadjudicable' framing in FINDINGS 1c is stale")
+    ok(v15c["B3_envelope_peak_survives"] is True,
+       "phase15c: the envelope peak no longer survives the band — FINDINGS 1c is stale")
+    ur3b, lag2b = d15c["results"]["Ur III"], d15c["results"]["Lagash II"]
+    ok(f"{100*ur3b['rate_lower']:.1f}%" in ftext15c,
+       f"FINDINGS.md: phase15c Ur III lower bound {100*ur3b['rate_lower']:.1f}% missing/drifted")
+    ok(f"{100*lag2b['rate_upper']:.1f}%" in ftext15c,
+       f"FINDINGS.md: phase15c Lagash II upper bound {100*lag2b['rate_upper']:.1f}% missing/drifted")
+    ok(f"[{100*ur3b['envelope_lower']:.1f}%, {100*ur3b['envelope_upper']:.1f}%]" in ftext15c,
+       "FINDINGS.md: phase15c Ur III envelope band missing/drifted")
+    p15j = json.loads((ROOT / "outputs" / "phase15_diachronic.json").read_text(encoding="utf-8"))
+    for per, e in d15c["results"].items():
+        ok(e["k_point"] == p15j["results"][per]["prevalence"]["year-name (strict mu)"]["k"],
+           f"phase15c: point count for {per} drifted from phase15's published k")
+
 # ---- 4. corpus totals match what the docs claim -----------------------------
 parquet = ROOT / "data" / "sumtablets.parquet"
 if parquet.exists():

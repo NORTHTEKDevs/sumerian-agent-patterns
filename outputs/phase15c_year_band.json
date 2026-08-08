@@ -1,0 +1,164 @@
+{
+  "config": {
+    "classifier": "phase15b iteration-2, imported verbatim",
+    "semantics": "phase15 line-level, <4-line floor reproduced",
+    "criteria": "B1-B4 fixed in module docstring before the run"
+  },
+  "results": {
+    "Early Dynastic IIIa": {
+      "n": 789,
+      "k_point": 4,
+      "k_lower": 0,
+      "k_upper": 2,
+      "rate_point": 0.0051,
+      "rate_lower": 0.0,
+      "rate_upper": 0.0025,
+      "ci_lower": [
+        0.0,
+        0.0048
+      ],
+      "ci_upper": [
+        0.0007,
+        0.0092
+      ],
+      "envelope_point": 0.0,
+      "envelope_lower": 0.0,
+      "envelope_upper": 0.0
+    },
+    "Early Dynastic IIIb": {
+      "n": 3331,
+      "k_point": 352,
+      "k_lower": 0,
+      "k_upper": 167,
+      "rate_point": 0.1057,
+      "rate_lower": 0.0,
+      "rate_upper": 0.0501,
+      "ci_lower": [
+        0.0,
+        0.0012
+      ],
+      "ci_upper": [
+        0.0432,
+        0.0581
+      ],
+      "envelope_point": 0.0,
+      "envelope_lower": 0.0,
+      "envelope_upper": 0.0
+    },
+    "Old Akkadian": {
+      "n": 4987,
+      "k_point": 515,
+      "k_lower": 2,
+      "k_upper": 167,
+      "rate_point": 0.1033,
+      "rate_lower": 0.0004,
+      "rate_upper": 0.0335,
+      "ci_lower": [
+        0.0001,
+        0.0015
+      ],
+      "ci_upper": [
+        0.0288,
+        0.0389
+      ],
+      "envelope_point": 0.0014,
+      "envelope_lower": 0.0002,
+      "envelope_upper": 0.001
+    },
+    "Lagash II": {
+      "n": 625,
+      "k_point": 125,
+      "k_lower": 48,
+      "k_upper": 124,
+      "rate_point": 0.2,
+      "rate_lower": 0.0768,
+      "rate_upper": 0.1984,
+      "ci_lower": [
+        0.0584,
+        0.1004
+      ],
+      "ci_upper": [
+        0.169,
+        0.2315
+      ],
+      "envelope_point": 0.0032,
+      "envelope_lower": 0.0016,
+      "envelope_upper": 0.0032
+    },
+    "Ur III": {
+      "n": 75792,
+      "k_point": 55475,
+      "k_lower": 47786,
+      "k_upper": 55164,
+      "rate_point": 0.7319,
+      "rate_lower": 0.6305,
+      "rate_upper": 0.7278,
+      "ci_lower": [
+        0.627,
+        0.6339
+      ],
+      "ci_upper": [
+        0.7247,
+        0.731
+      ],
+      "envelope_point": 0.2418,
+      "envelope_lower": 0.2168,
+      "envelope_upper": 0.2413
+    },
+    "Old Babylonian": {
+      "n": 130,
+      "k_point": 111,
+      "k_lower": 52,
+      "k_upper": 111,
+      "rate_point": 0.8538,
+      "rate_lower": 0.4,
+      "rate_upper": 0.8538,
+      "ci_lower": [
+        0.3198,
+        0.4859
+      ],
+      "ci_upper": [
+        0.783,
+        0.9044
+      ],
+      "envelope_point": 0.0154,
+      "envelope_lower": 0.0,
+      "envelope_upper": 0.0154
+    }
+  },
+  "adjacent_steps": {
+    "Early Dynastic IIIa -> Early Dynastic IIIb": {
+      "delta_lower": 0.0,
+      "delta_upper": 0.0476,
+      "sign_stable": false
+    },
+    "Early Dynastic IIIb -> Old Akkadian": {
+      "delta_lower": 0.0004,
+      "delta_upper": -0.0166,
+      "sign_stable": false
+    },
+    "Old Akkadian -> Lagash II": {
+      "delta_lower": 0.0764,
+      "delta_upper": 0.1649,
+      "sign_stable": true
+    },
+    "Lagash II -> Ur III": {
+      "delta_lower": 0.5537,
+      "delta_upper": 0.5294,
+      "sign_stable": true
+    },
+    "Ur III -> Old Babylonian": {
+      "delta_lower": -0.2305,
+      "delta_upper": 0.126,
+      "sign_stable": false
+    }
+  },
+  "verdicts": {
+    "B1_ur3_jump_survives": true,
+    "B1_strong_band_separation": true,
+    "B2_rise_into_OB_survives": false,
+    "B2_strong_band_separation": false,
+    "B3_envelope_peak_survives": true,
+    "B4_all_steps_sign_stable": false
+  }
+}

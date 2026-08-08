@@ -140,9 +140,9 @@ Expanding the FALSE classes from iteration 1's decode revealed the duration-coun
 (`mu N(aš)` = "N years") is ~10.8% of all matches (8,624 of 79,993), dropping discriminator
 precision to **85.3%** with 26% still UNCLEAR. The strict year-name probe does not meet the gold
 bar and phase 15's year-name results are now known to carry a quantified contamination, not just
-an unquantified risk. **Queued fix (next iteration): re-measure the phase 15 year trajectory as
-a BAND — lower bound from TRUE-classified matches only, upper bound from TRUE+UNCLEAR — so the
-Ur III jump claim survives only if the band supports it.** Iteration 1 for the record:
+an unquantified risk. **The band re-measurement ran 2026-08-08 (phase 15c, criteria fixed
+pre-run): the Ur III jump SURVIVES the band; the rise-into-OB does not (see below).**
+Iteration 1 for the record:
 
 **Iteration 1 (threshold fixed pre-run at 95%/75% worst-case).** The strict
 probe was audited over all 79,993 administrative matches: precision 99.2% on adjudicated matches,
@@ -154,11 +154,20 @@ omen-chosen-priestess type, ~900) AND a second genuine false-positive class the 
 FALSE class and omen TRUE class, adjudicate the remainder against ePSD2 guide-words. See
 [`outputs/phase15b_yearname_audit.md`](outputs/phase15b_yearname_audit.md).
 
-**What is provisional (unaudited probe).** Year-name prevalence rises stepwise
-(0.5% -> 10.6% -> 10.3% -> 20.0% -> 73.2% -> 85.4% OB small-n) and the sealed+dated envelope is
-effectively an Ur III phenomenon (<=0.3% before, 24.2% Ur III) — both contingent on a probe whose
-strict variant has no precision figure (loose form: 34%, DO-NOT-CITE; known unexcluded
-false-positive class: oath formulae). **S2 failed** (sixth pre-registered failure): placement
+**What is provisional (unaudited probe) — now band-characterized (phase 15c, 2026-08-08).**
+Year-name prevalence rises stepwise (0.5% -> 10.6% -> 10.3% -> 20.0% -> 73.2% -> 85.4% OB
+small-n) and the sealed+dated envelope is effectively an Ur III phenomenon (<=0.3% before,
+24.2% Ur III) — both contingent on a probe that failed its audit. Phase 15c re-measured the
+trajectory as a band (lower = TRUE-classified matches only, upper = TRUE+UNCLEAR, 15b's
+classifier verbatim, support criteria fixed pre-run): **the Ur III year-name jump survives with
+strong band separation — lower-bound Ur III 63.0% vs upper-bound Lagash II 19.8%, a comparison
+in which both the contamination bias and the classifier's period-coverage bias run AGAINST the
+jump.** The envelope's Ur III peak also survives (band [21.7%, 24.1%] vs <=0.3% earlier). The
+rise-into-OB reading is UNADJUDICABLE by the band (direction flips across bounds; the TRUE
+patterns are Ur III-dynasty-centric, so the OB lower bound is a coverage floor) and stays
+descriptive at n=130. Everything here remains probe-contingent — band-supported is not
+gold-audited. See [`outputs/phase15c_year_band.md`](outputs/phase15c_year_band.md).
+**S2 failed** (sixth pre-registered failure): placement
 entropy did not tighten under the length-stratified test (Δ = 0.14 bits, p = 0.57). Both periods
 sit near the uniform ceiling (2.79/2.65 of 3.32 bits) — no strong slot convention existed at this
 resolution in either period, so no "already conventional" claim is available. A post-hoc
