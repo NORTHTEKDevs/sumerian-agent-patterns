@@ -60,12 +60,56 @@ TRUE_PATTERNS = [
     (re.compile(r"^ma₂\s.+ba-ab-du₈"), "boat caulked (year-event)"),
     (re.compile(r"^e₂\s.+ba-du₃"), "temple built (year-event)"),
     (re.compile(r"^ha-ar-ši|^hu-ur₅-ti"), "campaign toponym (year-event)"),
+    # -- iteration 2 additions (2026-08-07), from iteration 1's UNCLEAR decode. Tri-criteria
+    #    fixed before this run: (a) precision >= 95%, (b) worst-case >= 75%, (c) ePSD2
+    #    standalone-'mu' year-share >= 90%. All three or no graduation.
+    (re.compile(r"maš₂?-e\s+i₃-pa₃"), "en chosen by omen (year-event)"),
+    (re.compile(r"^\{d\}(šu-\{d\}suen|šu\{d\}suen|amar-\{d\}suen|i-bi₂-\{d\}suen|šul-gi|ur-\{d\}namma)"),
+     "royal name (year formula, possibly line-split)"),
+    (re.compile(r"^en\s+\{d\}"), "en of deity (year-event, possibly line-split)"),
 ]
 FALSE_PATTERNS = [
+    (re.compile(r"^\d+\("), "duration count (mu + numeral = 'N years')"),
     (re.compile(r"pad₃|in-pad|ba-pad"), "oath formula (swore by the name)"),
     (re.compile(r"^lugal-bi\b|^lugal-be₂\b"), "oath: by its king"),
     (re.compile(r"-še₃\s+\S+\s*$"), "purpose clause (-še₃)"),
 ]
+
+
+def epsd2_standalone_mu():
+    """Criterion (c): guide-word distribution of tokens whose form is exactly 'mu' in the ePSD2
+    Ur III expert lemmatisation -- the only surface form the strict probe can fire on."""
+    import zipfile
+    zpath = DATA / "oracc" / "epsd2-admin-ur3.zip"
+    if not zpath.exists():
+        return None
+    zf = zipfile.ZipFile(zpath)
+    year = other = 0
+    for name in zf.namelist():
+        if not (name.endswith(".json") and "corpusjson" in name):
+            continue
+        try:
+            doc = json.loads(zf.read(name))
+        except Exception:
+            continue
+        stack = [doc]
+        while stack:
+            node = stack.pop()
+            if isinstance(node, dict):
+                f = node.get("f")
+                if isinstance(f, dict) and f.get("form") == "mu":
+                    if str(f.get("gw") or "").lower().startswith("year"):
+                        year += 1
+                    else:
+                        other += 1
+                for v in node.values():
+                    if isinstance(v, (dict, list)):
+                        stack.append(v)
+            elif isinstance(node, list):
+                stack.extend(v for v in node if isinstance(v, (dict, list)))
+    tot = year + other
+    return {"n_standalone_mu": tot, "gw_year": year,
+            "year_share": round(year / tot, 4) if tot else None}
 
 
 def main() -> None:
@@ -115,7 +159,9 @@ def main() -> None:
     unclear_share = n_unclear / total if total else 0.0
     # worst-case precision: every UNCLEAR counted as FALSE
     worst = n_true / total if total else 0.0
-    graduated = precision >= THRESHOLD and worst >= 0.75
+    ep = epsd2_standalone_mu()
+    ep_ok = bool(ep and ep["year_share"] is not None and ep["year_share"] >= 0.90)
+    graduated = precision >= THRESHOLD and worst >= 0.75 and ep_ok
 
     payload = {"total_matches": total, "true": n_true, "false": n_false, "unclear": n_unclear,
                "precision_excl_unclear": round(precision, 4),
@@ -124,6 +170,7 @@ def main() -> None:
                "oath_share_of_matches": round(oath_lines / total, 4) if total else None,
                "fired_tablets": fired_tablets,
                "threshold": THRESHOLD, "graduated": bool(graduated),
+               "epsd2_standalone_mu": ep, "epsd2_criterion_met": ep_ok,
                "top_true": sorted(buckets["TRUE"].items(), key=lambda kv: -kv[1])[:8],
                "top_false": sorted(buckets["FALSE"].items(), key=lambda kv: -kv[1])[:8],
                "top_unclear": sorted(buckets["UNCLEAR"].items(), key=lambda kv: -kv[1])[:15]}
@@ -144,7 +191,12 @@ def main() -> None:
           f"{worst:.1%} · oath-class contamination: {oath_lines:,} matches "
           f"({100*oath_lines/total:.2f}% of all matches) — the gate's named false-positive class "
           "is measured, not assumed.\n\n",
-          f"## Verdict: **{'GRADUATED' if graduated else 'NOT GRADUATED'}**\n\n"]
+          (f"**Independent ePSD2 criterion (c):** standalone `mu` tokens in the expert "
+           f"lemmatisation: {ep['n_standalone_mu']:,} total, {ep['gw_year']:,} with guide-word "
+           f"'year' = **{100*ep['year_share']:.1f}%** (required >= 90%): "
+           f"{'MET' if ep_ok else 'NOT MET'}.\n\n") if ep else "ePSD2 criterion could not run.\n\n",
+          f"## Verdict: **{'GRADUATED' if graduated else 'NOT GRADUATED'}** "
+          f"(iteration 2; tri-criteria fixed pre-run)\n\n"]
     if graduated:
         md.append("The strict probe meets the gold-probe convention; phase 15's year-name-dependent "
                   "results (year column, S2, S3) lose their probe-contingency flag. The remaining "

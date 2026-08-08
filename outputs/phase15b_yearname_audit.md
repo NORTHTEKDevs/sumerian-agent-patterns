@@ -6,13 +6,15 @@ Matches audited: **79,993** across 59,053 administrative tablets.
 
 | Verdict | n | share |
 |---|---:|---:|
-| TRUE (year-name context) | 46,953 | 58.7% |
-| FALSE (oath / purpose clause) | 388 | 0.5% |
-| UNCLEAR | 32,652 | 40.8% |
+| TRUE (year-name context) | 50,221 | 62.8% |
+| FALSE (oath / purpose clause) | 8,624 | 10.8% |
+| UNCLEAR | 21,148 | 26.4% |
 
-**Precision (excl. UNCLEAR): 99.2%** · worst-case (all UNCLEAR as FALSE): 58.7% · oath-class contamination: 1 matches (0.00% of all matches) — the gate's named false-positive class is measured, not assumed.
+**Precision (excl. UNCLEAR): 85.3%** · worst-case (all UNCLEAR as FALSE): 62.8% · oath-class contamination: 1 matches (0.00% of all matches) — the gate's named false-positive class is measured, not assumed.
 
-## Verdict: **NOT GRADUATED**
+**Independent ePSD2 criterion (c):** standalone `mu` tokens in the expert lemmatisation: 74,328 total, 66,517 with guide-word 'year' = **89.5%** (required >= 90%): NOT MET.
+
+## Verdict: **NOT GRADUATED** (iteration 2; tri-criteria fixed pre-run)
 
 Phase 15's year-name-dependent results remain provisional. The bucket tables below say what the probe is actually matching.
 
@@ -20,21 +22,22 @@ Phase 15's year-name-dependent results remain provisional. The bucket tables bel
 
 | Pattern | n |
 |---|---:|
-| GN destroyed (year-event) | 17,430 |
+| GN destroyed (year-event) | 17,422 |
 | royal name + lugal (regnal year) | 11,134 |
-| priest/official installed (year-event) | 7,970 |
-| built/fashioned (year-event) | 6,536 |
+| priest/official installed (year-event) | 7,969 |
+| built/fashioned (year-event) | 6,532 |
+| en chosen by omen (year-event) | 1,957 |
 | boat caulked (year-event) | 1,666 |
-| campaign toponym (year-event) | 1,516 |
-| wall built (year-event) | 360 |
-| mu us₂-sa (derived year-name) | 341 |
+| campaign toponym (year-event) | 1,515 |
+| en of deity (year-event, possibly line-split) | 798 |
 
 ### Top FALSE buckets
 
 | Pattern | n |
 |---|---:|
+| duration count (mu + numeral = 'N years') | 8,241 |
 | oath: by its king | 222 |
-| purpose clause (-še₃) | 165 |
+| purpose clause (-še₃) | 160 |
 | oath formula (swore by the name) | 1 |
 
 ### Top UNCLEAR buckets
@@ -42,19 +45,19 @@ Phase 15's year-name-dependent results remain provisional. The bucket tables bel
 | Pattern | n |
 |---|---:|
 | šu ba-ti | 1,219 |
-| 2(aš) | 1,095 |
 | maškim | 929 |
-| 1(aš) | 840 |
-| 3(aš) | 663 |
 | i₃-dab₅ | 594 |
-| en {d}nanna maš-e i₃-pa₃ | 490 |
-| en {d}inana unu{ki} maš₂-e i₃-pa₃ | 407 |
 | dub-sar | 405 |
 | ma₂-dara₃-abzu ba-ab-du₈ | 326 |
-| {d}šu{d}suen | 309 |
 | aga₃-us₂-e-ne-še₃ | 269 |
-| en {d}inana unu{ki}ga maš₂-e i₃-pa | 231 |
 | sukkal | 200 |
 | en eridu{ki} | 197 |
+| si-ma-num₂{ki} | 185 |
+| ... | 179 |
+| hu-hu-nu-ri{ki} | 143 |
+| engar | 116 |
+| amar{d}suen lugal | 114 |
+| šu{d}suen lugal | 113 |
+| {d}i-bi₂ | 112 |
 
 Conservative by construction: FALSE requires an unambiguous oath/purpose surface form, so the reported precision is not inflated by charitable UNCLEAR handling — UNCLEAR is excluded from the headline and bounded by the worst-case figure.

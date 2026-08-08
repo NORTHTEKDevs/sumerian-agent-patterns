@@ -135,7 +135,16 @@ the Ur III-vs-earlier contrast is not threatened. This is one quantitative datap
 textual practice within the Steinkeller-vs-Selz dispute, not an adjudication of it — and read
 symmetrically, the placement-conventions null below is continuity-compatible.
 
-**Probe audit update (Phase 15b, threshold fixed pre-run at 95%/75% worst-case).** The strict
+**Probe audit, iteration 2 (tri-criteria fixed pre-run): the probe FAILS, definitively.**
+Expanding the FALSE classes from iteration 1's decode revealed the duration-count contamination
+(`mu N(aš)` = "N years") is ~10.8% of all matches (8,624 of 79,993), dropping discriminator
+precision to **85.3%** with 26% still UNCLEAR. The strict year-name probe does not meet the gold
+bar and phase 15's year-name results are now known to carry a quantified contamination, not just
+an unquantified risk. **Queued fix (next iteration): re-measure the phase 15 year trajectory as
+a BAND — lower bound from TRUE-classified matches only, upper bound from TRUE+UNCLEAR — so the
+Ur III jump claim survives only if the band supports it.** Iteration 1 for the record:
+
+**Iteration 1 (threshold fixed pre-run at 95%/75% worst-case).** The strict
 probe was audited over all 79,993 administrative matches: precision 99.2% on adjudicated matches,
 and the gate's feared oath class measured at ONE match in 79,993 — but 41% of matches are
 UNCLEAR under conservative discriminators, holding the worst-case bound at 58.7% < 75%: **NOT

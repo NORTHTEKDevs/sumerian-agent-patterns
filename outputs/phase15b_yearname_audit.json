@@ -1,19 +1,25 @@
 {
   "total_matches": 79993,
-  "true": 46953,
-  "false": 388,
-  "unclear": 32652,
-  "precision_excl_unclear": 0.9918,
-  "worst_case_all_unclear_false": 0.587,
+  "true": 50221,
+  "false": 8624,
+  "unclear": 21148,
+  "precision_excl_unclear": 0.8534,
+  "worst_case_all_unclear_false": 0.6278,
   "oath_line_matches": 1,
   "oath_share_of_matches": 0.0,
   "fired_tablets": 59053,
   "threshold": 0.95,
   "graduated": false,
+  "epsd2_standalone_mu": {
+    "n_standalone_mu": 74328,
+    "gw_year": 66517,
+    "year_share": 0.8949
+  },
+  "epsd2_criterion_met": false,
   "top_true": [
     [
       "GN destroyed (year-event)",
-      17430
+      17422
     ],
     [
       "royal name + lugal (regnal year)",
@@ -21,11 +27,15 @@
     ],
     [
       "priest/official installed (year-event)",
-      7970
+      7969
     ],
     [
       "built/fashioned (year-event)",
-      6536
+      6532
+    ],
+    [
+      "en chosen by omen (year-event)",
+      1957
     ],
     [
       "boat caulked (year-event)",
@@ -33,25 +43,25 @@
     ],
     [
       "campaign toponym (year-event)",
-      1516
+      1515
     ],
     [
-      "wall built (year-event)",
-      360
-    ],
-    [
-      "mu us₂-sa (derived year-name)",
-      341
+      "en of deity (year-event, possibly line-split)",
+      798
     ]
   ],
   "top_false": [
+    [
+      "duration count (mu + numeral = 'N years')",
+      8241
+    ],
     [
       "oath: by its king",
       222
     ],
     [
       "purpose clause (-še₃)",
-      165
+      160
     ],
     [
       "oath formula (swore by the name)",
@@ -64,32 +74,12 @@
       1219
     ],
     [
-      "2(aš)",
-      1095
-    ],
-    [
       "maškim",
       929
     ],
     [
-      "1(aš)",
-      840
-    ],
-    [
-      "3(aš)",
-      663
-    ],
-    [
       "i₃-dab₅",
       594
-    ],
-    [
-      "en {d}nanna maš-e i₃-pa₃",
-      490
-    ],
-    [
-      "en {d}inana unu{ki} maš₂-e i₃-pa₃",
-      407
     ],
     [
       "dub-sar",
@@ -100,16 +90,8 @@
       326
     ],
     [
-      "{d}šu{d}suen",
-      309
-    ],
-    [
       "aga₃-us₂-e-ne-še₃",
       269
-    ],
-    [
-      "en {d}inana unu{ki}ga maš₂-e i₃-pa",
-      231
     ],
     [
       "sukkal",
@@ -118,6 +100,34 @@
     [
       "en eridu{ki}",
       197
+    ],
+    [
+      "si-ma-num₂{ki}",
+      185
+    ],
+    [
+      "...",
+      179
+    ],
+    [
+      "hu-hu-nu-ri{ki}",
+      143
+    ],
+    [
+      "engar",
+      116
+    ],
+    [
+      "amar{d}suen lugal",
+      114
+    ],
+    [
+      "šu{d}suen lugal",
+      113
+    ],
+    [
+      "{d}i-bi₂",
+      112
     ]
   ]
 }
